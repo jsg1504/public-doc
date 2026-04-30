@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>홍천 비발디파크 2박 3일 — 세 가족 봄 소풍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Nanum+Pen+Script&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky:        #b8e3ff;
+  --sky-deep:   #6cc0f5;
+  --sun:        #ffd84d;
+  --sun-soft:   #fff3b0;
+  --grass:      #a8d96a;
+  --grass-deep: #6fb83e;
+  --cherry:     #ff8aa9;
+  --cherry-deep:#ff5685;
+  --orange:     #ffaa55;
+  --lavender:   #c9b3ff;
+  --cream:      #fffcf2;
+  --cream-2:    #fff7e0;
+  --ink:        #3d2f1f;
+  --ink-soft:   #6b5642;
+  --ink-mute:   #9a8772;
+
+  --display: 'Jua', sans-serif;
+  --hand: 'Gaegu', sans-serif;
+  --pen: 'Nanum Pen Script', cursive;
+  --body: 'Quicksand', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 15% 20%, var(--sun-soft) 0%, transparent 25%),
+    radial-gradient(circle at 85% 60%, #ffe3ed 0%, transparent 30%),
+    radial-gradient(circle at 50% 90%, #d8f0c2 0%, transparent 25%);
+  opacity: 0.55;
+}
+
+.float {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+.float.f1 { top: 8%; right: 6%; animation: floaty 8s ease-in-out infinite; }
+.float.f2 { top: 35%; left: 4%; animation: floaty 10s ease-in-out infinite reverse; }
+.float.f3 { top: 65%; right: 8%; animation: floaty 9s ease-in-out infinite; }
+.float.f4 { top: 90%; left: 8%; animation: floaty 11s ease-in-out infinite reverse; }
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(8deg); }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* HERO */
+.hero { padding: 80px 0 100px; position: relative; overflow: hidden; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sun);
+  color: var(--ink);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-2deg);
+}
+
+.hero-tag::before { content: '🌸'; font-size: 18px; }
+
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(48px, 8.5vw, 110px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+
+.hero h1 .pop {
+  display: inline-block;
+  background: var(--cherry);
+  color: var(--cream);
+  padding: 0 18px;
+  border-radius: 16px;
+  transform: rotate(-2deg);
+  box-shadow: 6px 6px 0 var(--ink);
+  margin: 8px 4px;
+}
+
+.hero h1 .underline {
+  position: relative;
+  display: inline-block;
+}
+.hero h1 .underline::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 16px;
+  background: var(--sun);
+  z-index: -1;
+  border-radius: 8px;
+}
+
+.hero-sub {
+  font-family: var(--hand);
+  font-size: 22px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 580px;
+  margin-top: 20px;
+  font-weight: 700;
+}
+
+.hero-sub strong {
+  color: var(--cherry-deep);
+  background: var(--cream-2);
+  padding: 0 8px;
+  border-radius: 8px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-top: 50px;
+}
+
+.meta-card {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 18px 20px;
+  box-shadow: 5px 5px 0 var(--ink);
+  position: relative;
+  transition: transform 0.2s;
+}
+.meta-card:nth-child(1) { background: var(--sun-soft); transform: rotate(-1deg); }
+.meta-card:nth-child(2) { background: #ffe3ed; transform: rotate(1deg); }
+.meta-card:nth-child(3) { background: #d8f0c2; transform: rotate(-0.5deg); }
+.meta-card:nth-child(4) { background: var(--sky); transform: rotate(0.8deg); }
+.meta-card:nth-child(5) { background: #ede0ff; transform: rotate(-1.2deg); }
+
+.meta-card:hover { transform: rotate(0deg) translateY(-4px); }
+
+.meta-card .icon { font-size: 26px; margin-bottom: 6px; }
+.meta-card .label { font-family: var(--display); font-size: 13px; color: var(--ink-soft); margin-bottom: 4px; }
+.meta-card .value { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.3; }
+
+/* TICKER */
+.ticker {
+  background: var(--cherry);
+  color: var(--cream);
+  padding: 16px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  transform: rotate(-1deg);
+  margin: 30px -10px;
+}
+
+.ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: scroll 40s linear infinite;
+  font-family: var(--display);
+  font-size: 22px;
+}
+
+.ticker-item {
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.ticker-item::after { content: '🌷'; font-size: 22px; }
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* SECTION HEADERS */
+section { position: relative; }
+
+.section-head {
+  text-align: center;
+  padding-top: 100px;
+  margin-bottom: 60px;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--pen);
+  font-size: 30px;
+  color: var(--cherry-deep);
+  transform: rotate(-3deg);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.section-title .hl {
+  background: var(--sun);
+  padding: 0 16px;
+  border-radius: 14px;
+  display: inline-block;
+  transform: rotate(-1deg);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.section-desc {
+  font-family: var(--hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* DAYS */
+.day {
+  margin-bottom: 60px;
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-radius: 32px;
+  padding: 36px;
+  box-shadow: 8px 8px 0 var(--ink);
+  position: relative;
+}
+
+.day:nth-child(1) { background: linear-gradient(180deg, #fff8e0 0%, var(--cream) 200px); }
+.day:nth-child(2) { background: linear-gradient(180deg, #e0f4ff 0%, var(--cream) 200px); }
+.day:nth-child(3) { background: linear-gradient(180deg, #ffe8f0 0%, var(--cream) 200px); }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 3px dashed var(--ink);
+  flex-wrap: wrap;
+}
+
+.day-badge {
+  width: 90px;
+  height: 90px;
+  background: var(--sun);
+  border: 4px solid var(--ink);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  flex-shrink: 0;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-5deg);
+}
+
+.day:nth-child(2) .day-badge { background: var(--sky-deep); color: var(--cream); }
+.day:nth-child(3) .day-badge { background: var(--cherry); color: var(--cream); }
+
+.day-badge .label { font-size: 11px; opacity: 0.85; }
+.day-badge .num { font-size: 36px; line-height: 1; }
+
+.day-title { flex: 1; min-width: 240px; }
+
+.day-title .date {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--cherry-deep);
+  margin-bottom: 4px;
+}
+
+.day-title h2 {
+  font-family: var(--display);
+  font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.day-theme {
+  font-family: var(--pen);
+  font-size: 24px;
+  color: var(--ink-soft);
+  background: var(--cream-2);
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 2px solid var(--ink);
+  transform: rotate(2deg);
+}
+
+.schedule { display: grid; gap: 18px; }
+
+.slot {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 20px;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 22px 24px;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.slot:hover { transform: translateX(4px); }
+
+.slot.fixed { background: linear-gradient(135deg, #fff3b0 0%, #ffe080 100%); }
+.slot.water { background: linear-gradient(135deg, #d4eeff 0%, #b8e3ff 100%); }
+.slot.food { background: linear-gradient(135deg, #ffe3ed 0%, #ffd0e0 100%); }
+.slot.indoor { background: linear-gradient(135deg, #f0e5ff 0%, #e0d0ff 100%); }
+.slot.outdoor { background: linear-gradient(135deg, #e8f5d0 0%, #d8f0c2 100%); }
+
+.slot-time {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 3px dotted var(--ink);
+  padding-right: 16px;
+}
+
+.slot-time .icon { font-size: 32px; margin-bottom: 4px; }
+
+.slot-time .hours {
+  font-family: var(--display);
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.slot-time .label {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.slot-main { position: relative; }
+
+.slot-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.slot-name .pin {
+  background: var(--cherry);
+  color: var(--cream);
+  font-family: var(--display);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 2px solid var(--ink);
+  letter-spacing: 0.04em;
+}
+
+.slot-why {
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+
+.slot-tips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tip {
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 5px 12px;
+  font-family: var(--hand);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tip.warn { background: var(--sun); }
+.tip.info { background: var(--sky); }
+
+.alt-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--cream);
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  cursor: pointer;
+  padding: 8px 18px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.alt-toggle:hover { background: var(--cherry-deep); border-color: var(--cherry-deep); transform: translateY(-2px); }
+
+.alt-toggle .arrow { transition: transform 0.3s ease; display: inline-block; }
+.alt-toggle.open .arrow { transform: rotate(90deg); }
+
+.alt-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, margin 0.4s ease;
+  margin-top: 0;
+}
+
+.alt-panel.open { max-height: 1200px; margin-top: 16px; }
+
+.alt-inner {
+  background: var(--cream-2);
+  border: 3px dashed var(--ink);
+  border-radius: 18px;
+  padding: 18px 22px;
+}
+
+.alt-inner h4 {
+  font-family: var(--display);
+  font-size: 16px;
+  color: var(--cherry-deep);
+  margin-bottom: 12px;
+}
+
+.alt-list { display: grid; gap: 12px; }
+
+.alt-item {
+  padding: 12px 14px;
+  background: var(--cream);
+  border-radius: 14px;
+  border: 2px solid var(--ink);
+}
+
+.alt-name {
+  font-family: var(--display);
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.alt-desc {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* RAIN */
+.rain {
+  background: var(--sky);
+  margin: 60px 0 0;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.rain::before {
+  content: '☂️';
+  position: absolute;
+  font-size: 180px;
+  top: 40px;
+  right: -20px;
+  opacity: 0.15;
+  transform: rotate(15deg);
+}
+
+.rain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.rain-cell {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 22px 24px;
+  box-shadow: 5px 5px 0 var(--ink);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.rain-cell:hover { transform: translateY(-4px) rotate(-1deg); }
+.rain-cell:nth-child(odd) { transform: rotate(-1deg); }
+.rain-cell:nth-child(even) { transform: rotate(1deg); }
+
+.rain-cell .when {
+  display: inline-block;
+  background: var(--sun);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--ink);
+  margin-bottom: 12px;
+}
+
+.rain-cell h3 {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.rain-cell p {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+.rain-cell strong { color: var(--cherry-deep); font-weight: 700; }
+
+/* CARDS */
+.subhead {
+  font-family: var(--display);
+  font-size: 28px;
+  margin: 50px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+}
+
+.subhead .emoji { font-size: 32px; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.card {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 22px 24px;
+  position: relative;
+  transition: all 0.2s;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  box-shadow: 8px 10px 0 var(--ink);
+}
+
+.card-num {
+  position: absolute;
+  top: -14px;
+  right: 18px;
+  background: var(--cherry);
+  color: var(--cream);
+  font-family: var(--display);
+  font-size: 14px;
+  padding: 5px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--ink);
+}
+
+.cards.places .card-num { background: var(--grass-deep); }
+
+.card-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 4px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.card-sub {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--cherry-deep);
+  margin-bottom: 12px;
+}
+
+.cards.places .card-sub { color: var(--grass-deep); }
+
+.card-desc {
+  font-family: var(--body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+}
+
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 3px 11px;
+  background: var(--cream-2);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  border-radius: 12px;
+}
+
+/* CHECKLIST */
+.checklist-section {
+  background: linear-gradient(180deg, #fff3b0 0%, var(--cream) 100%);
+  padding: 80px 0;
+  position: relative;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.check-col {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 28px 26px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.check-col:nth-child(1) { transform: rotate(-1deg); }
+.check-col:nth-child(2) { transform: rotate(0.5deg); }
+.check-col:nth-child(3) { transform: rotate(-0.5deg); }
+
+.check-col h3 {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-col h3 .icon { font-size: 28px; }
+
+.check-col .col-meta {
+  font-family: var(--hand);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cherry-deep);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--ink);
+}
+
+.check-col ul { list-style: none; padding: 0; }
+
+.check-col li {
+  padding: 10px 0 10px 32px;
+  position: relative;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1.5px dotted #d4c4a8;
+}
+
+.check-col li:last-child { border-bottom: none; }
+.check-col li:hover { color: var(--cherry-deep); padding-left: 36px; }
+
+.check-col li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid var(--ink);
+  background: var(--cream);
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.check-col li.done {
+  color: var(--ink-mute);
+  text-decoration: line-through;
+  text-decoration-color: var(--cherry);
+  text-decoration-thickness: 2px;
+}
+
+.check-col li.done::before {
+  background: var(--grass);
+  border-color: var(--ink);
+}
+
+.check-col li.done::after {
+  content: '✓';
+  position: absolute;
+  left: 4px;
+  top: 9px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* FOOTER */
+footer {
+  background: var(--cherry);
+  color: var(--cream);
+  padding: 80px 0 50px;
+  text-align: center;
+  border-top: 4px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+
+footer::before {
+  content: '🌸 🌷 🌼 🌻 🌸 🌷 🌼 🌻 🌸 🌷 🌼 🌻 🌸 🌷 🌼 🌻';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  font-size: 22px;
+  letter-spacing: 18px;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+footer .quote {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 42px);
+  max-width: 720px;
+  margin: 30px auto 20px;
+  line-height: 1.3;
+}
+
+footer .quote-author {
+  font-family: var(--pen);
+  font-size: 26px;
+  color: var(--cream);
+}
+
+footer .meta {
+  font-family: var(--hand);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 252, 242, 0.85);
+  margin-top: 30px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 720px) {
+  .container { padding: 0 18px; }
+  .float { display: none; }
+  .hero { padding: 50px 0 60px; }
+  .day { padding: 24px 18px; border-radius: 24px; }
+  .slot { grid-template-columns: 1fr; gap: 14px; padding: 18px 20px; }
+  .slot-time {
+    border-right: none;
+    border-bottom: 2.5px dotted var(--ink);
+    padding-right: 0;
+    padding-bottom: 12px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    align-items: center;
+  }
+  .slot-time .icon { font-size: 24px; margin-bottom: 0; }
+  .slot-time .hours { font-size: 15px; }
+  .day-header { gap: 16px; }
+  .day-badge { width: 70px; height: 70px; }
+  .day-badge .num { font-size: 28px; }
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .ticker-inner { font-size: 18px; }
+}
+
+.fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<!-- floating decorations -->
+<div class="float f1">
+  <svg width="80" height="80" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="20" fill="#ffd84d" stroke="#3d2f1f" stroke-width="3"/>
+    <g stroke="#3d2f1f" stroke-width="3" stroke-linecap="round">
+      <line x1="50" y1="10" x2="50" y2="22"/>
+      <line x1="50" y1="78" x2="50" y2="90"/>
+      <line x1="10" y1="50" x2="22" y2="50"/>
+      <line x1="78" y1="50" x2="90" y2="50"/>
+      <line x1="22" y1="22" x2="30" y2="30"/>
+      <line x1="70" y1="70" x2="78" y2="78"/>
+      <line x1="78" y1="22" x2="70" y2="30"/>
+      <line x1="30" y1="70" x2="22" y2="78"/>
+    </g>
+  </svg>
+</div>
+<div class="float f2">
+  <svg width="60" height="60" viewBox="0 0 100 100">
+    <g fill="#ff8aa9" stroke="#3d2f1f" stroke-width="3">
+      <ellipse cx="50" cy="30" rx="14" ry="20"/>
+      <ellipse cx="80" cy="50" rx="20" ry="14"/>
+      <ellipse cx="50" cy="80" rx="14" ry="20"/>
+      <ellipse cx="20" cy="50" rx="20" ry="14"/>
+    </g>
+    <circle cx="50" cy="50" r="8" fill="#ffd84d" stroke="#3d2f1f" stroke-width="3"/>
+  </svg>
+</div>
+<div class="float f3">
+  <svg width="70" height="50" viewBox="0 0 140 100">
+    <ellipse cx="40" cy="55" rx="32" ry="22" fill="#fff" stroke="#3d2f1f" stroke-width="3"/>
+    <ellipse cx="80" cy="45" rx="38" ry="26" fill="#fff" stroke="#3d2f1f" stroke-width="3"/>
+    <ellipse cx="105" cy="58" rx="28" ry="20" fill="#fff" stroke="#3d2f1f" stroke-width="3"/>
+  </svg>
+</div>
+<div class="float f4">
+  <svg width="60" height="60" viewBox="0 0 100 100">
+    <g fill="#a8d96a" stroke="#3d2f1f" stroke-width="3">
+      <path d="M50 20 Q35 35 50 50 Q65 35 50 20"/>
+      <path d="M50 50 Q35 65 50 80 Q65 65 50 50"/>
+    </g>
+    <line x1="50" y1="20" x2="50" y2="80" stroke="#3d2f1f" stroke-width="3" fill="none"/>
+  </svg>
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <span class="hero-tag">2026년 봄소풍 · 2박 3일</span>
+    <h1>
+      홍천에서 <span class="pop">10명</span><br>
+      봄을 <span class="underline">통째로</span><br>
+      놀고 오자!
+    </h1>
+    <p class="hero-sub">
+      세 가족, 어른 6명 + 아이 4명 (3·3·5·7세)이 떠나는 비발디파크 여행 ✨<br>
+      3살 친구들 <strong>낮잠 시간</strong>을 일정의 축으로 두고,
+      거의 모든 동선이 리조트 안에서 풀리도록 짰어요.
+      <strong>5/2 새벽 테니스</strong>도 그대로!
+    </p>
+
+    <div class="meta-grid">
+      <div class="meta-card">
+        <div class="icon">👨‍👩‍👧‍👦</div>
+        <div class="label">총 인원</div>
+        <div class="value">10명 · 3가족</div>
+      </div>
+      <div class="meta-card">
+        <div class="icon">🏠</div>
+        <div class="label">숙소</div>
+        <div class="value">소노벨/소노캄 비발디</div>
+      </div>
+      <div class="meta-card">
+        <div class="icon">😴</div>
+        <div class="label">3세 낮잠</div>
+        <div class="value">13:00 — 15:00</div>
+      </div>
+      <div class="meta-card">
+        <div class="icon">🎾</div>
+        <div class="label">고정 일정</div>
+        <div class="value">5/2 8–10시 테니스</div>
+      </div>
+      <div class="meta-card">
+        <div class="icon">🚗</div>
+        <div class="label">귀가 출발</div>
+        <div class="value">5/3 14:00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">곤돌라 매봉산 580m</span>
+    <span class="ticker-item">하늘 양떼목장</span>
+    <span class="ticker-item">오션월드 풍덩</span>
+    <span class="ticker-item">앤트월드 키즈파크</span>
+    <span class="ticker-item">회전목마 빙글빙글</span>
+    <span class="ticker-item">홍천 누룽지 백숙</span>
+    <span class="ticker-item">화로구이 지글지글</span>
+    <span class="ticker-item">곤돌라 매봉산 580m</span>
+    <span class="ticker-item">하늘 양떼목장</span>
+    <span class="ticker-item">오션월드 풍덩</span>
+    <span class="ticker-item">앤트월드 키즈파크</span>
+    <span class="ticker-item">회전목마 빙글빙글</span>
+    <span class="ticker-item">홍천 누룽지 백숙</span>
+    <span class="ticker-item">화로구이 지글지글</span>
+  </div>
+</div>
+
+<!-- ITINERARY -->
+<section id="itinerary">
+  <div class="container">
+
+    <div class="section-head fade">
+      <div class="section-eyebrow">ㅡ The Plan ㅡ</div>
+      <h2 class="section-title">세 개의 봄날, <span class="hl">천천히</span></h2>
+      <p class="section-desc">시간대별로 정리된 우리 가족 여행 코스 🌷 클릭하면 대안도 같이 펼쳐져요!</p>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day fade" id="day1">
+      <div class="day-header">
+        <div class="day-badge">
+          <span class="label">DAY</span>
+          <span class="num">1</span>
+        </div>
+        <div class="day-title">
+          <div class="date">5월 1일 · 금요일 · 도착</div>
+          <h2>첫날은 짐풀고, 살살 🎒</h2>
+        </div>
+        <div class="day-theme">"무리 NO! 컨디션 보존이 최우선"</div>
+      </div>
+
+      <div class="schedule">
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🚙</span>
+            <span class="hours">09:00<br>—12:00</span>
+            <span class="label">오전</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">출발 🌅 비발디파크 도착</div>
+            <p class="slot-why">수원 출발 기준 약 1시간 30분~2시간. 3세 두 친구는 차에서 가벼운 낮잠으로 적응. 휴게소 한 번 정차로 화장실·간식.</p>
+            <div class="slot-tips">
+              <span class="tip">🍪 가평·설악휴게소</span>
+              <span class="tip warn">⏰ 8시 전 출발</span>
+              <span class="tip">🎒 멀미봉투·물티슈</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🍗</span>
+            <span class="hours">12:00<br>—13:30</span>
+            <span class="label">점심</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">황토마을 누룽지닭백숙 <span class="pin">RECO</span></div>
+            <p class="slot-why">비발디파크 차로 5–10분. 좌식·입식·룸 모두 있고 아기의자 구비. 누룽지 백숙은 안 매워서 4세대가 함께 먹기 좋음. 30년 토종닭 전문점!</p>
+            <div class="slot-tips">
+              <span class="tip warn">📞 10인 룸 사전예약</span>
+              <span class="tip">033-434-3216</span>
+              <span class="tip info">👶 아기의자 OK</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-1-lunch">
+              🍴 다른 식당 3곳 더 보기 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-1-lunch">
+              <div class="alt-inner">
+                <h4>🌟 도착일 점심 대안 — 모두 비발디 5~15분</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">설국 장작불 설렁탕</div>
+                    <div class="alt-desc">한서로 2221. 진한 사골 국물에 매운기 0! 3세에게 가장 안전 — 밥 말아주면 끝. 단체석 OK.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">홍천농가맛집</div>
+                    <div class="alt-desc">산채비빔밥·돼지고기 — 룸 형태 단체석. 비발디 셔틀도 운영. 화요일 휴무.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">금수강산 막국수</div>
+                    <div class="alt-desc">다이닝코드 별점 ★4.6. 온국수 육수 슴슴해서 아이도 OK.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🛏️</span>
+            <span class="hours">14:00<br>—15:00</span>
+            <span class="label">오후</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">체크인 · 짐 정리</div>
+            <p class="slot-why">소노벨/소노캄은 15시 입실. 3세 두 친구는 이때 낮잠으로 직행 💤 5·7세는 객실에서 그림책·블록으로 휴식.</p>
+            <div class="slot-tips">
+              <span class="tip">🛗 유모차 · 엘리베이터 OK</span>
+              <span class="tip">🅿️ 동 가까운 주차</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot indoor">
+          <div class="slot-time">
+            <span class="icon">🐜</span>
+            <span class="hours">15:30<br>—17:30</span>
+            <span class="label">오후</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">앤트월드 · 키즈파크 <span class="pin">HOT</span></div>
+            <p class="slot-why">더 파크 호텔 지하 1층. 개미굴 컨셉 실내 키즈파크 — 3·5·7세 모두 즐기는 연령 통합 ✨ 이동 거리 짧고 유모차 OK.</p>
+            <div class="slot-tips">
+              <span class="tip warn">🧦 양말 4쌍 필수</span>
+              <span class="tip">💧 물·간식</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-1-afternoon">
+              🌧️ 비/우천 시 대체 활동 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-1-afternoon">
+              <div class="alt-inner">
+                <h4>🌟 실내 보조 활동 — 비발디 위락상가 안</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">위락상가 회전목마 · 범퍼카</div>
+                    <div class="alt-desc">키즈팡팡, 고스트모터 등 어린이 전용. 5·7세에게 가장 잘 맞음.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">VR 어드벤처</div>
+                    <div class="alt-desc">7세부터 일부 콘텐츠 가능. 부모와 함께 룸 VR 추천. 슈팅·탐험 등 40여 콘텐츠.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">실내 카트 레이싱</div>
+                    <div class="alt-desc">어른들끼리 짧게. 아이들이 앤트월드 노는 동안 부모 교대로.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🍱</span>
+            <span class="hours">18:00<br>—19:30</span>
+            <span class="label">저녁</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">위락상가 푸드코트</div>
+            <p class="slot-why">앤트월드와 같은 건물군 안. 돈가스·우동·짜장면·비빔밥 등 아이 메뉴 풍부 🍜 어른은 각자 골라 먹기 편함. 첫날은 이동 동선을 0으로!</p>
+            <div class="slot-tips">
+              <span class="tip warn">⏰ 17:30 도착 권장</span>
+              <span class="tip">👨‍👩‍👧 좌석 분산</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-1-dinner">
+              🍽️ 저녁 대안 4곳 보기 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-1-dinner">
+              <div class="alt-inner">
+                <h4>🌟 어른들 한 잔까지 챙길 때</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">홍천조박사 화로구이</div>
+                    <div class="alt-desc">한서로 2080. 비발디 차로 5분. 양념이 세지 않아 아이용 흰살 분리 가능. 픽업 서비스.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">아궁이 화로구이</div>
+                    <div class="alt-desc">한치골길 606. 비발디 코앞. 화로구이·숯불닭갈비 — 01:00까지.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">소노펠리체 5층 한식당</div>
+                    <div class="alt-desc">리조트 안. 점심 특선 있음. 정갈한 호텔식 한식.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">객실 도미노피자 · 치킨 배달</div>
+                    <div class="alt-desc">3세 컨디션 안 좋으면 정답. 어른들끼리 객실 모임으로.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🌙</span>
+            <span class="hours">20:00<br>—</span>
+            <span class="label">저녁</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">객실 휴식 · 가족 모임 🍻</div>
+            <p class="slot-why">한 객실에 모여 간단한 안주·과일로 어른들 친목. 아이들은 일찍 재우기 — 다음날 새벽 테니스 8시! 어른 1팀은 21:30 취침 권장.</p>
+            <div class="slot-tips">
+              <span class="tip">🛒 리조트 매점</span>
+              <span class="tip">🩴 슬리퍼 챙기기</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- DAY 2 -->
+    <div class="day fade" id="day2">
+      <div class="day-header">
+        <div class="day-badge">
+          <span class="label">DAY</span>
+          <span class="num">2</span>
+        </div>
+        <div class="day-title">
+          <div class="date">5월 2일 · 토요일 · 메인 데이</div>
+          <h2>가장 신나는 하루 🌟</h2>
+        </div>
+        <div class="day-theme">"오전 자연 · 오후 풍덩!"</div>
+      </div>
+
+      <div class="schedule">
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🍳</span>
+            <span class="hours">07:00<br>—07:50</span>
+            <span class="label">새벽</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">테니스조 조식 · 출발</div>
+            <p class="slot-why">조식뷔페는 6:30/7:00 오픈. 테니스 칠 어른들만 먼저 간단히 먹고 차로 이동 🚗 남명체육공원은 비발디파크에서 차로 약 30~40분.</p>
+            <div class="slot-tips">
+              <span class="tip warn">📋 조식 사전예약</span>
+              <span class="tip">🚗 차량 미리 점검</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot fixed">
+          <div class="slot-time">
+            <span class="icon">🎾</span>
+            <span class="hours">08:00<br>—10:00</span>
+            <span class="label">오전</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">테니스 · 남명체육공원 <span class="pin">FIXED</span></div>
+            <p class="slot-why">고정 일정! 남은 어른+아이들은 객실에서 천천히 일어나 조식뷔페 (8:30–9:30) 🥐 빵·죽·과일 풍부해 4세대 모두 만족.</p>
+            <div class="slot-tips">
+              <span class="tip">🎽 라켓·운동복</span>
+              <span class="tip warn">🧥 새벽 쌀쌀</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot outdoor">
+          <div class="slot-time">
+            <span class="icon">🚠</span>
+            <span class="hours">10:30<br>—12:30</span>
+            <span class="label">오전</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">곤돌라 + 하늘 양떼목장 🐑</div>
+            <p class="slot-why">테니스조 복귀 후 합류. 곤돌라 매봉산 580m 정상행, 정상에서 양떼목장까지 도보 5분. 아이 4명 모두 환호할 핵심 코스 ✨ 양 먹이 체험은 별도 구매.</p>
+            <div class="slot-tips">
+              <span class="tip warn">🧥 정상 외투</span>
+              <span class="tip info">👶 유모차 곤돌라 OK</span>
+              <span class="tip">💸 투숙객 50% 할인</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-2-morning">
+              🐎 곤돌라 합류 빠듯할 때 · 더 멀리도 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-2-morning">
+              <div class="alt-inner">
+                <h4>🌟 곤돌라 못 탔거나, 더 멀리 가도 되는 날</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">홍천 알파카월드</div>
+                    <div class="alt-desc">비발디 차로 약 50분. 11만평 숲 속 알파카·양·당나귀·토끼 — 7세까지 환호. 어른 18,000원, 36개월 미만 무료. 매일 10:10 '알파카야 이리와' 퍼포먼스.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">휘바핀란드 산타마을</div>
+                    <div class="alt-desc">홍천 시내 인근. 입장 6,000원, 24개월 미만 무료. 초콜릿·아이스크림 만들기 체험.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">두릉산 자연휴양림</div>
+                    <div class="alt-desc">비발디 바로 뒤편. 등산로 잘 정비, 유모차 OK. 정자·테이블에서 도시락. 입장 무료.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🍚</span>
+            <span class="hours">12:30<br>—14:00</span>
+            <span class="label">점심</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">정상 스카이라운지 또는 푸드코트</div>
+            <p class="slot-why">정상에 간단 식사 가능한 스낵코너 있음. 본격 식사는 하산 후 위락상가 푸드코트가 안전 — 아이 메뉴 다양, 빠른 회전.</p>
+            <div class="slot-tips">
+              <span class="tip">⏱️ 빠른 회전</span>
+              <span class="tip">🚸 가족별 분산</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-2-lunch">
+              🍴 점심 대안 보기 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-2-lunch">
+              <div class="alt-inner">
+                <h4>🌟 시간 더 있으면 외부도 OK</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">소노펠리체 5층 한식당</div>
+                    <div class="alt-desc">리조트 내 호텔식 한식. 점심 특선 합리적. 곤돌라 후 이동 거리 0.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">느티나무 · 숯불닭갈비</div>
+                    <div class="alt-desc">한치골길 755. 비발디 차로 3~5분. 매운맛 빼고 주문 가능, 아이는 닭다리살·우동.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">😴</span>
+            <span class="hours">14:00<br>—15:30</span>
+            <span class="label">오후</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">3세 낮잠 / 5·7세 회전목마 🎠</div>
+            <p class="slot-why">3세 두 친구는 객실에서 낮잠. 5·7세는 위락상가 놀이공원에서 회전목마·범퍼카·키즈팡팡. 가족별로 분산하면 모두 페이스 유지!</p>
+            <div class="slot-tips">
+              <span class="tip info">📱 단톡 위치 공유</span>
+              <span class="tip">📍 15:30 입구 합류</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot water">
+          <div class="slot-time">
+            <span class="icon">🏊</span>
+            <span class="hours">16:00<br>—19:00</span>
+            <span class="label">오후</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">오션월드 풍덩! <span class="pin">MAIN</span></div>
+            <p class="slot-why">5월 야외존은 미오픈, 실내 아쿠아존(파도풀·키즈풀·실내유스풀)+노천탕 운영 ⛲ 36개월 미만 무료, 미취학 보호자 1인당 1인 무료. 평균 수온 37–42℃ 노천탕은 어른용 힐링!</p>
+            <div class="slot-tips">
+              <span class="tip warn">👟 아쿠아슈즈 의무</span>
+              <span class="tip warn">👙 수영복·수모</span>
+              <span class="tip">📋 3세 가족등본</span>
+              <span class="tip warn">🌊 키즈풀 수심 주의</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🍖</span>
+            <span class="hours">19:30<br>—21:00</span>
+            <span class="label">저녁</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">양지말 화로구이 또는 객실 배달 <span class="pin">RECO</span></div>
+            <p class="slot-why">홍천 대표 30년 화로구이! 넓은 매장·룸·아기의자 구비 🐷 고추장은 매콤하지만 간장 화로구이는 안 맵고 푸짐 (1인 200g). 메밀막국수·양푼비빔밥도 있어 아이용 메뉴 안전.</p>
+            <div class="slot-tips">
+              <span class="tip warn">📞 토요일 대기 길음</span>
+              <span class="tip">⏰ 17:30 또는 19:30</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-2-dinner">
+              🍴 저녁 대안 4곳 보기 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-2-dinner">
+              <div class="alt-inner">
+                <h4>🌟 물놀이 후 든든하게</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">양지말화로숯불갈비</div>
+                    <div class="alt-desc">양지말 본점 옆 자매점. 다이닝코드 별점 ★4.7. 룸·단체석 풍부, 흑돼지 소금구이는 무조건 안 매움.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">홍천농가맛집</div>
+                    <div class="alt-desc">단체 룸. 산채비빔밥·돼지고기·솥뚜껑닭볶음탕. 셔틀 운영.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">평창한우마을</div>
+                    <div class="alt-desc">한우 맛보기 좋고 좌석 많은 대형식당. 비발디 가까움. 단백질 보충!</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">객실 치킨·피자·족발 배달</div>
+                    <div class="alt-desc">아이 4명 다 지쳐 있을 때 정답. 어른들끼리 객실에서 술 한 잔.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- DAY 3 -->
+    <div class="day fade" id="day3">
+      <div class="day-header">
+        <div class="day-badge">
+          <span class="label">DAY</span>
+          <span class="num">3</span>
+        </div>
+        <div class="day-title">
+          <div class="date">5월 3일 · 일요일 · 마무리</div>
+          <h2>가볍게 즐기고, 빠지기 🚙💨</h2>
+        </div>
+        <div class="day-theme">"일요일 정체 전에 — 14시 출발!"</div>
+      </div>
+
+      <div class="schedule">
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🥞</span>
+            <span class="hours">08:00<br>—09:30</span>
+            <span class="label">아침</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">조식뷔페 · 짐 정리</div>
+            <p class="slot-why">여유롭게 조식 ☕ 체크아웃 11시(레이트체크아웃 13시까지 가능한 패키지도 있음). 큰 짐은 미리 차로 옮겨놓기.</p>
+            <div class="slot-tips">
+              <span class="tip">🎟️ 곤돌라 50% 쿠폰 확인</span>
+              <span class="tip">🧳 분실물 점검</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot indoor">
+          <div class="slot-time">
+            <span class="icon">🎈</span>
+            <span class="hours">10:00<br>—11:30</span>
+            <span class="label">오전</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">앤트월드 한 번 더 또는 산책</div>
+            <p class="slot-why">3세 친구들은 아침 컨디션 좋아 키즈파크 한 번 더가 정답 ✨ 5·7세는 리조트 산책로(소노벨 B~D동) 간단한 자전거. 비 오면 앤트월드 고정.</p>
+            <div class="slot-tips">
+              <span class="tip">🚪 11시 체크아웃 라인업</span>
+              <span class="tip">👕 환복은 객실에서</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-3-morning">
+              🌳 리조트 밖 마지막 코스 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-3-morning">
+              <div class="alt-inner">
+                <h4>🌟 귀가 길에 들르기 좋은 곳</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">더 오딘 베이커리 카페</div>
+                    <div class="alt-desc">한치골길 62-2. 제과명장 운영, 루프탑 산뷰. 빵 사서 차에서 먹어도 OK.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">팔봉산 주차장 · 홍천강변</div>
+                    <div class="alt-desc">차로 15분. 잔잔한 강가 산책 — 5·7세는 자갈 줍기·물수제비.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">홍천 동키마을</div>
+                    <div class="alt-desc">당나귀 먹이체험. 알파카월드보다 작지만 1시간이면 충분.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🔑</span>
+            <span class="hours">11:30<br>—12:00</span>
+            <span class="label">정오</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">체크아웃</div>
+            <p class="slot-why">11:00 정규 체크아웃 또는 패키지 레이트 체크아웃 활용.</p>
+            <div class="slot-tips">
+              <span class="tip">🔌 가전 전원 OFF</span>
+              <span class="tip">💳 주차요금 정산</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot food">
+          <div class="slot-time">
+            <span class="icon">🍲</span>
+            <span class="hours">12:00<br>—13:30</span>
+            <span class="label">점심</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">홍천농가맛집 · 귀가길 점심 <span class="pin">RECO</span></div>
+            <p class="slot-why">체크아웃 후 점심으로 최적 — 비발디에서 서울 방향 진입 동선 ⬅️ 단체 룸 예약, 산채비빔밥·돼지고기·막국수로 매운 음식 피하면 아이들도 OK.</p>
+            <div class="slot-tips">
+              <span class="tip">📅 일요일 영업</span>
+              <span class="tip warn">📞 룸 예약</span>
+            </div>
+            <button class="alt-toggle" data-target="alt-3-lunch">
+              🍴 귀가 점심 대안 3곳 <span class="arrow">›</span>
+            </button>
+            <div class="alt-panel" id="alt-3-lunch">
+              <div class="alt-inner">
+                <h4>🌟 마지막 점심 — 서울 방향 동선</h4>
+                <div class="alt-list">
+                  <div class="alt-item">
+                    <div class="alt-name">양지말 화로구이 (홍천읍)</div>
+                    <div class="alt-desc">홍천읍 양지말길. 비발디에서 서울 방향 30분. 200g 푸짐, 메밀커피 후식 인상적.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">설국 장작불 설렁탕</div>
+                    <div class="alt-desc">간단·빠르게. 아이 4명 다 잘 먹는 슴슴한 국물. 빠른 회전이 강점.</div>
+                  </div>
+                  <div class="alt-item">
+                    <div class="alt-name">양평 옥천면 막국수 거리</div>
+                    <div class="alt-desc">서울 방향 1시간 — 옥천 막국수·메밀전. 차 안 낮잠 끝날 때.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot">
+          <div class="slot-time">
+            <span class="icon">🏠</span>
+            <span class="hours">14:00<br>—</span>
+            <span class="label">오후</span>
+          </div>
+          <div class="slot-main">
+            <div class="slot-name">출발 → 귀가 🚗💨</div>
+            <p class="slot-why">15시 이전 출발 조건 충족! 어린이날 연휴 영향으로 일요일 오후 정체 가능 — 14시대 출발 권장. 차 안에서 3세는 낮잠으로 자연 연결.</p>
+            <div class="slot-tips">
+              <span class="tip">🚦 가평·홍천IC 정체 체크</span>
+              <span class="tip">🍪 간식·물 보충</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RAIN -->
+<section class="rain">
+  <div class="container">
+    <div class="section-head fade" style="padding-top: 0;">
+      <div class="section-eyebrow">ㅡ Plan B ㅡ</div>
+      <h2 class="section-title">비가 와도 <span class="hl">끄떡없어요!</span> ☂️</h2>
+      <p class="section-desc">비발디파크는 실내 시설이 빵빵해서 일정이 거의 흔들리지 않아요. 야외 코스만 살짝 교체!</p>
+    </div>
+
+    <div class="rain-grid fade">
+      <div class="rain-cell">
+        <span class="when">DAY 1 · 오후</span>
+        <h3>앤트월드 그대로 🐜</h3>
+        <p>이미 실내라서 비 와도 그대로 진행. 우천 시 위락상가 안 회전목마·범퍼카까지 묶어서 시간 늘리기.</p>
+      </div>
+      <div class="rain-cell">
+        <span class="when">DAY 2 · 오전</span>
+        <h3>곤돌라 → VR 어드벤처 🥽</h3>
+        <p>곤돌라·양떼목장 대신 <strong>VR 어드벤처 + 회전목마</strong>로 교체. 위락상가 안에서 모두 해결.</p>
+      </div>
+      <div class="rain-cell">
+        <span class="when">DAY 2 · 오후</span>
+        <h3>오션월드 정상 운영 💦</h3>
+        <p>비 와도 정상 영업 (낙뢰 시 일부 제한). 사실 비 오는 날 오션월드가 가장 한산해요!</p>
+      </div>
+      <div class="rain-cell">
+        <span class="when">DAY 3 · 오전</span>
+        <h3>산책 → 알파카월드 🦙</h3>
+        <p>리조트 산책 대신 앤트월드 한 번 더. 비 약하면 <strong>알파카월드</strong>는 우천 시 실내 체험존 운영.</p>
+      </div>
+      <div class="rain-cell">
+        <span class="when">5/2 테니스 · 우천</span>
+        <h3>새벽 테니스 취소 시 🎾</h3>
+        <p>남명체육공원은 야외 코트 — 취소 시 어른들도 조식 후 곤돌라 일정을 앞당기거나 객실 휴식.</p>
+      </div>
+      <div class="rain-cell">
+        <span class="when">예비 카드</span>
+        <h3>휘바핀란드 · 동키마을 🍫</h3>
+        <p>비 와도 좋은 실내 체험 — 초콜릿/아이스크림 만들기. 7세 아이에게 이날의 하이라이트!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ALTERNATIVES -->
+<section id="alternatives">
+  <div class="container">
+
+    <div class="section-head fade">
+      <div class="section-eyebrow">ㅡ Curated ㅡ</div>
+      <h2 class="section-title">식당과 장소 <span class="hl">한 번 더!</span></h2>
+      <p class="section-desc">기본 코스 외에도 가족마다 입맛이 다르니까 — 폭넓게 골라봤어요 ✨</p>
+    </div>
+
+    <h3 class="subhead"><span class="emoji">🍴</span> 식당 9선</h3>
+
+    <div class="cards fade">
+      <div class="card">
+        <div class="card-num">No. 01</div>
+        <div class="card-name">황토마을</div>
+        <div class="card-sub">30년 토종닭 전문점</div>
+        <p class="card-desc">비발디 차로 5–10분. 누룽지닭백숙·묵은지닭볶음탕. 좌식+입식+룸 모두 있고 아기의자 구비.</p>
+        <div class="card-tags">
+          <span class="tag">10인 룸</span><span class="tag">아기의자</span><span class="tag">033-434-3216</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 02</div>
+        <div class="card-name">양지말 화로구이</div>
+        <div class="card-sub">홍천 대표 화로구이</div>
+        <p class="card-desc">홍천 대표 30년 화로구이. 1인 200g 푸짐. 간장 화로구이는 안 매워서 아이 OK!</p>
+        <div class="card-tags">
+          <span class="tag">대형 매장</span><span class="tag">아이 안전</span><span class="tag">메밀커피</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 03</div>
+        <div class="card-name">홍천농가맛집</div>
+        <div class="card-sub">정갈한 시골밥상</div>
+        <p class="card-desc">단체 룸 + 셔틀 운영. 산채비빔밥·돼지고기·솥뚜껑닭볶음탕. 화요일 휴무.</p>
+        <div class="card-tags">
+          <span class="tag">단체 룸</span><span class="tag">셔틀</span><span class="tag">033-434-8079</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 04</div>
+        <div class="card-name">설국 장작불 설렁탕</div>
+        <div class="card-sub">매운기 0% 안전 메뉴</div>
+        <p class="card-desc">한서로 2221. 진한 사골 국물에 매운기 전혀 없음. 3세 아이에게 가장 안전!</p>
+        <div class="card-tags">
+          <span class="tag">매운기 0</span><span class="tag">빠른 회전</span><span class="tag">033-435-6340</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 05</div>
+        <div class="card-name">홍천조박사 화로구이</div>
+        <div class="card-sub">픽업 서비스 가능</div>
+        <p class="card-desc">한서로 2080. 비발디 차로 5분 + 픽업 서비스. 양념이 세지 않은 편.</p>
+        <div class="card-tags">
+          <span class="tag">픽업 OK</span><span class="tag">아이 친화</span><span class="tag">서비스 풍부</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 06</div>
+        <div class="card-name">아궁이 화로구이</div>
+        <div class="card-sub">새벽 1시까지 영업</div>
+        <p class="card-desc">한치골길 606. 비발디 코앞. 화로구이·숯불닭갈비. 01:00까지 — 어른들 늦은 한 잔!</p>
+        <div class="card-tags">
+          <span class="tag">늦은 영업</span><span class="tag">코앞 거리</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 07</div>
+        <div class="card-name">금수강산 막국수</div>
+        <div class="card-sub">★4.6 슴슴한 막국수</div>
+        <p class="card-desc">다이닝코드 별점 ★4.6. 온국수 육수가 슴슴해 아이도 잘 먹음. 가벼운 점심!</p>
+        <div class="card-tags">
+          <span class="tag">★4.6</span><span class="tag">아이 OK</span><span class="tag">가벼움</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 08</div>
+        <div class="card-name">소노펠리체 5층 한식당</div>
+        <div class="card-sub">리조트 내 호텔식</div>
+        <p class="card-desc">리조트 안. 점심 특선 합리적. 비 오는 날·아이 컨디션 안 좋을 때 최후 보루!</p>
+        <div class="card-tags">
+          <span class="tag">리조트 내</span><span class="tag">호텔식</span><span class="tag">점심특선</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">No. 09</div>
+        <div class="card-name">더 오딘 베이커리</div>
+        <div class="card-sub">루프탑 산뷰 베이커리</div>
+        <p class="card-desc">한치골길 62-2. 제과명장 운영. 루프탑 산뷰 — 빵·디저트·커피.</p>
+        <div class="card-tags">
+          <span class="tag">루프탑</span><span class="tag">빵지순례</span><span class="tag">10:00–20:00</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="emoji">🌳</span> 방문 장소 9선</h3>
+
+    <div class="cards places fade">
+      <div class="card">
+        <div class="card-num">P. 01</div>
+        <div class="card-name">앤트월드 🐜</div>
+        <div class="card-sub">실내 키즈파크</div>
+        <p class="card-desc">더 파크 호텔 지하 1층. 개미굴 컨셉. 3·5·7세 모두 즐기는 연령 통합. 비 와도 OK!</p>
+        <div class="card-tags">
+          <span class="tag">실내</span><span class="tag">전 연령</span><span class="tag">유모차 OK</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 02</div>
+        <div class="card-name">곤돌라 + 양떼목장 🐑</div>
+        <div class="card-sub">매봉산 580m 정상</div>
+        <p class="card-desc">투숙객 50% 할인쿠폰 (체크인 시). 정상에서 양떼목장 도보 5분. 양 먹이 별도.</p>
+        <div class="card-tags">
+          <span class="tag">9:30–17:00</span><span class="tag">투숙객 할인</span><span class="tag">36개월 무료</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 03</div>
+        <div class="card-name">오션월드 🌊</div>
+        <div class="card-sub">실내 워터파크 + 노천탕</div>
+        <p class="card-desc">5월 야외존은 미오픈, 실내 아쿠아존+노천탕 운영. 36개월 미만 무료.</p>
+        <div class="card-tags">
+          <span class="tag">아쿠아슈즈</span><span class="tag">사전예매</span><span class="tag">키즈풀</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 04</div>
+        <div class="card-name">위락상가 놀이공원 🎠</div>
+        <div class="card-sub">실내 놀이기구 한가득</div>
+        <p class="card-desc">회전목마·범퍼카·키즈팡팡·고스트모터·VR. 푸드코트·도미노·스타벅스 한 자리!</p>
+        <div class="card-tags">
+          <span class="tag">실내</span><span class="tag">5·7세 인기</span><span class="tag">먹거리</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 05</div>
+        <div class="card-name">홍천 알파카월드 🦙</div>
+        <div class="card-sub">11만평 숲속 동물나라</div>
+        <p class="card-desc">비발디 차로 약 50분. 50여 마리 알파카·양·당나귀·토끼·앵무새. 매일 10:10 퍼포먼스!</p>
+        <div class="card-tags">
+          <span class="tag">15,000원</span><span class="tag">36개월 무료</span><span class="tag">유모차 대여</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 06</div>
+        <div class="card-name">휘바핀란드 🎅</div>
+        <div class="card-sub">산타마을 실내 체험</div>
+        <p class="card-desc">홍천 시내 인근. 입장 6,000원. 초콜릿·아이스크림 만들기 — 비 와도 실내 OK!</p>
+        <div class="card-tags">
+          <span class="tag">실내 체험</span><span class="tag">9:00–18:00</span><span class="tag">카페</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 07</div>
+        <div class="card-name">두릉산 자연휴양림 🌲</div>
+        <div class="card-sub">비발디 뒤편 무료 산책</div>
+        <p class="card-desc">비발디 바로 뒤편. 등산로 잘 정비, 유모차 OK. 정자·테이블 — 도시락 좋음. 입장 무료!</p>
+        <div class="card-tags">
+          <span class="tag">무료</span><span class="tag">유모차</span><span class="tag">피크닉</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 08</div>
+        <div class="card-name">팔봉산 · 홍천강변 🏞️</div>
+        <div class="card-sub">강가 산책 무료 코스</div>
+        <p class="card-desc">차로 15분. 잔잔한 강가 산책 — 5·7세는 자갈 줍기·물수제비. 무료. 봄철 풍경 좋고 한적!</p>
+        <div class="card-tags">
+          <span class="tag">무료</span><span class="tag">강변 산책</span><span class="tag">근거리</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">P. 09</div>
+        <div class="card-name">홍천 동키마을 🐴</div>
+        <div class="card-sub">당나귀 먹이 체험</div>
+        <p class="card-desc">알파카월드보다 작지만 1시간이면 충분. 당나귀·양·물고기·토끼 먹이 체험.</p>
+        <div class="card-tags">
+          <span class="tag">먹이 체험</span><span class="tag">짧은 코스</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CHECKLIST -->
+<section class="checklist-section">
+  <div class="container">
+
+    <div class="section-head fade" style="padding-top: 0;">
+      <div class="section-eyebrow">ㅡ Don't Forget! ㅡ</div>
+      <h2 class="section-title">출발 전 <span class="hl">체크리스트!</span> ✅</h2>
+      <p class="section-desc">출발 전 한 번만 훑어주세요 — 클릭하면 체크돼요!</p>
+    </div>
+
+    <div class="check-grid fade">
+      <div class="check-col">
+        <h3><span class="icon">📞</span> 사전 예약</h3>
+        <div class="col-meta">Reservations</div>
+        <ul>
+          <li>황토마을 10인 룸 (5/1 점심)</li>
+          <li>홍천농가맛집 단체석 (5/3 점심)</li>
+          <li>조식뷔페 5/2 · 5/3 (미예약 입장 제한)</li>
+          <li>오션월드 입장권 (당일 구매 사용 불가)</li>
+          <li>곤돌라 패키지 (양떼목장 묶음 할인)</li>
+          <li>객실 패키지 레이트체크아웃 13시 옵션</li>
+          <li>양지말 화로구이 (토요일 저녁)</li>
+        </ul>
+      </div>
+
+      <div class="check-col">
+        <h3><span class="icon">🎒</span> 아이용 준비물</h3>
+        <div class="col-meta">For Kids</div>
+        <ul>
+          <li>아쿠아슈즈 4족 (오션월드 의무)</li>
+          <li>수영복·수모, 베이비풀용 수영기저귀</li>
+          <li>3세 가족등본 (36개월 미만 무료 입증)</li>
+          <li>유모차 2대</li>
+          <li>양말 (앤트월드 입장 필수)</li>
+          <li>여벌 옷·기저귀·물티슈 넉넉히</li>
+          <li>아이 간식·물·작은 장난감</li>
+          <li>해열제·반창고·소독약</li>
+        </ul>
+      </div>
+
+      <div class="check-col">
+        <h3><span class="icon">🧳</span> 어른용 준비물</h3>
+        <div class="col-meta">For Adults</div>
+        <ul>
+          <li>테니스 라켓·운동복·수건 (5/2 새벽)</li>
+          <li>곤돌라용 얇은 외투 (정상 기온차)</li>
+          <li>객실용 슬리퍼·간단한 안주</li>
+          <li>충전기·보조배터리</li>
+          <li>주차요금·결제카드</li>
+          <li>비상약·선크림</li>
+          <li>가족별 단톡방 (위치 공유)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p class="quote">
+      "여행은 빨리 가는 게 아니라,<br>
+      함께 머무는 거예요" 🌷
+    </p>
+    <p class="quote-author">— Spring 2026, 홍천에서 —</p>
+    <p class="meta">홍천 비발디파크 · 5/1 → 5/3 · 세 가족 봄 소풍 가이드 ✨</p>
+  </div>
+</footer>
+
+
+<script>
+document.querySelectorAll('.alt-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    btn.classList.toggle('open');
+    target.classList.toggle('open');
+  });
+});
+
+document.querySelectorAll('.check-col li').forEach(li => {
+  li.addEventListener('click', () => li.classList.toggle('done'));
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
