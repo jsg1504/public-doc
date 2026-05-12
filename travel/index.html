@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>여행 — JSG Docs</title>
+<meta name="description" content="여행 관련 문서 모음입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Nanum+Pen+Script&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky:#b8e3ff;--sky-deep:#6cc0f5;--sun:#ffd84d;--sun-soft:#fff3b0;
+  --cherry:#ff8aa9;--cherry-deep:#ff5685;--cream:#fffcf2;--cream-2:#fff7e0;
+  --ink:#3d2f1f;--ink-soft:#6b5642;--ink-mute:#9a8772;
+  --display:'Jua',sans-serif;--hand:'Gaegu',sans-serif;
+  --pen:'Nanum Pen Script',cursive;--body:'Quicksand',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);font-weight:500;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 10% 15%,var(--sun-soft) 0%,transparent 28%),radial-gradient(circle at 88% 55%,#ffe3ed 0%,transparent 32%),radial-gradient(circle at 50% 92%,#d8f0c2 0%,transparent 28%);opacity:0.55;}
+.container{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+.site-header{position:sticky;top:0;z-index:100;background:rgba(255,252,242,0.88);backdrop-filter:blur(12px);border-bottom:3px solid var(--ink);padding:14px 0;}
+.header-inner{display:flex;align-items:center;gap:16px;}
+.site-logo{font-family:var(--display);font-size:22px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;}
+.site-logo .logo-badge{background:var(--sun);border:3px solid var(--ink);border-radius:14px;padding:4px 14px;box-shadow:3px 3px 0 var(--ink);font-size:20px;}
+.site-logo .logo-text{font-size:18px;color:var(--ink-soft);}
+.breadcrumb{font-family:var(--display);font-size:14px;color:var(--ink-mute);margin-left:auto;}
+.breadcrumb a{color:var(--ink-soft);text-decoration:none;}
+.breadcrumb a:hover{color:var(--cherry-deep);}
+.hero{padding:60px 0 70px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--sky);color:var(--ink);padding:10px 22px;border-radius:30px;font-family:var(--display);font-size:14px;letter-spacing:0.04em;margin-bottom:24px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg);}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,90px);line-height:1.05;color:var(--ink);margin-bottom:20px;}
+.hero h1 .pop{display:inline-block;background:var(--sky-deep);color:var(--cream);padding:0 18px;border-radius:16px;transform:rotate(-2deg);box-shadow:6px 6px 0 var(--ink);margin:6px 4px;}
+.hero-sub{font-family:var(--hand);font-size:20px;line-height:1.7;color:var(--ink-soft);max-width:520px;font-weight:700;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;padding-bottom:80px;}
+.doc-card{display:block;text-decoration:none;background:var(--cream);border:3px solid var(--ink);border-radius:26px;padding:26px 24px;box-shadow:6px 6px 0 var(--ink);position:relative;transition:transform 0.2s,box-shadow 0.2s;overflow:hidden;}
+.doc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;border-radius:26px 26px 0 0;background:var(--sky-deep);}
+.doc-card:hover{transform:translateY(-5px) rotate(-0.5deg);box-shadow:8px 10px 0 var(--ink);}
+.card-icon{font-size:38px;margin-bottom:14px;}
+.card-title{font-family:var(--display);font-size:20px;font-weight:400;line-height:1.25;color:var(--ink);margin-bottom:10px;}
+.card-desc{font-family:var(--body);font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
+.card-meta{display:flex;align-items:center;justify-content:space-between;font-family:var(--hand);font-size:13px;font-weight:700;color:var(--ink-mute);}
+.card-arrow{width:34px;height:34px;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:18px;flex-shrink:0;transition:transform 0.2s;}
+.doc-card:hover .card-arrow{transform:translateX(4px);}
+.site-footer{margin-top:40px;border-top:4px solid var(--ink);padding:30px 0 40px;text-align:center;}
+.footer-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:14px;color:var(--ink);text-decoration:none;background:var(--sun);border:3px solid var(--ink);border-radius:24px;padding:10px 24px;box-shadow:4px 4px 0 var(--ink);transition:transform 0.2s;}
+.footer-link:hover{transform:translateY(-3px);}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/public-doc/" class="site-logo">
+      <span class="logo-badge">JSG</span>
+      <span class="logo-text">Docs</span>
+    </a>
+    <div class="breadcrumb">
+      <a href="/public-doc/">홈</a> / ✈️ 여행
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">✈️ 여행</div>
+    <h1>
+      <span class="pop">여행</span> 문서 모음
+    </h1>
+    <p class="hero-sub">다양한 여행 경험과 일정을 기록한 문서들입니다.</p>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+    <div class="card-grid" id="cardGrid">
+      <!-- JS로 채워짐 -->
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="/public-doc/" class="footer-link">← 전체 문서로 돌아가기</a>
+  </div>
+</footer>
+
+<script>
+const BASE = '/public-doc';
+async function init() {
+  const res = await fetch(BASE + '/docs.json');
+  const docs = await res.json();
+  const travelDocs = docs.filter(d => d.category === 'travel');
+  const grid = document.getElementById('cardGrid');
+  if (travelDocs.length === 0) {
+    grid.innerHTML = '<p style="font-family:var(--hand);font-size:20px;color:var(--ink-mute);padding:40px 0;">아직 등록된 여행 문서가 없어요.</p>';
+    return;
+  }
+  travelDocs.forEach(doc => {
+    const card = document.createElement('a');
+    card.className = 'doc-card';
+    card.href = BASE + doc.path;
+    card.innerHTML = `
+      <div class="card-icon">${doc.icon || '✈️'}</div>
+      <div class="card-title">${doc.title}</div>
+      <div class="card-desc">${doc.description || ''}</div>
+      <div class="card-meta">
+        <span>${doc.date || ''}</span>
+        <span class="card-arrow">→</span>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+init();
+</script>
+</body>
+</html>

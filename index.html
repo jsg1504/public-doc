@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSG Docs — 문서 모음</title>
+<meta name="description" content="여행, 생활, 정보 등 다양한 주제의 문서를 모아두는 공간입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Nanum+Pen+Script&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ───────── DESIGN TOKENS ───────── */
+:root {
+  --sky:        #b8e3ff;
+  --sky-deep:   #6cc0f5;
+  --sun:        #ffd84d;
+  --sun-soft:   #fff3b0;
+  --grass:      #a8d96a;
+  --grass-deep: #6fb83e;
+  --cherry:     #ff8aa9;
+  --cherry-deep:#ff5685;
+  --orange:     #ffaa55;
+  --lavender:   #c9b3ff;
+  --cream:      #fffcf2;
+  --cream-2:    #fff7e0;
+  --ink:        #3d2f1f;
+  --ink-soft:   #6b5642;
+  --ink-mute:   #9a8772;
+
+  --display: 'Jua', sans-serif;
+  --hand:    'Gaegu', sans-serif;
+  --pen:     'Nanum Pen Script', cursive;
+  --body:    'Quicksand', sans-serif;
+}
+
+/* ───────── RESET ───────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ───────── AMBIENT BG ───────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 10% 15%, var(--sun-soft) 0%, transparent 28%),
+    radial-gradient(circle at 88% 55%, #ffe3ed 0%, transparent 32%),
+    radial-gradient(circle at 50% 92%, #d8f0c2 0%, transparent 28%);
+  opacity: 0.55;
+}
+
+/* ───────── FLOATING DECO ───────── */
+.float {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.65;
+  font-size: 36px;
+  user-select: none;
+}
+.float.f1 { top:  7%; right: 5%;  animation: floaty  8s ease-in-out infinite; }
+.float.f2 { top: 32%; left: 3%;  animation: floaty 11s ease-in-out infinite reverse; }
+.float.f3 { top: 62%; right: 7%; animation: floaty  9s ease-in-out infinite; }
+.float.f4 { top: 88%; left: 6%;  animation: floaty 12s ease-in-out infinite reverse; }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-22px) rotate(9deg); }
+}
+
+/* ───────── LAYOUT ───────── */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ───────── HEADER / NAV ───────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,252,242,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 3px solid var(--ink);
+  padding: 14px 0;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-logo {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.site-logo .logo-badge {
+  background: var(--sun);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 4px 14px;
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: 20px;
+}
+.site-logo .logo-text { font-size: 18px; color: var(--ink-soft); }
+
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cream-2);
+  border: 3px solid var(--ink);
+  border-radius: 30px;
+  padding: 8px 18px;
+  box-shadow: 3px 3px 0 var(--ink);
+  flex: 0 1 320px;
+}
+.header-search input {
+  border: none;
+  background: transparent;
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  width: 100%;
+}
+.header-search input::placeholder { color: var(--ink-mute); }
+.header-search .search-icon { font-size: 18px; flex-shrink: 0; }
+
+/* ───────── HERO ───────── */
+.hero {
+  padding: 80px 0 90px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sun);
+  color: var(--ink);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transform: rotate(-2deg);
+}
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(44px, 8vw, 100px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero h1 .pop {
+  display: inline-block;
+  background: var(--cherry);
+  color: var(--cream);
+  padding: 0 18px;
+  border-radius: 16px;
+  transform: rotate(-2deg);
+  box-shadow: 6px 6px 0 var(--ink);
+  margin: 6px 4px;
+}
+.hero h1 .hl {
+  position: relative;
+  display: inline-block;
+}
+.hero h1 .hl::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 14px;
+  background: var(--sun);
+  z-index: -1;
+  border-radius: 8px;
+}
+.hero-sub {
+  font-family: var(--hand);
+  font-size: 21px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin-top: 18px;
+  font-weight: 700;
+}
+.hero-sub strong { color: var(--cherry-deep); }
+
+/* ───────── TICKER ───────── */
+.ticker {
+  background: var(--cherry);
+  color: var(--cream);
+  padding: 14px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  transform: rotate(-1deg);
+  margin: 24px -20px;
+}
+.ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: scroll 35s linear infinite;
+  font-family: var(--display);
+  font-size: 20px;
+}
+.ticker-item { padding: 0 24px; display: flex; align-items: center; gap: 20px; }
+.ticker-item::after { content: '✦'; font-size: 18px; opacity: 0.7; }
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ───────── SECTION HEADER ───────── */
+.section-head { padding-top: 80px; margin-bottom: 48px; }
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--pen);
+  font-size: 28px;
+  color: var(--cherry-deep);
+  transform: rotate(-2deg);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(30px, 4.5vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.section-title .hl {
+  background: var(--sun);
+  padding: 0 14px;
+  border-radius: 12px;
+  display: inline-block;
+  transform: rotate(-1deg);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.section-desc {
+  font-family: var(--hand);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+/* ───────── CATEGORY FILTER ───────── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.filter-btn {
+  font-family: var(--display);
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 24px;
+  border: 3px solid var(--ink);
+  background: var(--cream);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: all 0.18s;
+  user-select: none;
+}
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--ink);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+/* ───────── CATEGORY GROUPS ───────── */
+.category-group { margin-bottom: 60px; }
+.category-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--cream);
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 20px;
+  padding: 8px 22px;
+  margin-bottom: 22px;
+  box-shadow: 4px 4px 0 var(--ink-soft);
+}
+
+/* ───────── CARD GRID ───────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+/* ───────── DOC CARD ───────── */
+.doc-card {
+  display: block;
+  text-decoration: none;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  padding: 26px 24px;
+  box-shadow: 6px 6px 0 var(--ink);
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+.doc-card:hover {
+  transform: translateY(-5px) rotate(-0.5deg);
+  box-shadow: 8px 10px 0 var(--ink);
+}
+.doc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  border-radius: 26px 26px 0 0;
+}
+
+/* Category color accents */
+.doc-card[data-cat="travel"]::before  { background: var(--sky-deep); }
+.doc-card[data-cat="life"]::before    { background: var(--grass-deep); }
+.doc-card[data-cat="tech"]::before    { background: var(--lavender); }
+.doc-card[data-cat="food"]::before    { background: var(--orange); }
+.doc-card[data-cat="etc"]::before     { background: var(--cherry); }
+
+.card-icon { font-size: 38px; margin-bottom: 14px; }
+.card-category {
+  display: inline-block;
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--ink);
+  margin-bottom: 10px;
+  background: var(--cream-2);
+  color: var(--ink-soft);
+}
+.card-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.card-desc {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--hand);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-mute);
+}
+.card-arrow {
+  width: 34px;
+  height: 34px;
+  background: var(--ink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.doc-card:hover .card-arrow { transform: translateX(4px); }
+
+/* ───────── EMPTY STATE ───────── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: var(--hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink-mute);
+}
+.empty-state .big { font-size: 48px; display: block; margin-bottom: 12px; }
+
+/* ───────── HOW-TO SECTION ───────── */
+.howto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+.howto-card {
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 26px 22px;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.howto-card:nth-child(1) { background: var(--sun-soft); transform: rotate(-1deg); }
+.howto-card:nth-child(2) { background: #ffe3ed; transform: rotate(0.8deg); }
+.howto-card:nth-child(3) { background: #d8f0c2; transform: rotate(-0.5deg); }
+.howto-num {
+  font-family: var(--display);
+  font-size: 42px;
+  color: var(--ink);
+  opacity: 0.15;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.howto-title {
+  font-family: var(--display);
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.howto-desc {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+.howto-desc code {
+  background: rgba(61,47,31,0.1);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 13px;
+  font-family: monospace;
+}
+
+/* ───────── FOOTER ───────── */
+.site-footer {
+  margin-top: 100px;
+  border-top: 4px solid var(--ink);
+  padding: 40px 0 50px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: var(--display);
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.footer-sub {
+  font-family: var(--hand);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-mute);
+  margin-bottom: 24px;
+}
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--sun);
+  border: 3px solid var(--ink);
+  border-radius: 24px;
+  padding: 10px 24px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.2s;
+}
+.footer-link:hover { transform: translateY(-3px); }
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 640px) {
+  .header-search { display: none; }
+  .hero { padding: 50px 0 60px; }
+  .ticker { margin: 18px -10px; }
+  .howto-card { transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating deco -->
+<span class="float f1">📄</span>
+<span class="float f2">✏️</span>
+<span class="float f3">📚</span>
+<span class="float f4">🗂️</span>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="site-logo">
+      <span class="logo-badge">JSG</span>
+      <span class="logo-text">Docs</span>
+    </a>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="문서 검색…" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">📂 문서 모음</div>
+    <h1>
+      <span class="hl">다양한</span> 주제의<br>
+      <span class="pop">문서</span>를 모아두는<br>
+      공간
+    </h1>
+    <p class="hero-sub">
+      여행, 생활, 기술, 음식 등<br>
+      <strong>다양한 주제의 문서</strong>를 자유롭게 공유합니다.
+    </p>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner" id="tickerInner">
+    <!-- JS로 채워짐 -->
+  </div>
+</div>
+
+<!-- ── DOCS SECTION ── -->
+<main>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-eyebrow">모든 문서</div>
+      <h2 class="section-title">지금 <span class="hl">공유된</span> 문서들</h2>
+      <p class="section-desc">카테고리를 선택하거나 검색으로 원하는 문서를 찾아보세요.</p>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">전체</button>
+    </div>
+
+    <!-- Cards container -->
+    <div id="docsContainer"></div>
+
+    <!-- ── HOW-TO ── -->
+    <div class="section-head" style="padding-top:60px;">
+      <div class="section-eyebrow">이렇게 사용해요</div>
+      <h2 class="section-title">새 문서 <span class="hl">추가하기</span></h2>
+      <p class="section-desc">새로운 주제가 생기면 아래 방식으로 추가하면 됩니다.</p>
+    </div>
+    <div class="howto-grid">
+      <div class="howto-card">
+        <div class="howto-num">01</div>
+        <div class="howto-title">폴더 생성</div>
+        <p class="howto-desc">
+          저장소에 주제별 폴더를 만드세요.<br>
+          예: <code>travel/</code>, <code>life/</code>, <code>tech/</code>
+        </p>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">02</div>
+        <div class="howto-title">index.html 추가</div>
+        <p class="howto-desc">
+          폴더 안에 <code>index.html</code>을 넣으면<br>
+          <code>/폴더명</code> URL로 접근할 수 있습니다.
+        </p>
+      </div>
+      <div class="howto-card">
+        <div class="howto-num">03</div>
+        <div class="howto-title">docs.json 업데이트</div>
+        <p class="howto-desc">
+          루트의 <code>docs.json</code>에 문서 정보를 추가하면<br>
+          이 대문 페이지에 자동으로 카드가 생성됩니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-logo">JSG Docs 📂</div>
+    <p class="footer-sub">지식을 기록하고, 경험을 나누는 공간</p>
+    <a href="https://github.com/jsg1504/public-doc" class="footer-link" target="_blank" rel="noopener">
+      GitHub 저장소 →
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────────
+   docs.json 을 fetch 해서 카드를 동적으로 렌더링
+   ───────────────────────────────────────────── */
+
+const BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? ''
+  : '/public-doc';
+
+const CATEGORY_META = {
+  travel: { label: '여행',   icon: '✈️',  color: '#b8e3ff' },
+  life:   { label: '생활',   icon: '🏠',  color: '#d8f0c2' },
+  tech:   { label: '기술',   icon: '💻',  color: '#e0d8ff' },
+  food:   { label: '음식',   icon: '🍽️',  color: '#ffe3c8' },
+  etc:    { label: '기타',   icon: '📌',  color: '#ffe3ed' },
+};
+
+function getCatMeta(cat) {
+  return CATEGORY_META[cat] || { label: cat, icon: '📄', color: '#fffcf2' };
+}
+
+/* Ticker 채우기 */
+function buildTicker(docs) {
+  const inner = document.getElementById('tickerInner');
+  const items = docs.map(d => `<span class="ticker-item">${getCatMeta(d.category).icon} ${d.title}</span>`);
+  // 두 번 반복해야 seamless scroll
+  inner.innerHTML = [...items, ...items].join('');
+}
+
+/* Filter 버튼 */
+function buildFilters(categories) {
+  const bar = document.getElementById('filterBar');
+  categories.forEach(cat => {
+    const m = getCatMeta(cat);
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.filter = cat;
+    btn.textContent = `${m.icon} ${m.label}`;
+    bar.appendChild(btn);
+  });
+
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterCards(btn.dataset.filter);
+  });
+}
+
+/* 카드 렌더링 */
+function buildCards(docs) {
+  const container = document.getElementById('docsContainer');
+
+  // 카테고리별 그룹
+  const groups = {};
+  docs.forEach(d => {
+    if (!groups[d.category]) groups[d.category] = [];
+    groups[d.category].push(d);
+  });
+
+  container.innerHTML = '';
+
+  Object.entries(groups).forEach(([cat, items]) => {
+    const m = getCatMeta(cat);
+    const group = document.createElement('div');
+    group.className = 'category-group';
+    group.dataset.cat = cat;
+
+    const label = document.createElement('div');
+    label.className = 'category-label';
+    label.innerHTML = `${m.icon} ${m.label}`;
+    group.appendChild(label);
+
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
+
+    items.forEach(doc => {
+      const card = document.createElement('a');
+      card.className = 'doc-card';
+      card.href = BASE + doc.path;
+      card.dataset.cat = cat;
+      card.dataset.title = doc.title.toLowerCase();
+      card.dataset.desc = (doc.description || '').toLowerCase();
+      card.innerHTML = `
+        <div class="card-icon">${doc.icon || m.icon}</div>
+        <div class="card-category">${m.label}</div>
+        <div class="card-title">${doc.title}</div>
+        <div class="card-desc">${doc.description || ''}</div>
+        <div class="card-meta">
+          <span>${doc.date || ''}</span>
+          <span class="card-arrow">→</span>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    group.appendChild(grid);
+    container.appendChild(group);
+  });
+}
+
+/* 필터 적용 */
+function filterCards(filter) {
+  const groups = document.querySelectorAll('.category-group');
+  groups.forEach(g => {
+    if (filter === 'all' || g.dataset.cat === filter) {
+      g.style.display = '';
+    } else {
+      g.style.display = 'none';
+    }
+  });
+  checkEmpty(filter);
+}
+
+/* 검색 */
+function applySearch(query) {
+  const q = query.toLowerCase().trim();
+  const cards = document.querySelectorAll('.doc-card');
+  let visible = 0;
+  cards.forEach(c => {
+    const match = !q || c.dataset.title.includes(q) || c.dataset.desc.includes(q);
+    c.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+
+  // 빈 그룹 숨기기
+  document.querySelectorAll('.category-group').forEach(g => {
+    const anyVisible = [...g.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
+    g.style.display = anyVisible ? '' : 'none';
+  });
+
+  checkEmpty(null, visible === 0 && q);
+}
+
+function checkEmpty(filter, searchEmpty) {
+  const container = document.getElementById('docsContainer');
+  let existing = container.querySelector('.empty-state');
+  if (searchEmpty) {
+    if (!existing) {
+      const el = document.createElement('div');
+      el.className = 'empty-state';
+      el.innerHTML = `<span class="big">🔍</span>검색 결과가 없어요`;
+      container.appendChild(el);
+    }
+  } else {
+    if (existing) existing.remove();
+  }
+}
+
+/* 메인 */
+async function init() {
+  try {
+    const res = await fetch(BASE + '/docs.json');
+    if (!res.ok) throw new Error('docs.json not found');
+    const docs = await res.json();
+
+    buildTicker(docs);
+
+    const categories = [...new Set(docs.map(d => d.category))];
+    buildFilters(categories);
+    buildCards(docs);
+
+    // 검색 이벤트
+    document.getElementById('searchInput').addEventListener('input', e => {
+      applySearch(e.target.value);
+    });
+
+  } catch (err) {
+    console.warn('docs.json 로드 실패:', err);
+    document.getElementById('docsContainer').innerHTML =
+      `<div class="empty-state"><span class="big">📭</span>아직 등록된 문서가 없어요.<br>docs.json을 추가해보세요!</div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>
