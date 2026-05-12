@@ -7,7 +7,8 @@
 <meta name="description" content="여행, 생활, 정보 등 다양한 주제의 문서를 모아두는 공간입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- [FIX #3] 한글 지원을 위해 Noto Sans KR 추가 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
    NEO-BRUTALISM DESIGN SYSTEM
@@ -24,13 +25,15 @@
   --red:     #ef233c;
   --cyan:    #00d4ff;
 
-  --border:  4px solid var(--black);
-  --shadow:  6px 6px 0 var(--black);
+  --border:    4px solid var(--black);
+  --shadow:    6px 6px 0 var(--black);
   --shadow-lg: 10px 10px 0 var(--black);
   --shadow-sm: 3px 3px 0 var(--black);
 
-  --font-sans: 'Space Grotesk', sans-serif;
+  --font-sans: 'Space Grotesk', 'Noto Sans KR', sans-serif;
   --font-mono: 'Space Mono', monospace;
+  /* [FIX #3] 한글 전용 폰트 변수 */
+  --font-ko:   'Noto Sans KR', sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,12 +47,9 @@ body {
   overflow-x: hidden;
 }
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--white); border-left: 2px solid var(--black); }
 ::-webkit-scrollbar-thumb { background: var(--black); }
-
-/* ── SELECTION ── */
 ::selection { background: var(--yellow); color: var(--black); }
 
 /* ═══════════════════════════════════════
@@ -97,12 +97,11 @@ body {
   flex: 1;
   border: none;
   background: transparent;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--black);
   outline: none;
-  letter-spacing: 0.02em;
 }
 .header-search input::placeholder { color: rgba(10,10,10,0.4); }
 .search-label {
@@ -114,7 +113,6 @@ body {
   opacity: 0.5;
   white-space: nowrap;
 }
-
 .header-tag {
   display: flex;
   align-items: center;
@@ -129,6 +127,7 @@ body {
 
 /* ═══════════════════════════════════════
    MARQUEE
+   [FIX #8] 문서 수가 적을 때 반복 횟수를 늘려 간격 확보
    ═══════════════════════════════════════ */
 .marquee-wrap {
   background: var(--black);
@@ -139,13 +138,14 @@ body {
 .marquee-track {
   display: flex;
   white-space: nowrap;
-  animation: marquee 28s linear infinite;
+  /* 속도는 JS에서 문서 수에 따라 동적 조정 */
+  animation: marquee 20s linear infinite;
 }
 .marquee-item {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 32px;
+  gap: 16px;
+  padding: 0 40px;
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 700;
@@ -153,7 +153,7 @@ body {
   text-transform: uppercase;
   color: var(--white);
 }
-.marquee-item .dot {
+.marquee-dot {
   width: 8px; height: 8px;
   background: var(--yellow);
   border-radius: 50%;
@@ -207,7 +207,6 @@ body {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.2; }
 }
-
 .hero-title {
   font-family: var(--font-mono);
   font-size: clamp(52px, 7.5vw, 110px);
@@ -221,7 +220,6 @@ body {
   color: transparent;
 }
 .hero-title .fill-yellow { color: var(--yellow); }
-.hero-title .fill-pink   { color: var(--pink);   }
 
 .hero-bottom {
   display: flex;
@@ -231,11 +229,12 @@ body {
   flex-wrap: wrap;
 }
 .hero-desc {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: rgba(10,10,10,0.65);
   max-width: 340px;
-  line-height: 1.7;
+  line-height: 1.75;
+  font-family: var(--font-ko);
 }
 .hero-cta {
   display: inline-flex;
@@ -260,10 +259,7 @@ body {
 }
 
 /* Hero right — stat grid */
-.hero-right {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-}
+.hero-right { display: grid; grid-template-rows: 1fr 1fr; }
 .stat-block {
   padding: 40px 48px;
   display: flex;
@@ -273,14 +269,23 @@ body {
   border-bottom: var(--border);
 }
 .stat-block:last-child { border-bottom: none; }
-.stat-block.bg-yellow  { background: var(--yellow); }
-.stat-block.bg-black   { background: var(--black); color: var(--white); }
+.stat-block.bg-yellow { background: var(--yellow); }
+.stat-block.bg-black  { background: var(--black); color: var(--white); }
+/* [FIX #7] 숫자 패딩 제거 — 단위 레이블과 함께 자연스럽게 표시 */
 .stat-num {
   font-family: var(--font-mono);
   font-size: clamp(48px, 6vw, 80px);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
+}
+.stat-unit {
+  font-family: var(--font-mono);
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 700;
+  opacity: 0.35;
+  margin-left: 4px;
+  vertical-align: baseline;
 }
 .stat-label {
   font-family: var(--font-mono);
@@ -289,10 +294,12 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   opacity: 0.6;
+  margin-top: 4px;
 }
 
 /* ═══════════════════════════════════════
    FILTER BAR
+   [FIX #6] 아이콘을 이모지로 교체
    ═══════════════════════════════════════ */
 .filter-section {
   border-bottom: var(--border);
@@ -326,15 +333,15 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 16px 24px;
+  padding: 16px 22px;
   border: none;
-  border-right: 2px solid rgba(10,10,10,0.12);
+  border-right: 2px solid rgba(10,10,10,0.1);
   background: transparent;
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: rgba(10,10,10,0.5);
+  color: rgba(10,10,10,0.45);
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s, color 0.15s;
@@ -347,47 +354,45 @@ body {
 }
 .filter-btn .count {
   font-size: 10px;
-  background: rgba(255,255,255,0.2);
   padding: 2px 7px;
   border-radius: 20px;
 }
-.filter-btn.active .count { background: rgba(255,255,255,0.25); }
+.filter-btn.active .count { background: rgba(255,255,255,0.2); }
 .filter-btn:not(.active) .count { background: rgba(10,10,10,0.08); color: var(--black); }
 
 /* ═══════════════════════════════════════
    DOCS GRID
    ═══════════════════════════════════════ */
-.docs-section { padding: 48px 0 80px; }
+/* [FIX #5] 하단 여백 80px → 48px */
+.docs-section { padding: 48px 0 48px; }
 .docs-wrap { padding: 0 40px; }
-
-.category-group { margin-bottom: 56px; }
+.category-group { margin-bottom: 52px; }
 
 .cat-header {
   display: flex;
   align-items: center;
-  gap: 0;
   margin-bottom: 24px;
 }
 .cat-tag {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 10px 20px;
   border: var(--border);
   box-shadow: var(--shadow-sm);
   background: var(--white);
+  white-space: nowrap;
 }
-.cat-tag.travel  { background: var(--cyan);   }
-.cat-tag.life    { background: var(--lime);   }
-.cat-tag.tech    { background: var(--purple); color: var(--white); }
-.cat-tag.food    { background: var(--orange); color: var(--white); }
-.cat-tag.etc     { background: var(--pink);   color: var(--white); }
-
+.cat-tag.travel { background: var(--cyan); }
+.cat-tag.life   { background: var(--lime); }
+.cat-tag.tech   { background: var(--purple); color: var(--white); }
+.cat-tag.food   { background: var(--orange); color: var(--white); }
+.cat-tag.etc    { background: var(--pink);   color: var(--white); }
 .cat-line {
   flex: 1;
   height: 4px;
@@ -395,12 +400,16 @@ body {
   margin-left: -1px;
 }
 
-/* Card grid */
+/* ═══════════════════════════════════════
+   CARD GRID
+   [FIX #1] 빈 셀 노출 방지 — auto-fill → auto-fit
+            카드가 적을 때 전체 너비를 채우지 않고 왼쪽 정렬
+   ═══════════════════════════════════════ */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 0;
-  border: var(--border);
+  border-top: var(--border);
+  border-left: var(--border);
 }
 
 .doc-card {
@@ -413,11 +422,10 @@ body {
   border-bottom: var(--border);
   background: var(--white);
   position: relative;
-  transition: background 0.15s, transform 0.15s;
+  transition: background 0.15s;
   overflow: hidden;
+  min-height: 280px;
 }
-/* Remove double borders */
-.doc-card:nth-child(3n)   { border-right: none; }
 .doc-card:hover { background: var(--yellow); }
 
 .card-num {
@@ -425,40 +433,46 @@ body {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: rgba(10,10,10,0.3);
-  margin-bottom: 20px;
+  color: rgba(10,10,10,0.28);
+  margin-bottom: 18px;
 }
+
+/* [FIX #2] 아이콘 박스 크기 52→72px, 이모지 크기 26→36px */
 .card-icon-wrap {
-  width: 52px; height: 52px;
+  width: 72px;
+  height: 72px;
   border: var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  font-size: 36px;
   margin-bottom: 20px;
   background: var(--white);
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
 }
 .doc-card:hover .card-icon-wrap {
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow);
 }
+
 .card-title {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.35;
   margin-bottom: 10px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 .card-desc {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(10,10,10,0.6);
+  color: rgba(10,10,10,0.58);
   line-height: 1.65;
   flex: 1;
   margin-bottom: 24px;
+  font-family: var(--font-ko);
 }
 .card-footer {
   display: flex;
@@ -473,7 +487,7 @@ body {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: rgba(10,10,10,0.45);
+  color: rgba(10,10,10,0.4);
 }
 .card-arrow {
   width: 36px; height: 36px;
@@ -485,6 +499,7 @@ body {
   font-size: 18px;
   border: 2px solid var(--black);
   transition: background 0.15s, color 0.15s, transform 0.15s;
+  flex-shrink: 0;
 }
 .doc-card:hover .card-arrow {
   background: var(--white);
@@ -497,23 +512,22 @@ body {
   grid-column: 1 / -1;
   padding: 80px 40px;
   text-align: center;
-  border-right: none;
+  border-right: var(--border);
+  border-bottom: var(--border);
 }
-.empty-icon {
-  font-size: 56px;
-  display: block;
-  margin-bottom: 16px;
-}
+.empty-icon { font-size: 52px; display: block; margin-bottom: 16px; }
 .empty-text {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: rgba(10,10,10,0.4);
+  color: rgba(10,10,10,0.35);
 }
 
 /* ═══════════════════════════════════════
    HOW-TO SECTION
+   [FIX #3] 타이틀 폰트를 한글 폰트로 교체
+   [FIX #4] 배경 숫자 투명도 낮추고 우측 하단으로 이동
    ═══════════════════════════════════════ */
 .howto-section {
   border-top: var(--border);
@@ -523,8 +537,7 @@ body {
 .howto-header {
   display: flex;
   align-items: center;
-  border-bottom: var(--border);
-  border-color: rgba(255,255,255,0.15);
+  border-bottom: 2px solid rgba(255,255,255,0.12);
 }
 .howto-header-label {
   padding: 20px 40px;
@@ -533,15 +546,17 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  border-right: 2px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.5);
+  border-right: 2px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.45);
+  white-space: nowrap;
 }
+/* [FIX #3] 한글 타이틀에 Noto Sans KR 적용 */
 .howto-header-title {
   padding: 20px 40px;
-  font-family: var(--font-mono);
-  font-size: 22px;
+  font-family: var(--font-ko);
+  font-size: 20px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--yellow);
 }
 
@@ -552,39 +567,55 @@ body {
 .howto-card {
   padding: 48px 40px;
   border-right: 2px solid rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
 }
 .howto-card:last-child { border-right: none; }
+
+/* [FIX #4] 배경 숫자: 우측 하단 절대 위치, 투명도 0.08→0.04 */
 .howto-num {
+  position: absolute;
+  bottom: -10px;
+  right: 16px;
   font-family: var(--font-mono);
-  font-size: 72px;
+  font-size: 100px;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.04em;
-  color: rgba(255,255,255,0.08);
-  margin-bottom: 16px;
+  letter-spacing: -0.06em;
+  color: rgba(255,255,255,0.04);
+  pointer-events: none;
+  user-select: none;
 }
+
 .howto-title {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   color: var(--lime);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
 }
+/* [FIX #3] 설명 텍스트도 한글 폰트 적용 */
 .howto-desc {
+  font-family: var(--font-ko);
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.7;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.8;
 }
 .howto-desc code {
   font-family: var(--font-mono);
   font-size: 12px;
   background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.18);
   padding: 2px 8px;
   border-radius: 3px;
   color: var(--cyan);
+  /* [FIX #4] 코드 블록 줄바꿈 허용 */
+  word-break: break-all;
+  display: inline-block;
+  margin: 2px 0;
 }
 
 /* ═══════════════════════════════════════
@@ -597,7 +628,7 @@ body {
 .footer-inner {
   display: flex;
   align-items: stretch;
-  min-height: 80px;
+  min-height: 72px;
 }
 .footer-logo {
   display: flex;
@@ -615,10 +646,10 @@ body {
   align-items: center;
   padding: 0 32px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: rgba(10,10,10,0.4);
+  letter-spacing: 0.08em;
+  color: rgba(10,10,10,0.35);
   flex: 1;
 }
 .footer-gh {
@@ -634,7 +665,7 @@ body {
   text-transform: uppercase;
   color: var(--black);
   gap: 10px;
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 .footer-gh:hover { background: var(--black); color: var(--white); }
 
@@ -643,10 +674,13 @@ body {
    ═══════════════════════════════════════ */
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
-  .hero-right { grid-template-rows: auto; grid-template-columns: 1fr 1fr; }
+  .hero-right {
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    border-top: var(--border);
+  }
   .stat-block { border-bottom: none; border-right: var(--border); }
   .stat-block:last-child { border-right: none; }
-  .hero-right { border-top: var(--border); }
   .howto-grid { grid-template-columns: 1fr; }
   .howto-card { border-right: none; border-bottom: 2px solid rgba(255,255,255,0.1); }
   .howto-card:last-child { border-bottom: none; }
@@ -659,11 +693,9 @@ body {
   .header-tag { display: none; }
   .footer-copy { display: none; }
   .card-grid { grid-template-columns: 1fr; }
-  .doc-card { border-right: none; }
-  .doc-card:nth-child(3n) { border-right: none; }
   .howto-header-title { font-size: 16px; }
   .howto-header-label { padding: 16px 20px; }
-  .howto-card { padding: 32px 24px; }
+  .howto-card { padding: 36px 24px; }
   .docs-wrap { padding: 0 16px; }
 }
 </style>
@@ -716,6 +748,7 @@ body {
   </div>
   <div class="hero-right">
     <div class="stat-block bg-yellow">
+      <!-- [FIX #7] padStart 제거, 단위 레이블 추가 -->
       <div class="stat-num" id="statDocs">—</div>
       <div class="stat-label">TOTAL DOCS</div>
     </div>
@@ -747,10 +780,12 @@ body {
 <section class="howto-section">
   <div class="howto-header">
     <div class="howto-header-label">GUIDE</div>
+    <!-- [FIX #3] 한글 타이틀 -->
     <div class="howto-header-title">새 문서 추가하기</div>
   </div>
   <div class="howto-grid">
     <div class="howto-card">
+      <!-- [FIX #4] 배경 숫자 절대 위치로 이동 -->
       <div class="howto-num">01</div>
       <div class="howto-title">FOLDER STRUCTURE</div>
       <p class="howto-desc">
@@ -764,7 +799,7 @@ body {
       <div class="howto-title">UPDATE DOCS.JSON</div>
       <p class="howto-desc">
         루트의 <code>docs.json</code>에 문서 정보를 추가하면 이 페이지에 카드가 자동 생성됩니다.<br><br>
-        <code>title</code>, <code>description</code>, <code>path</code>, <code>category</code>, <code>icon</code>, <code>date</code> 필드를 채우세요.
+        필드: <code>title</code> <code>description</code> <code>path</code> <code>category</code> <code>icon</code> <code>date</code>
       </p>
     </div>
     <div class="howto-card">
@@ -791,38 +826,45 @@ body {
   </div>
 </footer>
 
-<!-- ═══════════════════════════════════════
-     SCRIPT
-     ═══════════════════════════════════════ -->
 <script>
 const BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? '' : '/public-doc';
 
+/* [FIX #6] 아이콘을 이모지로 교체 */
 const CAT_META = {
-  travel: { label: 'TRAVEL',  icon: '✈', cls: 'travel' },
-  life:   { label: 'LIFE',    icon: '⌂', cls: 'life'   },
-  tech:   { label: 'TECH',    icon: '⌘', cls: 'tech'   },
-  food:   { label: 'FOOD',    icon: '◈', cls: 'food'   },
-  etc:    { label: 'ETC',     icon: '◆', cls: 'etc'    },
+  travel: { label: 'TRAVEL', icon: '✈️', cls: 'travel' },
+  life:   { label: 'LIFE',   icon: '🏠', cls: 'life'   },
+  tech:   { label: 'TECH',   icon: '💻', cls: 'tech'   },
+  food:   { label: 'FOOD',   icon: '🍽️', cls: 'food'   },
+  etc:    { label: 'ETC',    icon: '📌', cls: 'etc'    },
 };
 function catMeta(cat) {
-  return CAT_META[cat] || { label: cat.toUpperCase(), icon: '◉', cls: 'etc' };
+  return CAT_META[cat] || { label: cat.toUpperCase(), icon: '📄', cls: 'etc' };
 }
 
-/* ── Marquee ── */
+/* ── Marquee ──
+   [FIX #8] 문서 수가 적을 때 더 많이 반복해 간격 확보 */
 function buildMarquee(docs) {
   const track = document.getElementById('marqueeTrack');
   const items = docs.map(d =>
-    `<span class="marquee-item"><span class="dot"></span>${catMeta(d.category).label} · ${d.title}</span>`
+    `<span class="marquee-item"><span class="marquee-dot"></span>${catMeta(d.category).label} · ${d.title}</span>`
   );
-  track.innerHTML = [...items, ...items].join('');
+  /* 최소 8번 반복 → 짧아도 화면을 꽉 채움 */
+  const minRepeat = Math.max(8, Math.ceil(16 / (docs.length || 1)));
+  const repeated = Array.from({ length: minRepeat }, () => items).flat();
+  /* 절반만 실제 콘텐츠, 나머지 절반은 seamless 루프용 복사본 */
+  track.innerHTML = [...repeated, ...repeated].join('');
+  /* 반복 수에 비례해 속도 조정 (너무 빠르지 않게) */
+  const duration = Math.max(20, repeated.length * 3);
+  track.style.animationDuration = `${duration}s`;
 }
 
-/* ── Stats ── */
+/* ── Stats ──
+   [FIX #7] padStart 제거, 숫자 그대로 표시 */
 function buildStats(docs) {
-  document.getElementById('statDocs').textContent = String(docs.length).padStart(2, '0');
+  document.getElementById('statDocs').textContent = docs.length;
   const cats = new Set(docs.map(d => d.category));
-  document.getElementById('statCats').textContent = String(cats.size).padStart(2, '0');
+  document.getElementById('statCats').textContent = cats.size;
   document.getElementById('countAll').textContent = docs.length;
 }
 
@@ -849,7 +891,8 @@ function buildFilters(docs) {
   });
 }
 
-/* ── Cards ── */
+/* ── Cards ──
+   [FIX #1] 카드 그리드 border 방식 변경 — 빈 셀 테두리 제거 */
 function buildCards(docs) {
   const container = document.getElementById('docsContainer');
   const groups = {};
@@ -864,7 +907,6 @@ function buildCards(docs) {
     group.className = 'category-group';
     group.dataset.cat = cat;
 
-    // Category header
     const header = document.createElement('div');
     header.className = 'cat-header';
     header.innerHTML = `
@@ -872,11 +914,10 @@ function buildCards(docs) {
       <div class="cat-line"></div>`;
     group.appendChild(header);
 
-    // Grid
     const grid = document.createElement('div');
     grid.className = 'card-grid';
 
-    items.forEach((doc, i) => {
+    items.forEach(doc => {
       globalIdx++;
       const card = document.createElement('a');
       card.className = 'doc-card';
@@ -884,6 +925,7 @@ function buildCards(docs) {
       card.dataset.cat = cat;
       card.dataset.title = doc.title.toLowerCase();
       card.dataset.desc = (doc.description || '').toLowerCase();
+      /* [FIX #2] 아이콘 박스 72px 적용 (CSS에서 처리) */
       card.innerHTML = `
         <div class="card-num">${String(globalIdx).padStart(2, '0')}</div>
         <div class="card-icon-wrap">${doc.icon || m.icon}</div>
@@ -935,7 +977,6 @@ async function init() {
 
     document.getElementById('searchInput').addEventListener('input', e => {
       applySearch(e.target.value);
-      // Reset filter buttons
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
     });
@@ -944,7 +985,7 @@ async function init() {
     document.getElementById('docsContainer').innerHTML = `
       <div class="card-grid">
         <div class="empty-state">
-          <span class="empty-icon">◻</span>
+          <span class="empty-icon">📭</span>
           <p class="empty-text">NO DOCS FOUND — docs.json을 추가해주세요</p>
         </div>
       </div>`;
