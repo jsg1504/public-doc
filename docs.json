@@ -6,5 +6,13 @@
     "category": "travel",
     "icon": "🌸",
     "date": "2026-05-01"
+  },
+  {
+    "title": "전세계 주요도시 미세먼지 농도 비교 · PM2.5 Atlas 2026",
+    "description": "IQAir 2025 World Air Quality Report 기반으로 전 세계 주요 도시의 PM2.5 연평균 농도를 비교한 문서입니다.",
+    "path": "/etc/pm25-2025",
+    "category": "etc",
+    "icon": "🌫️",
+    "date": "2026-05-14"
   }
 ]
