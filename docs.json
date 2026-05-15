@@ -22,5 +22,13 @@
     "category": "etc",
     "icon": "🏦",
     "date": "2026-05-15"
+  },
+  {
+    "title": "퇴직연금 시뮬레이터 · DB vs DC",
+    "description": "현재 임금, 근속, 임금상승률, 운용수익률 가정을 입력해 DB 유지와 DC 전환 시나리오의 퇴직급여를 비교하는 시뮬레이터입니다.",
+    "path": "/etc/retire-pension-simulator",
+    "category": "etc",
+    "icon": "🧮",
+    "date": "2026-05-15"
   }
 ]
