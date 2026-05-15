@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퇴직연금 시뮬레이터 · DB vs DC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --bg-elev: #18171450;
+    --panel: #1c1b18;
+    --panel-2: #232120;
+    --ink: #f0ebe0;
+    --ink-dim: #a9a299;
+    --muted: #6e685f;
+    --rule: #2e2c28;
+    --db: #d4a857;
+    --db-soft: #6b5530;
+    --dc: #6ba9c4;
+    --dc-soft: #2f5566;
+    --accent: #e85a3c;
+    --green: #82b366;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at top left, rgba(212, 168, 87, 0.08), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(107, 169, 196, 0.06), transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .app {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* Header */
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  header.top .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  header.top .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Title */
+  .title-block {
+    margin-bottom: 48px;
+  }
+
+  .title-block h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .title-block h1 .italic { font-style: italic; color: var(--db); }
+  .title-block h1 .italic-dc { font-style: italic; color: var(--dc); }
+
+  .title-block p {
+    color: var(--ink-dim);
+    max-width: 640px;
+    font-size: 15px;
+  }
+
+  /* Main layout */
+  .grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+  }
+
+  /* Control panel */
+  .controls {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px;
+    position: sticky;
+    top: 20px;
+    align-self: start;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+
+  .controls h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .control-group {
+    margin-bottom: 22px;
+  }
+
+  .control-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+  }
+
+  .control-group label .value {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .control-group label .value.db-c { color: var(--db); }
+  .control-group label .value.dc-c { color: var(--dc); }
+
+  input[type="number"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 10px 12px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  input[type="number"]:focus {
+    outline: none;
+    border-color: var(--db);
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+
+  input[type="range"].db-range::-webkit-slider-thumb { background: var(--db); }
+  input[type="range"].dc-range::-webkit-slider-thumb { background: var(--dc); }
+  input[type="range"].accent-range::-webkit-slider-thumb { background: var(--accent); }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+
+  .section-divider {
+    margin: 28px 0 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-divider.db-section { color: var(--db); }
+  .section-divider.dc-section { color: var(--dc); }
+
+  /* Results panel */
+  .results {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Headline numbers */
+  .headline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .big-card {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .big-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .big-card.db::before { background: var(--db); }
+  .big-card.dc::before { background: var(--dc); }
+
+  .big-card .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+  }
+
+  .big-card .label {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .big-card.db .label { color: var(--db); }
+  .big-card.dc .label { color: var(--dc); }
+
+  .big-card .amount {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .big-card .amount .unit {
+    font-size: 0.5em;
+    color: var(--ink-dim);
+    margin-left: 4px;
+    font-style: italic;
+  }
+
+  .big-card .sub {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--ink-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Verdict bar */
+  .verdict {
+    background: var(--panel-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .verdict .text {
+    flex: 1;
+  }
+
+  .verdict .text .heading {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 6px;
+  }
+
+  .verdict .text .winner {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .verdict .diff {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+
+  .verdict .diff.win-db { color: var(--db); }
+  .verdict .diff.win-dc { color: var(--dc); }
+
+  /* Chart panel */
+  .chart-panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px;
+  }
+
+  .chart-panel .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .chart-panel h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .legend {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--ink-dim);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .legend-swatch {
+    width: 16px;
+    height: 2px;
+  }
+
+  .legend-swatch.db { background: var(--db); }
+  .legend-swatch.dc { background: var(--dc); }
+  .legend-swatch.switch { background: var(--accent); border: none; height: 16px; width: 2px; }
+
+  #chart {
+    width: 100%;
+    height: 380px;
+  }
+
+  /* Sensitivity table */
+  .sensitivity {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 28px;
+  }
+
+  .sensitivity h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .sensitivity .desc {
+    color: var(--ink-dim);
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+
+  thead th {
+    text-align: right;
+    padding: 12px 14px;
+    background: var(--bg);
+    color: var(--ink-dim);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  thead th:first-child { text-align: left; }
+
+  tbody td {
+    padding: 12px 14px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  tbody td:first-child {
+    text-align: left;
+    color: var(--ink-dim);
+  }
+
+  tbody tr.highlight {
+    background: rgba(212, 168, 87, 0.05);
+  }
+
+  tbody tr.highlight td:first-child::after {
+    content: ' ←';
+    color: var(--db);
+  }
+
+  .cell-win { color: var(--db); font-weight: 500; }
+  .cell-lose { color: var(--dc); font-weight: 500; }
+  .cell-neutral { color: var(--ink); }
+
+  /* Notes */
+  .notes {
+    background: var(--bg-elev);
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+  }
+
+  .notes strong { color: var(--ink); }
+  .notes ul { margin: 8px 0 0 18px; }
+  .notes li { margin-bottom: 4px; }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .grid { grid-template-columns: 1fr; }
+    .controls { position: static; max-height: none; }
+    .headline { grid-template-columns: 1fr; }
+    .verdict { flex-direction: column; align-items: flex-start; }
+    .legend { flex-wrap: wrap; gap: 12px; }
+  }
+
+  /* Scrollbar */
+  .controls::-webkit-scrollbar { width: 6px; }
+  .controls::-webkit-scrollbar-track { background: transparent; }
+  .controls::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+  .number-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <span class="dot"></span>
+      <span>Retirement Simulator · v1.0</span>
+    </div>
+    <div>KRW · Monthly compounding</div>
+  </header>
+
+  <div class="title-block">
+    <h1>
+      <span class="italic">DB</span> vs <span class="italic-dc">DC</span>,<br>
+      당신의 시나리오는?
+    </h1>
+    <p>현재 임금, 근속, 임금상승률, 운용수익률 가정을 입력하면 정년까지의 최종 퇴직급여를 비교합니다. DB 유지 시나리오와 특정 시점에 DC로 전환하는 시나리오를 동시에 시뮬레이션합니다.</p>
+  </div>
+
+  <div class="grid">
+    <!-- Controls -->
+    <aside class="controls">
+      <h2>Parameters</h2>
+
+      <!-- Personal -->
+      <div class="control-group">
+        <label>현재 나이 <span class="value" id="ageOut">35세</span></label>
+        <input type="range" id="age" min="25" max="58" value="35">
+      </div>
+
+      <div class="control-group">
+        <label>현재 근속연수 <span class="value" id="tenureOut">5년</span></label>
+        <input type="range" id="tenure" min="0" max="30" value="5">
+      </div>
+
+      <div class="control-group">
+        <label>정년 <span class="value" id="retireOut">60세</span></label>
+        <input type="range" id="retire" min="55" max="65" value="60">
+      </div>
+
+      <div class="control-group">
+        <label>현재 월 평균임금 <span class="value" id="salaryOut">500만원</span></label>
+        <input type="range" id="salary" min="200" max="1500" step="10" value="500">
+      </div>
+
+      <div class="control-group">
+        <label>연 임금상승률 <span class="value" id="raiseOut">3.0%</span></label>
+        <input type="range" id="raise" min="0" max="8" step="0.1" value="3">
+      </div>
+
+      <!-- Peak wage -->
+      <div class="section-divider">임금피크제 (선택)</div>
+
+      <div class="control-group">
+        <label>적용 여부 <span class="value" id="peakOut">미적용</span></label>
+        <input type="range" id="peak" min="0" max="1" step="1" value="0">
+      </div>
+
+      <div class="control-group" id="peakAgeGroup" style="display:none">
+        <label>피크 시작 나이 <span class="value" id="peakAgeOut">56세</span></label>
+        <input type="range" id="peakAge" min="50" max="60" value="56">
+      </div>
+
+      <div class="control-group" id="peakCutGroup" style="display:none">
+        <label>임금 감액률 <span class="value" id="peakCutOut">30%</span></label>
+        <input type="range" id="peakCut" min="10" max="50" step="5" value="30">
+      </div>
+
+      <!-- DC scenario -->
+      <div class="section-divider dc-section">DC 전환 시나리오</div>
+
+      <div class="control-group">
+        <label>전환 나이 <span class="value dc-c" id="switchOut">지금 (35세)</span></label>
+        <input type="range" id="switch" min="25" max="60" value="35" class="dc-range">
+      </div>
+
+      <div class="control-group">
+        <label>DC 연평균 수익률 <span class="value dc-c" id="returnOut">5.0%</span></label>
+        <input type="range" id="return" min="-2" max="12" step="0.1" value="5" class="dc-range">
+      </div>
+
+    </aside>
+
+    <!-- Results -->
+    <main class="results">
+
+      <!-- Headline cards -->
+      <div class="headline">
+        <div class="big-card db">
+          <div class="tag">Scenario A</div>
+          <div class="label">DB형 유지</div>
+          <div class="amount"><span id="dbAmount">0</span><span class="unit">만원</span></div>
+          <div class="sub" id="dbSub">최종 평균임금 × 근속연수</div>
+        </div>
+        <div class="big-card dc">
+          <div class="tag">Scenario B</div>
+          <div class="label">DC형 전환</div>
+          <div class="amount"><span id="dcAmount">0</span><span class="unit">만원</span></div>
+          <div class="sub" id="dcSub">전환 시점 적립금 + 신규 납입금 운용</div>
+        </div>
+      </div>
+
+      <!-- Verdict -->
+      <div class="verdict">
+        <div class="text">
+          <div class="heading">Result</div>
+          <div class="winner" id="winner">시나리오를 비교하는 중...</div>
+        </div>
+        <div class="diff" id="diff">—</div>
+      </div>
+
+      <!-- Chart -->
+      <div class="chart-panel">
+        <div class="chart-header">
+          <h3>연도별 적립금 추이</h3>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-swatch db"></div>DB 유지</div>
+            <div class="legend-item"><div class="legend-swatch dc"></div>DC 전환</div>
+            <div class="legend-item"><div class="legend-swatch switch"></div>전환 시점</div>
+          </div>
+        </div>
+        <svg id="chart" viewBox="0 0 800 380" preserveAspectRatio="none"></svg>
+      </div>
+
+      <!-- Sensitivity table -->
+      <div class="sensitivity">
+        <h3>DC 수익률 민감도 분석</h3>
+        <p class="desc">DC형 연평균 수익률에 따라 최종 퇴직급여가 어떻게 달라지는지 — DB 유지 시나리오와의 차이를 함께 표시합니다.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>DC 연평균 수익률</th>
+              <th>DC 최종 (만원)</th>
+              <th>DB 최종 (만원)</th>
+              <th>차액 (만원)</th>
+              <th>판정</th>
+            </tr>
+          </thead>
+          <tbody id="sensTable"></tbody>
+        </table>
+      </div>
+
+      <!-- Notes -->
+      <div class="notes">
+        <strong>시뮬레이션 가정</strong>
+        <ul>
+          <li>DB 퇴직급여 = 퇴직 직전 3개월 평균임금 × 근속연수 (만근 가정)</li>
+          <li>DC 적립 = 매년 임금총액의 1/12 납입 + 월복리 운용</li>
+          <li>DC 전환 시점 적립금 = 전환 시점의 DB 환산액 (평균임금 × 그 시점까지의 근속연수)을 그대로 이전한다고 가정</li>
+          <li>세금, 운용보수, 인플레이션은 미반영 (명목 금액 기준)</li>
+          <li>임금피크제 적용 시 시작 연도부터 정년까지 매년 동일 감액률 적용</li>
+        </ul>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+// ===== State =====
+const state = {
+  age: 35,
+  tenure: 5,
+  retire: 60,
+  salary: 500,      // 만원/월
+  raise: 3.0,       // %
+  peak: 0,          // 0/1
+  peakAge: 56,
+  peakCut: 30,      // %
+  switch: 35,       // DC 전환 나이
+  return: 5.0,      // %
+};
+
+// ===== Helpers =====
+const fmt = (n) => Math.round(n).toLocaleString('ko-KR');
+
+// 특정 나이에서의 월 임금 계산
+function salaryAtAge(targetAge) {
+  const yearsFromNow = targetAge - state.age;
+  if (yearsFromNow < 0) return state.salary;
+  let s = state.salary * Math.pow(1 + state.raise / 100, yearsFromNow);
+  // 임금피크 적용
+  if (state.peak && targetAge >= state.peakAge) {
+    s = s * (1 - state.peakCut / 100);
+  }
+  return s;
+}
+
+// ===== Core simulation =====
+// 매 연령(연 단위)별 DB 환산액과 DC 적립액을 계산
+function simulate() {
+  const startAge = state.age;
+  const endAge = state.retire;
+  const startTenure = state.tenure;
+  const switchAge = Math.max(startAge, Math.min(state.switch, endAge));
+
+  const series = []; // { age, dbValue, dcValue }
+
+  // DC 적립금
+  let dcBalance = 0;
+  let switched = false;
+  const monthlyRate = state.return / 100 / 12;
+
+  for (let age = startAge; age <= endAge; age++) {
+    const tenureAtAge = startTenure + (age - startAge);
+    const monthlySalary = salaryAtAge(age);
+
+    // DB 환산액 = 그 시점 월 평균임금 × 근속연수
+    const dbValue = monthlySalary * tenureAtAge;
+
+    // DC 전환 시점에서 DB 환산액을 그대로 이전
+    if (age >= switchAge && !switched) {
+      dcBalance = dbValue;
+      switched = true;
+    }
+
+    // 전환 이후 매년 (임금총액의 1/12 = 월 평균임금) 납입 + 운용
+    if (switched && age > switchAge) {
+      // 매월 (월급) 납입 + 월복리
+      const annualContribution = monthlySalary; // 연 임금총액/12 = 월 평균임금 1개월치
+      // 정확히 하려면 매월 simulation
+      // 1년치를 월별로 처리
+      for (let m = 0; m < 12; m++) {
+        dcBalance = dcBalance * (1 + monthlyRate) + annualContribution / 12;
+      }
+    }
+
+    series.push({
+      age,
+      tenure: tenureAtAge,
+      monthlySalary,
+      dbValue,
+      dcValue: switched ? dcBalance : dbValue, // 전환 전엔 DB와 동일
+      switched: switched && age >= switchAge,
+    });
+  }
+
+  return { series, switchAge };
+}
+
+// ===== Render =====
+function renderChart(series, switchAge) {
+  const svg = document.getElementById('chart');
+  const W = 800, H = 380;
+  const padL = 60, padR = 20, padT = 20, padB = 36;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+
+  const maxVal = Math.max(...series.map(d => Math.max(d.dbValue, d.dcValue)));
+  const minAge = series[0].age;
+  const maxAge = series[series.length - 1].age;
+
+  const xScale = (age) => padL + ((age - minAge) / (maxAge - minAge)) * innerW;
+  const yScale = (v) => padT + innerH - (v / maxVal) * innerH;
+
+  // Build paths
+  const dbPath = series.map((d, i) => `${i === 0 ? 'M' : 'L'} ${xScale(d.age)} ${yScale(d.dbValue)}`).join(' ');
+  const dcPath = series.map((d, i) => `${i === 0 ? 'M' : 'L'} ${xScale(d.age)} ${yScale(d.dcValue)}`).join(' ');
+
+  // Area under DC
+  const dcArea = dcPath + ` L ${xScale(maxAge)} ${padT + innerH} L ${xScale(minAge)} ${padT + innerH} Z`;
+  const dbArea = dbPath + ` L ${xScale(maxAge)} ${padT + innerH} L ${xScale(minAge)} ${padT + innerH} Z`;
+
+  // Y axis ticks
+  const yTicks = [];
+  const tickCount = 5;
+  for (let i = 0; i <= tickCount; i++) {
+    const v = (maxVal * i) / tickCount;
+    yTicks.push({ v, y: yScale(v) });
+  }
+
+  // X axis ticks
+  const ageSpan = maxAge - minAge;
+  const xStep = ageSpan > 30 ? 5 : (ageSpan > 15 ? 2 : 1);
+  const xTicks = [];
+  for (let a = minAge; a <= maxAge; a += xStep) {
+    xTicks.push(a);
+  }
+  if (xTicks[xTicks.length - 1] !== maxAge) xTicks.push(maxAge);
+
+  // Final values
+  const final = series[series.length - 1];
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="dbGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d4a857" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#d4a857" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="dcGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#6ba9c4" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#6ba9c4" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    
+    <!-- Grid lines -->
+    ${yTicks.map(t => `
+      <line x1="${padL}" y1="${t.y}" x2="${W - padR}" y2="${t.y}" 
+            stroke="#2e2c28" stroke-width="1" stroke-dasharray="2,4"/>
+      <text x="${padL - 8}" y="${t.y + 4}" fill="#6e685f" font-size="10" 
+            text-anchor="end" font-family="JetBrains Mono">${fmt(t.v)}</text>
+    `).join('')}
+    
+    <!-- X axis -->
+    <line x1="${padL}" y1="${padT + innerH}" x2="${W - padR}" y2="${padT + innerH}" 
+          stroke="#2e2c28" stroke-width="1"/>
+    ${xTicks.map(a => `
+      <text x="${xScale(a)}" y="${padT + innerH + 18}" fill="#6e685f" font-size="10" 
+            text-anchor="middle" font-family="JetBrains Mono">${a}</text>
+    `).join('')}
+    
+    <!-- Switch line -->
+    ${switchAge > minAge ? `
+      <line x1="${xScale(switchAge)}" y1="${padT}" x2="${xScale(switchAge)}" y2="${padT + innerH}" 
+            stroke="#e85a3c" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.8"/>
+      <text x="${xScale(switchAge) + 6}" y="${padT + 14}" fill="#e85a3c" font-size="10" 
+            font-family="JetBrains Mono" font-weight="500">DC 전환</text>
+    ` : ''}
+    
+    <!-- Areas -->
+    <path d="${dbArea}" fill="url(#dbGrad)"/>
+    <path d="${dcArea}" fill="url(#dcGrad)"/>
+    
+    <!-- Lines -->
+    <path d="${dbPath}" fill="none" stroke="#d4a857" stroke-width="2.5"/>
+    <path d="${dcPath}" fill="none" stroke="#6ba9c4" stroke-width="2.5"/>
+    
+    <!-- End dots -->
+    <circle cx="${xScale(final.age)}" cy="${yScale(final.dbValue)}" r="5" fill="#d4a857"/>
+    <circle cx="${xScale(final.age)}" cy="${yScale(final.dcValue)}" r="5" fill="#6ba9c4"/>
+  `;
+}
+
+function renderSensitivity() {
+  const tbody = document.getElementById('sensTable');
+  const returns = [-1, 0, 2, 3, 4, 5, 6, 7, 8, 10];
+  const currentReturn = state.return;
+
+  // DB는 수익률과 무관 — 한 번만 계산
+  const origReturn = state.return;
+
+  const rows = returns.map(r => {
+    state.return = r;
+    const { series } = simulate();
+    const final = series[series.length - 1];
+    return { r, db: final.dbValue, dc: final.dcValue };
+  });
+
+  state.return = origReturn;
+
+  tbody.innerHTML = rows.map(row => {
+    const diff = row.dc - row.db;
+    const winner = diff > 0 ? 'DC 우세' : (diff < 0 ? 'DB 우세' : '동일');
+    const diffClass = diff > 0 ? 'cell-lose' : (diff < 0 ? 'cell-win' : 'cell-neutral');
+    const isCurrent = Math.abs(row.r - currentReturn) < 0.5;
+    return `
+      <tr class="${isCurrent ? 'highlight' : ''}">
+        <td>${row.r > 0 ? '+' : ''}${row.r.toFixed(1)}%</td>
+        <td>${fmt(row.dc)}</td>
+        <td>${fmt(row.db)}</td>
+        <td class="${diffClass}">${diff > 0 ? '+' : ''}${fmt(diff)}</td>
+        <td class="${diffClass}">${winner}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function render() {
+  const { series, switchAge } = simulate();
+  const final = series[series.length - 1];
+
+  document.getElementById('dbAmount').textContent = fmt(final.dbValue);
+  document.getElementById('dcAmount').textContent = fmt(final.dcValue);
+
+  document.getElementById('dbSub').textContent = 
+    `${state.retire}세 시점 월급 ${fmt(final.monthlySalary)}만원 × 근속 ${final.tenure}년`;
+  document.getElementById('dcSub').textContent = 
+    `${switchAge}세 전환 · 연 ${state.return.toFixed(1)}% 수익 · ${state.retire - switchAge}년 운용`;
+
+  // Verdict
+  const diff = final.dcValue - final.dbValue;
+  const winnerEl = document.getElementById('winner');
+  const diffEl = document.getElementById('diff');
+
+  if (Math.abs(diff) < 1) {
+    winnerEl.innerHTML = `<em>거의 동일한 결과</em>입니다.`;
+    diffEl.textContent = '±0';
+    diffEl.className = 'diff';
+  } else if (diff > 0) {
+    winnerEl.innerHTML = `<em>DC 전환</em>이 더 유리합니다.`;
+    diffEl.textContent = `+${fmt(diff)} 만원`;
+    diffEl.className = 'diff win-dc';
+  } else {
+    winnerEl.innerHTML = `<em>DB 유지</em>가 더 유리합니다.`;
+    diffEl.textContent = `+${fmt(-diff)} 만원`;
+    diffEl.className = 'diff win-db';
+  }
+
+  renderChart(series, switchAge);
+  renderSensitivity();
+}
+
+// ===== Bindings =====
+function bind(id, key, suffix = '', formatter = null) {
+  const input = document.getElementById(id);
+  const out = document.getElementById(id + 'Out');
+  input.addEventListener('input', () => {
+    state[key] = parseFloat(input.value);
+    if (formatter) {
+      out.textContent = formatter(state[key]);
+    } else {
+      out.textContent = state[key] + suffix;
+    }
+    // Sync switch min/max
+    if (id === 'age') {
+      document.getElementById('switch').min = state.age;
+      if (state.switch < state.age) {
+        state.switch = state.age;
+        document.getElementById('switch').value = state.age;
+      }
+    }
+    if (id === 'retire') {
+      document.getElementById('switch').max = state.retire;
+      if (state.switch > state.retire) {
+        state.switch = state.retire;
+        document.getElementById('switch').value = state.retire;
+      }
+    }
+    // Update switch label
+    if (state.switch <= state.age) {
+      document.getElementById('switchOut').textContent = `지금 (${state.age}세)`;
+    } else {
+      document.getElementById('switchOut').textContent = `${state.switch}세`;
+    }
+    // Peak toggle
+    if (id === 'peak') {
+      document.getElementById('peakAgeGroup').style.display = state.peak ? 'block' : 'none';
+      document.getElementById('peakCutGroup').style.display = state.peak ? 'block' : 'none';
+      document.getElementById('peakOut').textContent = state.peak ? '적용' : '미적용';
+    }
+    render();
+  });
+}
+
+bind('age', 'age', '세');
+bind('tenure', 'tenure', '년');
+bind('retire', 'retire', '세');
+bind('salary', 'salary', '', v => fmt(v) + '만원');
+bind('raise', 'raise', '', v => v.toFixed(1) + '%');
+bind('peak', 'peak');
+bind('peakAge', 'peakAge', '세');
+bind('peakCut', 'peakCut', '%');
+bind('switch', 'switch', '', v => v <= state.age ? `지금 (${state.age}세)` : `${v}세`);
+bind('return', 'return', '', v => v.toFixed(1) + '%');
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>
