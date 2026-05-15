@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퇴직연금 정리 · DB vs DC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=Noto+Serif+KR:wght@300;400;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f4efe6;
+    --paper-deep: #ebe4d5;
+    --accent: #8b2c1f;
+    --accent-soft: #c4654a;
+    --gold: #b8924a;
+    --green: #4a6b3a;
+    --rule: #c9bfa8;
+    --muted: #6b6256;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif KR', 'Fraunces', serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: multiply;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px 120px;
+    position: relative;
+  }
+
+  /* Masthead */
+  .masthead {
+    border-top: 3px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+
+  .masthead .left { display: flex; gap: 24px; }
+  .masthead .vol { color: var(--accent); font-weight: 500; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 40px;
+    margin-bottom: 80px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', 'Noto Serif KR', serif;
+    font-size: clamp(60px, 9vw, 130px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .hero h1 .italic {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .hero h1 .small {
+    display: block;
+    font-size: 0.4em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-top: 16px;
+    color: var(--muted);
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  .hero-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-align: right;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .hero-meta strong { color: var(--ink); display: block; font-size: 13px; margin-bottom: 4px;}
+
+  /* Deck / intro */
+  .deck {
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 300;
+    max-width: 780px;
+    margin-bottom: 100px;
+    color: var(--ink);
+    font-family: 'Fraunces', 'Noto Serif KR', serif;
+    font-style: italic;
+  }
+
+  .deck::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 72px;
+    line-height: 0.8;
+    float: left;
+    padding: 8px 12px 0 0;
+    font-weight: 600;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* Section headers */
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  h2 {
+    font-family: 'Fraunces', 'Noto Serif KR', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 40px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  h2 em { font-style: italic; color: var(--accent); font-weight: 300; }
+
+  /* Comparison grid - the hero diagram */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    margin-bottom: 100px;
+    align-items: stretch;
+  }
+
+  .pillar {
+    background: var(--paper-deep);
+    padding: 48px 36px;
+    position: relative;
+    border: 1px solid var(--ink);
+  }
+
+  .pillar.db {
+    background: #2a2620;
+    color: var(--paper);
+    border-color: #2a2620;
+  }
+
+  .pillar-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+
+  .pillar-title {
+    font-family: 'Fraunces', 'Noto Serif KR', serif;
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .pillar-subtitle {
+    font-size: 14px;
+    font-style: italic;
+    opacity: 0.7;
+    margin-bottom: 32px;
+    font-family: 'Fraunces', serif;
+  }
+
+  .pillar-formula {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    padding: 20px 0;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.85;
+    margin-bottom: 28px;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+
+  .pillar dl {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 14px 20px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .pillar dt {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    padding-top: 3px;
+  }
+
+  .pillar dd { font-weight: 400; }
+  .pillar.db dd strong { color: var(--accent-soft); }
+  .pillar.dc dd strong { color: var(--accent); }
+
+  .versus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 48px;
+    color: var(--muted);
+    background: var(--paper);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* Section spacing */
+  section { margin-bottom: 100px; }
+
+  /* DC investment types */
+  .investment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 32px;
+  }
+
+  .invest-card {
+    border: 1px solid var(--rule);
+    padding: 36px 32px;
+    background: var(--paper-deep);
+    position: relative;
+  }
+
+  .invest-card.safe { background: #f0ead9; }
+  .invest-card.risk { background: #ebe0c5; }
+
+  .invest-card .risk-meter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--green), var(--green));
+  }
+
+  .invest-card.risk .risk-meter {
+    background: linear-gradient(to right, var(--green) 0%, var(--gold) 50%, var(--accent) 100%);
+  }
+
+  .invest-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .invest-card h3 .en {
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-left: 6px;
+  }
+
+  .invest-card .lead {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .invest-card ul {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .invest-card li {
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--rule);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .invest-card li:last-child { border-bottom: none; }
+  .invest-card li .name { font-weight: 600; }
+  .invest-card li .desc { color: var(--muted); font-size: 12px; text-align: right; flex: 1; font-style: italic; }
+
+  /* 70/30 rule callout */
+  .rule-callout {
+    margin-top: 40px;
+    padding: 40px;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .rule-bar {
+    width: 280px;
+    height: 80px;
+    display: flex;
+    border: 2px solid var(--paper);
+  }
+
+  .rule-bar .risk-portion {
+    width: 70%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-style: italic;
+  }
+
+  .rule-bar .safe-portion {
+    width: 30%;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-style: italic;
+  }
+
+  .rule-callout .text h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .rule-callout .text p {
+    font-size: 14px;
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  /* Default option timeline */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 32px;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: var(--ink);
+    z-index: 0;
+  }
+
+  .tl-step {
+    position: relative;
+    text-align: center;
+    padding: 0 12px;
+  }
+
+  .tl-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    margin: 51px auto 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tl-step:nth-child(1) .tl-dot { background: var(--green); }
+  .tl-step:nth-child(2) .tl-dot { background: var(--gold); }
+  .tl-step:nth-child(3) .tl-dot { background: var(--accent-soft); }
+  .tl-step:nth-child(4) .tl-dot { background: var(--accent); }
+
+  .tl-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .tl-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .tl-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  /* DB advantage/disadvantage */
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    margin-top: 32px;
+    border: 1px solid var(--rule);
+  }
+
+  .pc-col {
+    background: var(--paper-deep);
+    padding: 36px 32px;
+  }
+
+  .pc-col h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pc-col.pro h4 { color: var(--green); }
+  .pc-col.con h4 { color: var(--accent); }
+
+  .pc-col ul { list-style: none; }
+  .pc-col li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .pc-col.pro li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: var(--green);
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .pc-col.con li::before {
+    content: '−';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    color: var(--accent);
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  /* Comparison table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+
+  table thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 18px 20px;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  table thead th:nth-child(2) { background: #2a2620; }
+  table thead th:nth-child(3) { background: var(--accent); }
+
+  table tbody td {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-deep);
+    line-height: 1.5;
+  }
+
+  table tbody td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--paper);
+    width: 18%;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 60px 0;
+    padding: 60px 0;
+    border-top: 3px double var(--ink);
+    border-bottom: 3px double var(--ink);
+    text-align: center;
+  }
+
+  .pullquote q {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    quotes: "“" "”";
+    display: block;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .pullquote q::before { color: var(--accent); font-size: 1.2em; }
+  .pullquote q::after { color: var(--accent); font-size: 1.2em; }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 120px;
+    padding-top: 32px;
+    border-top: 1px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Decorative */
+  .ornament {
+    text-align: center;
+    margin: 40px 0;
+    font-family: 'Fraunces', serif;
+    color: var(--gold);
+    font-size: 20px;
+    letter-spacing: 1em;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero, .deck, section { animation: fadeUp 0.8s ease-out backwards; }
+  .deck { animation-delay: 0.2s; }
+  section:nth-of-type(1) { animation-delay: 0.4s; }
+  section:nth-of-type(2) { animation-delay: 0.5s; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .container { padding: 30px 20px 80px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-meta { text-align: left; }
+    .comparison { grid-template-columns: 1fr; }
+    .versus { padding: 20px 0; }
+    .investment-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; gap: 32px 0; }
+    .timeline::before { display: none; }
+    .pros-cons { grid-template-columns: 1fr; }
+    .rule-callout { grid-template-columns: 1fr; }
+    .rule-bar { width: 100%; }
+    table { font-size: 12px; }
+    table tbody td { padding: 12px; }
+    .pillar dl { grid-template-columns: 1fr; gap: 4px 0; }
+    .pillar dt { padding-top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="left">
+      <span class="vol">Vol. 01</span>
+      <span>Retirement Pension Quarterly</span>
+    </div>
+    <div>한국 · 2026</div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>
+      퇴직연금,<br>
+      <span class="italic">두 갈래의 길.</span>
+      <span class="small">DB와 DC, 운용의 모든 것을 정리하다</span>
+    </h1>
+    <div class="hero-meta">
+      <strong>A Field Guide</strong>
+      To Korean<br>
+      Retirement Plans<br>
+      &mdash;<br>
+      DB · DC · Default Option
+    </div>
+  </header>
+
+  <!-- Deck / Intro -->
+  <p class="deck">
+    퇴직연금은 노후를 준비하는 가장 큰 자산 중 하나다. 같은 회사를 다녔어도 어떤 제도를 선택하느냐, 어떻게 운용하느냐에 따라 수령액은 크게 달라진다. DB와 DC, 그리고 2022년 도입된 디폴트옵션까지 — 핵심을 한 장에 정리했다.
+  </p>
+
+  <!-- Section 1: DB vs DC -->
+  <section>
+    <div class="section-num">§ 01 &nbsp;·&nbsp; The Two Pillars</div>
+    <h2>책임은 누가, <em>위험은 누구의 것인가</em></h2>
+
+    <div class="comparison">
+      <!-- DB Pillar -->
+      <div class="pillar db">
+        <div class="pillar-tag">Defined Benefit</div>
+        <div class="pillar-title">DB형</div>
+        <div class="pillar-subtitle">확정급여형 · 받을 돈이 정해진다</div>
+        <div class="pillar-formula">
+          평균임금 × 근속연수
+        </div>
+        <dl>
+          <dt>급여 수준</dt>
+          <dd><strong>사전 확정</strong> — 퇴직 직전 3개월 평균임금 기준</dd>
+          <dt>운용 주체</dt>
+          <dd>회사 (사용자)</dd>
+          <dt>운용 위험</dt>
+          <dd>회사 부담. 미달 시 회사가 추가 납입</dd>
+          <dt>유리한 경우</dt>
+          <dd>호봉제 · 임금 상승이 꾸준한 회사</dd>
+          <dt>최소적립</dt>
+          <dd>예상 부채의 100% 사외적립 의무</dd>
+        </dl>
+      </div>
+
+      <div class="versus">vs</div>
+
+      <!-- DC Pillar -->
+      <div class="pillar dc">
+        <div class="pillar-tag">Defined Contribution</div>
+        <div class="pillar-title">DC형</div>
+        <div class="pillar-subtitle">확정기여형 · 넣는 돈이 정해진다</div>
+        <div class="pillar-formula">
+          연 임금총액 ÷ 12 + 운용수익
+        </div>
+        <dl>
+          <dt>급여 수준</dt>
+          <dd><strong>운용 성과에 따라 변동</strong></dd>
+          <dt>운용 주체</dt>
+          <dd>근로자 본인</dd>
+          <dt>운용 위험</dt>
+          <dd>근로자 부담</dd>
+          <dt>유리한 경우</dt>
+          <dd>임금피크제 적용 · 직접 운용 의지가 있을 때</dd>
+          <dt>위험자산</dt>
+          <dd>적립금의 70% 한도</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="ornament">❦ ❦ ❦</div>
+  </section>
+
+  <!-- Pull quote -->
+  <div class="pullquote">
+    <q>DC형은 회사가 넣어주는 돈은 정해져 있고 받는 돈이 달라지는 구조,<br>DB형은 그 반대다.</q>
+    <cite>— 제도의 본질</cite>
+  </div>
+
+  <!-- Section 2: DC investment options -->
+  <section>
+    <div class="section-num">§ 02 &nbsp;·&nbsp; DC형 운용방식</div>
+    <h2>안전과 수익, <em>그 사이의 선택.</em></h2>
+
+    <div class="investment-grid">
+      <div class="invest-card safe">
+        <div class="risk-meter"></div>
+        <h3>원리금보장형 <span class="en">Principal-Guaranteed</span></h3>
+        <p class="lead">원금과 약정 이자가 보장되는 안전 자산. 수익률은 낮지만 손실 위험이 거의 없다.</p>
+        <ul>
+          <li><span class="name">정기예금</span><span class="desc">은행 · 저축은행</span></li>
+          <li><span class="name">GIC</span><span class="desc">이율보증형 보험</span></li>
+          <li><span class="name">ELB</span><span class="desc">원금보장형 파생결합사채</span></li>
+          <li><span class="name">국공채</span><span class="desc">국가·지자체 발행 채권</span></li>
+        </ul>
+      </div>
+
+      <div class="invest-card risk">
+        <div class="risk-meter"></div>
+        <h3>실적배당형 <span class="en">Performance-Linked</span></h3>
+        <p class="lead">운용 성과에 따라 수익이 결정되는 상품. 손실 가능성이 있지만 장기 수익률이 높을 수 있다.</p>
+        <ul>
+          <li><span class="name">펀드</span><span class="desc">주식형 · 채권형 · 혼합형</span></li>
+          <li><span class="name">ETF</span><span class="desc">상장지수펀드</span></li>
+          <li><span class="name">TDF</span><span class="desc">은퇴시점 맞춤 자동조정</span></li>
+          <li><span class="name">리츠</span><span class="desc">부동산 간접투자</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 70/30 rule -->
+    <div class="rule-callout">
+      <div class="rule-bar">
+        <div class="risk-portion">70%</div>
+        <div class="safe-portion">30%</div>
+      </div>
+      <div class="text">
+        <h4>70 / 30 투자한도 규제</h4>
+        <p>위험자산(주식형 펀드 등)은 적립금의 <strong>70%까지</strong>만 투자할 수 있다. 나머지 30%는 반드시 안전자산으로 운용해야 한다. 개별 주식 직접투자와 파생상품 비중이 큰 상품은 제한 또는 금지.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Default Option -->
+  <section>
+    <div class="section-num">§ 03 &nbsp;·&nbsp; 사전지정운용제도</div>
+    <h2>디폴트옵션, <em>방치를 막는 장치.</em></h2>
+
+    <p style="font-size: 16px; max-width: 720px; margin-bottom: 16px;">
+      과거에는 운용 지시를 하지 않으면 적립금이 그대로 예금에 방치되어 물가상승률에도 못 미치는 수익률이 나오는 경우가 많았다. <strong>2022년 7월</strong> 도입된 사전지정운용제도(디폴트옵션)는 이 문제를 해결하기 위한 장치다.
+    </p>
+    <p style="font-size: 16px; max-width: 720px; color: var(--muted); font-style: italic;">
+      가입 시점에 미리 디폴트 상품을 지정해두면, 운용 지시 없이 일정 기간이 지난 적립금이 자동으로 그 상품으로 운용된다.
+    </p>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-label">Level 01</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">초저위험</div>
+        <div class="tl-desc">원리금보장형<br>예금 · GIC</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-label">Level 02</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">저위험</div>
+        <div class="tl-desc">원리금보장형<br>+ TDF · BF 혼합</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-label">Level 03</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">중위험</div>
+        <div class="tl-desc">TDF · 밸런스드<br>스테이블밸류</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-label">Level 04</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">고위험</div>
+        <div class="tl-desc">주식 비중 높은<br>TDF · BF</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 48px; font-size: 14px; color: var(--muted); padding: 24px; background: var(--paper-deep); border-left: 3px solid var(--accent);">
+      <strong style="color: var(--ink);">눈여겨볼 점.</strong>
+      제도 도입 초기에는 초저위험(예금형) 선택이 압도적이었으나, 최근 TDF 등 실적배당형 디폴트 비중이 빠르게 늘고 있다. 본인 디폴트옵션이 무엇으로 설정되어 있는지 — 가입 금융사 앱에서 한 번쯤 확인해볼 것.
+    </p>
+  </section>
+
+  <!-- Section 4: DB pros/cons -->
+  <section>
+    <div class="section-num">§ 04 &nbsp;·&nbsp; DB형 적합성</div>
+    <h2>DB가 <em>유리한 자, 불리한 자.</em></h2>
+
+    <div class="pros-cons">
+      <div class="pc-col pro">
+        <h4>유리한 경우</h4>
+        <ul>
+          <li>호봉제 · 연공급 — 근속에 따라 임금이 계속 오르는 회사</li>
+          <li>임금 상승률 &gt; 운용 수익률로 예상될 때</li>
+          <li>운용에 신경 쓰고 싶지 않고 안정성을 우선할 때</li>
+          <li>대기업 · 공공기관처럼 재무 안정성이 높은 사용자</li>
+        </ul>
+      </div>
+      <div class="pc-col con">
+        <h4>불리한 경우</h4>
+        <ul>
+          <li>임금피크제 대상 — 퇴직 직전 임금이 낮아짐</li>
+          <li>성과급 비중이 크고 기본급 상승이 정체된 구조</li>
+          <li>회사 도산 위험이 있을 때 (일부 사외적립 보호)</li>
+          <li>적극적 운용으로 더 높은 수익을 원할 때</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="margin-top: 40px; font-size: 14px; color: var(--muted); font-style: italic; max-width: 720px;">
+      임금피크제 진입 직전에 DB→DC로 전환하면, 높은 임금 기준으로 적립금이 이전되어 유리해질 수 있다. 다만 <strong style="color: var(--accent); font-style: normal;">한 번 DC로 전환하면 DB로 돌아갈 수 없다.</strong>
+    </p>
+  </section>
+
+  <!-- Section 5: Full comparison -->
+  <section>
+    <div class="section-num">§ 05 &nbsp;·&nbsp; At A Glance</div>
+    <h2>한눈에 보는 <em>요점 정리.</em></h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>DB형 (확정급여형)</th>
+          <th>DC형 (확정기여형)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>급여 수준</td>
+          <td>사전 확정 (평균임금 × 근속연수)</td>
+          <td>운용 성과에 따라 변동</td>
+        </tr>
+        <tr>
+          <td>운용 주체</td>
+          <td>회사</td>
+          <td>근로자 본인</td>
+        </tr>
+        <tr>
+          <td>운용 위험</td>
+          <td>회사 부담</td>
+          <td>근로자 부담</td>
+        </tr>
+        <tr>
+          <td>임금상승률 영향</td>
+          <td>매우 큼 (직접 반영)</td>
+          <td>없음 (납입된 금액만 운용)</td>
+        </tr>
+        <tr>
+          <td>중도 운용 변경</td>
+          <td>불가</td>
+          <td>가능</td>
+        </tr>
+        <tr>
+          <td>위험자산 한도</td>
+          <td>적립금의 70%</td>
+          <td>적립금의 70%</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div>Compiled · May 2026</div>
+    <div>End of Issue · ❦</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
