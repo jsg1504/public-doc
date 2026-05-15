@@ -14,5 +14,13 @@
     "category": "etc",
     "icon": "🌫️",
     "date": "2026-05-14"
+  },
+  {
+    "title": "퇴직연금 정리 · DB vs DC",
+    "description": "퇴직연금의 DB형·DC형 차이, DC 운용방식, 디폴트옵션, DB 적합성을 정리한 문서입니다.",
+    "path": "/etc/retire-pension-2026",
+    "category": "etc",
+    "icon": "🏦",
+    "date": "2026-05-15"
   }
 ]
