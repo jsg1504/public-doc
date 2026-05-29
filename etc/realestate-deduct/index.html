@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1세대 1주택 양도소득세 시뮬레이터</title>
+<style>
+  :root{
+    --bg:#f5f4ef; --surface:#ffffff; --surface2:#f1efe8;
+    --text:#2c2c2a; --text2:#5f5e5a; --text3:#888780;
+    --border:rgba(0,0,0,0.12); --border2:rgba(0,0,0,0.22);
+    --info-bg:#e6f1fb; --info-text:#0c447c; --info-border:#185fa5;
+    --radius:12px; --radius-sm:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1f1e1c; --surface:#2c2b28; --surface2:#34332f;
+      --text:#f1efe8; --text2:#b4b2a9; --text3:#888780;
+      --border:rgba(255,255,255,0.14); --border2:rgba(255,255,255,0.24);
+      --info-bg:#0c447c; --info-text:#b5d4f4; --info-border:#378add;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",sans-serif;
+    line-height:1.6; padding:2rem 1rem;
+  }
+  .wrap{max-width:680px; margin:0 auto;}
+  h1{font-size:24px; font-weight:600; margin:0 0 4px;}
+  .sub{font-size:14px; color:var(--text2); margin:0 0 1.75rem;}
+  .panel{
+    background:var(--surface); border:0.5px solid var(--border);
+    border-radius:var(--radius); padding:1.5rem 1.5rem; margin-bottom:1.25rem;
+  }
+  .ctrl{display:flex; align-items:center; gap:14px; margin-bottom:1.1rem;}
+  .ctrl:last-child{margin-bottom:0;}
+  .ctrl label{font-size:14px; color:var(--text2); min-width:80px;}
+  .ctrl input[type=range]{flex:1; accent-color:var(--info-border); height:4px;}
+  .ctrl .val{font-size:14px; font-weight:600; min-width:64px; text-align:right;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:1.25rem;}
+  .card{background:var(--surface2); border-radius:var(--radius-sm); padding:1rem;}
+  .card.hl{background:var(--info-bg);}
+  .card p.k{font-size:13px; color:var(--text2); margin:0 0 4px;}
+  .card.hl p.k{color:var(--info-text);}
+  .card p.v{font-size:22px; font-weight:600; margin:0;}
+  .card.hl p.v{color:var(--info-text);}
+  table{width:100%; font-size:14px; border-collapse:collapse;}
+  td{padding:8px 0; border-bottom:0.5px solid var(--border);}
+  td.k{color:var(--text2);}
+  td.v{text-align:right; font-weight:600;}
+  tr.total td{border-bottom:none; padding-top:11px; color:var(--info-text);}
+  .note{font-size:12px; color:var(--text3); margin-top:1rem; line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>1세대 1주택 양도소득세 시뮬레이터</h1>
+  <p class="sub">비과세 요건 충족 시, 양도가액 12억 초과분에 대한 고가주택 양도세 계산</p>
+
+  <div class="panel">
+    <div class="ctrl">
+      <label>양도가액</label>
+      <input type="range" min="12" max="50" value="20" step="0.5" id="sale">
+      <span class="val" id="sale-out">20억</span>
+    </div>
+    <div class="ctrl">
+      <label>취득가액</label>
+      <input type="range" min="1" max="49" value="10" step="0.5" id="buy">
+      <span class="val" id="buy-out">10억</span>
+    </div>
+    <div class="ctrl">
+      <label>보유기간</label>
+      <input type="range" min="3" max="10" value="10" step="1" id="hold">
+      <span class="val" id="hold-out">10년</span>
+    </div>
+    <div class="ctrl">
+      <label>거주기간</label>
+      <input type="range" min="0" max="10" value="10" step="1" id="live">
+      <span class="val" id="live-out">10년</span>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card"><p class="k">전체 양도차익</p><p class="v" id="m-gain">10.0억</p></div>
+    <div class="card"><p class="k">과세대상 차익</p><p class="v" id="m-taxable">4.0억</p></div>
+    <div class="card hl"><p class="k">총 납부세액</p><p class="v" id="m-tax">0.0억</p></div>
+    <div class="card"><p class="k">실효세율(차익대비)</p><p class="v" id="m-rate">0%</p></div>
+  </div>
+
+  <div class="panel">
+    <table><tbody id="breakdown"></tbody></table>
+  </div>
+
+  <p class="note">거주기간은 보유기간을 넘을 수 없습니다. 거주 2년 이상이면 1주택 표(보유·거주 각 연 4%, 합산 최대 80%), 거주 2년 미만이면 일반 표(보유 연 2%, 최대 30%)로 장기보유특별공제가 적용됩니다. 지방소득세(소득세의 10%) 및 기본공제 250만원을 반영했습니다. 취득세·중개수수료 등 필요경비와 감면은 미반영이며, 실제 세액은 개별 상황에 따라 달라질 수 있으므로 신고 전 세무사 확인을 권합니다.</p>
+</div>
+
+<script>
+(function(){
+  var EOK = 100000000;
+  function won(v){ return (v/EOK).toFixed(1)+"억"; }
+  function wonM(v){ return Math.round(v/10000).toLocaleString()+"만원"; }
+
+  function progTax(base){
+    var b = [
+      [14000000,0.06,0],
+      [50000000,0.15,1260000],
+      [88000000,0.24,5760000],
+      [150000000,0.35,15440000],
+      [300000000,0.38,19940000],
+      [500000000,0.40,25940000],
+      [1000000000,0.42,35940000],
+      [Infinity,0.45,65940000]
+    ];
+    if(base<=0) return 0;
+    for(var i=0;i<b.length;i++){ if(base<=b[i][0]) return base*b[i][1]-b[i][2]; }
+    return 0;
+  }
+
+  var els = {
+    sale:document.getElementById('sale'), buy:document.getElementById('buy'),
+    hold:document.getElementById('hold'), live:document.getElementById('live')
+  };
+
+  function calc(){
+    var sale = parseFloat(els.sale.value)*EOK;
+    var buy = parseFloat(els.buy.value)*EOK;
+    var hold = parseInt(els.hold.value);
+
+    els.live.max = hold;
+    var live = parseInt(els.live.value);
+    if(live>hold){ live=hold; els.live.value=hold; }
+
+    document.getElementById('sale-out').textContent = (sale/EOK).toFixed(1)+"억";
+    document.getElementById('buy-out').textContent = (buy/EOK).toFixed(1)+"억";
+    document.getElementById('hold-out').textContent = hold+"년";
+    document.getElementById('live-out').textContent = live+"년";
+
+    var gain = Math.max(0, sale - buy);
+    var taxable = sale>12*EOK ? gain*(sale-12*EOK)/sale : 0;
+
+    var ltRate, ltLabel;
+    if(live>=2){
+      var holdRate = Math.min(hold,10)*0.04;
+      var liveRate = Math.min(live,10)*0.04;
+      ltRate = Math.min(0.80, holdRate+liveRate);
+      ltLabel = "1주택 표";
+    } else {
+      ltRate = Math.min(0.30, Math.min(hold,15)*0.02);
+      ltLabel = "일반 표";
+    }
+    var ltDeduct = taxable*ltRate;
+
+    var afterLt = taxable - ltDeduct;
+    var base = Math.max(0, afterLt - 2500000);
+    var income = progTax(base);
+    var local = income*0.10;
+    var total = income + local;
+
+    document.getElementById('m-gain').textContent = won(gain);
+    document.getElementById('m-taxable').textContent = won(taxable);
+    document.getElementById('m-tax').textContent = won(total);
+    document.getElementById('m-rate').textContent = gain>0 ? (total/gain*100).toFixed(1)+"%" : "0%";
+
+    var rows = [
+      ["전체 양도차익", won(gain)],
+      ["과세대상 비율", sale>12*EOK ? ((sale-12*EOK)/sale*100).toFixed(1)+"%" : "0%"],
+      ["과세대상 양도차익", wonM(taxable)],
+      ["장기보유특별공제 ("+ltLabel+" "+(ltRate*100).toFixed(0)+"%)", "− "+wonM(ltDeduct)],
+      ["기본공제", "− 250만원"],
+      ["과세표준", wonM(base)],
+      ["산출세액(소득세)", wonM(income)],
+      ["지방소득세 (10%)", wonM(local)]
+    ];
+    var html = "";
+    for(var i=0;i<rows.length;i++){
+      html += '<tr><td class="k">'+rows[i][0]+'</td><td class="v">'+rows[i][1]+'</td></tr>';
+    }
+    html += '<tr class="total"><td class="k">총 납부세액</td><td class="v">'+wonM(total)+'</td></tr>';
+    document.getElementById('breakdown').innerHTML = html;
+  }
+
+  Object.values(els).forEach(function(e){ e.addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
