@@ -76,7 +76,7 @@
     </div>
     <div class="ctrl">
       <label>거주기간</label>
-      <input type="range" min="0" max="10" value="10" step="1" id="live">
+      <input type="range" min="2" max="10" value="10" step="1" id="live">
       <span class="val" id="live-out">10년</span>
     </div>
   </div>
@@ -92,7 +92,7 @@
     <table><tbody id="breakdown"></tbody></table>
   </div>
 
-  <p class="note">거주기간은 보유기간을 넘을 수 없습니다. 거주 2년 이상이면 1주택 표(보유·거주 각 연 4%, 합산 최대 80%), 거주 2년 미만이면 일반 표(보유 연 2%, 최대 30%)로 장기보유특별공제가 적용됩니다. 지방소득세(소득세의 10%) 및 기본공제 250만원을 반영했습니다. 취득세·중개수수료 등 필요경비와 감면은 미반영이며, 실제 세액은 개별 상황에 따라 달라질 수 있으므로 신고 전 세무사 확인을 권합니다.</p>
+  <p class="note">장기보유특별공제는 1주택 표(보유·거주 각 연 4%, 합산 최대 80%) 기준이며 보유=거주를 단순 가정합니다. 거주 요건을 채우지 못하면 일반 장기보유공제표(연 2%, 최대 30%)가 적용되어 세액이 크게 늘어납니다. 지방소득세(소득세의 10%) 및 기본공제 250만원을 반영했습니다. 취득세·중개수수료 등 필요경비와 감면은 미반영이며, 실제 세액은 개별 상황에 따라 달라질 수 있으므로 신고 전 세무사 확인을 권합니다.</p>
 </div>
 
 <script>
@@ -126,10 +126,8 @@
     var sale = parseFloat(els.sale.value)*EOK;
     var buy = parseFloat(els.buy.value)*EOK;
     var hold = parseInt(els.hold.value);
-
-    els.live.max = hold;
     var live = parseInt(els.live.value);
-    if(live>hold){ live=hold; els.live.value=hold; }
+    if(live>hold) live=hold;
 
     document.getElementById('sale-out').textContent = (sale/EOK).toFixed(1)+"억";
     document.getElementById('buy-out').textContent = (buy/EOK).toFixed(1)+"억";
@@ -139,16 +137,9 @@
     var gain = Math.max(0, sale - buy);
     var taxable = sale>12*EOK ? gain*(sale-12*EOK)/sale : 0;
 
-    var ltRate, ltLabel;
-    if(live>=2){
-      var holdRate = Math.min(hold,10)*0.04;
-      var liveRate = Math.min(live,10)*0.04;
-      ltRate = Math.min(0.80, holdRate+liveRate);
-      ltLabel = "1주택 표";
-    } else {
-      ltRate = Math.min(0.30, Math.min(hold,15)*0.02);
-      ltLabel = "일반 표";
-    }
+    var holdRate = Math.min(hold,10)*0.04;
+    var liveRate = Math.min(live,10)*0.04;
+    var ltRate = Math.min(0.80, holdRate+liveRate);
     var ltDeduct = taxable*ltRate;
 
     var afterLt = taxable - ltDeduct;
@@ -166,7 +157,7 @@
       ["전체 양도차익", won(gain)],
       ["과세대상 비율", sale>12*EOK ? ((sale-12*EOK)/sale*100).toFixed(1)+"%" : "0%"],
       ["과세대상 양도차익", wonM(taxable)],
-      ["장기보유특별공제 ("+ltLabel+" "+(ltRate*100).toFixed(0)+"%)", "− "+wonM(ltDeduct)],
+      ["장기보유특별공제 ("+(ltRate*100).toFixed(0)+"%)", "− "+wonM(ltDeduct)],
       ["기본공제", "− 250만원"],
       ["과세표준", wonM(base)],
       ["산출세액(소득세)", wonM(income)],
