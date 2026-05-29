@@ -30,5 +30,13 @@
     "category": "etc",
     "icon": "🧮",
     "date": "2026-05-15"
+  },
+  {
+    "title": "1세대 1주택 양도소득세 시뮬레이터",
+    "description": "비과세 요건 충족 시 양도가액 12억 초과분에 대한 고가주택 양도소득세를 계산하는 시뮬레이터입니다.",
+    "path": "/etc/realestate-deduct",
+    "category": "etc",
+    "icon": "🧾",
+    "date": "2026-05-29"
   }
 ]
