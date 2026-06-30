@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  ::selection { background: var(--accent, #41cf9f); color: var(--on-accent, #0c0d10); }
+  @media print {
+    [data-chrome] { display: none !important; }
+    [data-slide] { position: relative !important; opacity: 1 !important; transform: none !important; page-break-after: always; width: 1920px; height: 1080px; }
+    [data-stage] { transform: none !important; position: static !important; width: 1920px !important; height: auto !important; }
+    [data-viewport] { position: static !important; overflow: visible !important; }
+  }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="position:absolute; inset:0; overflow:hidden; background:var(--letterbox,#050506); font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased;">
+
+  <div data-viewport style="position:absolute; inset:0; background:var(--bg,#0c0d10); background-image: linear-gradient(var(--grid-line,rgba(255,255,255,.035)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line,rgba(255,255,255,.035)) 1px, transparent 1px); background-size: 80px 80px; background-position: center center;">
+
+    <div ref="{{ stageRef }}" data-stage style="position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center center; transform: translate(-50%,-50%) scale(1);">
+
+      <!-- ============ SLIDE 1 · TITLE ============ -->
+      <section data-slide="0" data-label="Title" data-screen-label="01" style="position:absolute; inset:0; opacity:1; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:space-between; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:12px; padding:11px 18px 11px 14px; border:1px solid var(--border,#2a2d33); border-radius:999px; font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">
+            <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#41cf9f);"></span>
+            <span>Survey · cs.CL / cs.AI</span>
+          </div>
+          <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint,#5c5f66);">Paper Seminar · 2026</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:30px; max-width:1560px;">
+          <h1 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(128px * var(--scale,1)); line-height:0.95; letter-spacing:-0.01em; color:var(--text,#f2f3f5);">Code as Agent Harness</h1>
+          <p style="margin:0; font-size:calc(34px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4); max-width:1180px;">Toward Executable, Verifiable, and Stateful Agent Systems — code를 agent 인프라의 중심으로 보는 통합 관점</p>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:1px solid var(--border,#2a2d33); padding-top:34px;">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent,#41cf9f);">Speaker</span>
+            <span style="font-size:calc(32px * var(--scale,1)); font-weight:600; color:var(--text,#f2f3f5);">장지승</span>
+            <span style="font-size:24px; color:var(--muted,#9a9da4);">Ning et al. · UIUC / Meta / Stanford · arXiv:2605.18747</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; text-align:right;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.18em; text-transform:uppercase; color:var(--faint,#5c5f66);">Paper Seminar</span>
+            <span style="font-size:calc(28px * var(--scale,1)); color:var(--text,#f2f3f5);">2026</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · AGENDA ============ -->
+      <section data-slide="1" data-label="Agenda" data-screen-label="02" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:64px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Agenda</span>
+          <h2 style="margin:0; font-size:calc(62px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">오늘 다룰 내용</h2>
+        </div>
+        <div style="display:flex; flex-direction:column; flex:1;">
+          <button data-ag onclick="{{ hAg0 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--text,#f2f3f5);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--accent,#41cf9f); width:80px;">01</span>
+            <span style="font-size:calc(36px * var(--scale,1)); font-weight:500;">Introduction &amp; Problem Framing — code as agent harness란 무엇인가</span>
+          </button>
+          <button data-ag onclick="{{ hAg1 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">02</span>
+            <span style="font-size:calc(36px * var(--scale,1)); font-weight:500;">Layer 1: Harness Interface — Reasoning, Acting, Environment Modeling</span>
+          </button>
+          <button data-ag onclick="{{ hAg2 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">03</span>
+            <span style="font-size:calc(36px * var(--scale,1)); font-weight:500;">Layer 2: Harness Mechanisms — Planning, Memory, Tool Use, PEV Loop, AHE</span>
+          </button>
+          <button data-ag onclick="{{ hAg3 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); border-bottom:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">04</span>
+            <span style="font-size:calc(36px * var(--scale,1)); font-weight:500;">Layer 3 &amp; Beyond: Multi-Agent, Applications, Open Problems</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · SECTION ============ -->
+      <section data-slide="2" data-label="Section" data-screen-label="03" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">01</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(96px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1600px;">Introduction &amp; Problem Framing</h2>
+        <p style="margin:0; font-size:calc(30px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1200px;">code는 더 이상 LLM의 출력 결과물이 아니라 agent가 reasoning, acting, verifying하는 operational substrate이다.</p>
+      </section>
+
+      <!-- ============ SLIDE 4 · TEXT + VISUAL ============ -->
+      <section data-slide="3" data-label="Text + Visual" data-screen-label="04" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">The Shift</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">Code: 출력에서 실행 기반으로</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">LLM은 competitive programming에서 repository-level SWE까지 강력한 code 능력을 보여왔다. 하지만 agentic system에서 code는 단순한 target output를 넘어, agent가 reasoning·acting·environment modeling·verification을 수행하는 operational substrate로 자리 잡고 있다.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Program-aided reasoning: 중간 계산을 executable code로 externalize (PAL, PoT)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Robotic/embodied agents: 생성된 program = 실행 가능한 policy (SayCan, CaP, Voyager)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">SWE 환경: codebase·execution traces·tests·runtime feedback = environment state</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">→ code는 executable, inspectable, stateful medium</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig01_taxonomy.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 1: Taxonomy">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · TEXT + VISUAL ============ -->
+      <section data-slide="4" data-label="Text + Visual" data-screen-label="05" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Conceptual Framing</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">세 가지 coupling element</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Agent harness = stateless model을 functional agent로 만드는 software layer (tools, APIs, sandboxes, memory, validators, permission boundaries, execution loops, feedback channels). 논문은 long-running agentic system의 세 요소를 구분한다.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Model-internal capabilities: reasoning, perception, planning, simulation, evaluation</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② System-provided harness infrastructure: tools, APIs, sandboxes, memory, validators, permission boundaries, telemetry — harness engineering의 주 대상</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Agent-initiated code artifacts: agent가 생성·실행·수정·persist·공유하는 interactive code 객체 — 기존 survey에서 underexplored</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">이 논문의 초점: ③ agent-initiated code artifacts가 ①②와 어떻게 상호작용하는가</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig02_interface_overview.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 2: Interface Overview">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 6 · ARCHITECTURE ============ -->
+      <section data-slide="5" data-label="Architecture" data-screen-label="06" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:36px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Taxonomy</span>
+            <h2 style="margin:0; font-size:calc(48px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">3-Layer Taxonomy of Code as Agent Harness</h2>
+          </div>
+          <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--faint,#5c5f66);">Layer 1 → Layer 2 → Layer 3 순서로 code가 agent loop 안에서 operational medium이 되는 과정</span>
+        </div>
+        <div style="position:relative; flex:1; border:1.5px dashed var(--border,#2a2d33); border-radius:18px; background-color:var(--surface,#16181c); background-image: radial-gradient(var(--hairline,rgba(255,255,255,.05)) 1.5px, transparent 1.5px); background-size: 40px 40px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;">
+          <img src="figs/fig01_taxonomy.png" style="max-width:100%; max-height:100%; object-fit:contain;" alt="Figure 1: Taxonomy">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 7 · SECTION ============ -->
+      <section data-slide="6" data-label="Section" data-screen-label="07" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">02</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(96px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1600px;">Layer 1: Harness Interface</h2>
+        <p style="margin:0; font-size:calc(30px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1200px;">code가 agent와 task environment 사이의 기본 interface가 되는 방식 — reasoning, acting, environment modeling</p>
+      </section>
+
+      <!-- ============ SLIDE 8 · TEXT + VISUAL ============ -->
+      <section data-slide="7" data-label="Text + Visual" data-screen-label="08" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§2.1 Code for Reasoning</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">추론을 executable &amp; verifiable하게</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Pure CoT는 reasoning과 computation을 모두 자연어로 처리 → 중간 상태를 harness가 verify할 수 없음. Code-for-reasoning은 model이 program을 생성하고 external runtime이 실행·평가하여, reasoning과 computation을 분리한다.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Program-Delegated Reasoning: PoT, PAL — code로 계산을 위임, execution trace로 검증</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Formal Verification &amp; Symbolic Reasoning: Lean, Isabelle, Coq — 기계 검증 가능한 formal proof language</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Iterative Code-Grounded Reasoning: NExT, CodePRM, RLEF — generate→execute→verify→refine 폐루프</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">최근: EG-CFG (생성 중 execution signal 주입), R1-Code-Interpreter (다중 실행 세션)</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig03_interface_roadmap.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 3: Interface Roadmap">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 9 · COMPARISON ============ -->
+      <section data-slide="8" data-label="Comparison" data-screen-label="09" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:40px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§2.1 Reasoning Paradigms</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">세 가지 reasoning interface 비교</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:28px; flex:1;">
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">Program-Delegated</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">PoT, PAL, CodeAdapt</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Code로 계산 위임</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Execution trace로 검증</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">단발성 task에 적합</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--accent,#41cf9f); border-top:4px solid var(--accent,#41cf9f); border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent,#41cf9f);">Formal / Symbolic</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">SATLM, ReProver, Lean4Agent</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Lean, Coq 기반 formal proof</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">기계 검증 가능한 derivation</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Theorem proving 한계</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">Iterative</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">NExT, CodePRM, RLEF</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Generate→Exec→Verify→Refine</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">RL로 trajectory 최적화</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">긴 horizon 비용</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 10 · TEXT + VISUAL ============ -->
+      <section data-slide="9" data-label="Text + Visual" data-screen-label="10" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§2.2 Code for Acting</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">행동을 programmable하게</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Code-for-reasoning과 달리, action은 부분 관찰·동적 환경에서 실행됨. failure가 invalid state transition, delayed feedback, silent error로 발생. 핵심 과제는 grounding: abstract output을 환경 제약에 맞는 executable behavior로 변환.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Grounded Skill Selection: SayCan (affordance 기반), KnowNo (uncertainty-aware), BOSS (skill chain 합성)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Programmatic Policy Generation: CaP (Python robot policy), RoboCodeX (multimodal tree), Code-BT (behavior tree)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Lifelong Code-Based Agents: Voyager (Minecraft skill library), UI-Voyager (GUI self-evolving), SkillsCrafter (continual learning)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">AutoHarness: code harness 자동 합성으로 invalid action filtering</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig02_interface_overview.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 2: Action Interface">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 11 · TEXT + VISUAL ============ -->
+      <section data-slide="10" data-label="Text + Visual" data-screen-label="11" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§2.3 Code for Environment</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">환경을 inspectable &amp; modifiable하게</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">환경을 opaque external process로 두지 않고, simulator·repository·tests·traces·logs라는 computational artifact로 표현. 실행 가능한 환경 = verifiable state transition + persistent &amp; modifiable representation.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Structured World Representations: ViStruct, FactoredScenes, Code2World (renderable HTML)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Execution-Trace World Modeling: SemCoder, CWM, WorldCoder (Python으로 world model 합성)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Code-Grounded Evaluation Environments: SWE-bench, AgentBench, InterCode, CRUXEval</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">④ Verifiable Environment Construction: SWE-smith, EnvScaler (환경 자체를 합성·검증)</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig04_mechanisms_roadmap.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 4: Environment Representation">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 12 · SECTION ============ -->
+      <section data-slide="11" data-label="Section" data-screen-label="12" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">03</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(96px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1600px;">Layer 2: Harness Mechanisms</h2>
+        <p style="margin:0; font-size:calc(30px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1200px;">code가 agent loop에 들어온 뒤, 단일 generation step를 넘어 reliable하게 만드는 system layer — planning, memory, tool use, PEV loop, harness optimization</p>
+      </section>
+
+      <!-- ============ SLIDE 13 · TEXT + VISUAL ============ -->
+      <section data-slide="12" data-label="Text + Visual" data-screen-label="13" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§3.1 Planning</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">계획 = harness control layer</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Planning은 단순한 모델 내부 reasoning이 아니라, agent가 intent를 executable step으로 externalize하고 trajectory를 규제하는 harness 제어 장치. 4가지 유형으로 분류.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Linear Decomposition: ReAct, Self-Planning, WebAgent — 순차적 step 분해 + 코드 생성</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Structure-Grounded: CodePlan (dependency graph), VerilogCoder (circuit graph), GraphCodeAgent (dual-graph)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Search-Based: Tree-of-Code, CodeTree, SWE-Search (MCTS), Meta-Harness — 후보 경로 탐색</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">④ Orchestration-Based: MapCoder, QualityFlow, NLAH (natural-language harness spec → runtime 해석)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">최근: PLAN.md, AGENTS.md — filesystem-backed persistent planning object</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig05_planning.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 5: Planning">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 14 · TEXT + VISUAL ============ -->
+      <section data-slide="13" data-label="Text + Visual" data-screen-label="14" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§3.2 Memory &amp; Context</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">상태 관리 layer: 단순 context window가 아님</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Memory는 model context와 durable storage 사이에서 어떤 정보를 active에 두고, 무엇을 압축하고, 무엇을 외부에 offload할지 결정하는 state-management layer. 장기 SWE task에서 context 폭발, 반복 localization, local consistency 붕괴를 방지.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Working Memory: SWE-agent, CodeMem — 현재 trajectory의 active control surface</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Semantic Memory: AutoCodeRover, RepoCoder — repository를 queryable evidence space로</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Experiential Memory: MemGovern, ExpeL — cross-task transfer용 trajectory·reflection</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">④ Long-Term Memory: MemCoder, TALM — validated experience의 compact한 보존</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">⑤ Multi-Agent Memory: MIRIX, ChatDev — shared blackboard / collaborative state graph</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">+ Context Compaction &amp; State Offloading: LongCodeZip, SWE-Pruner, SWEZZE</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig06_memory.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 6: Memory">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 15 · TEXT + VISUAL ============ -->
+      <section data-slide="14" data-label="Text + Visual" data-screen-label="15" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§3.3 Tool Use</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">도구 = governed interface</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Tool use는 단순 부가 기능이 아니라 model intent와 external system 사이의 governed interface. 어떤 tool을 노출할지, 권한은 무엇인지, 실행 위치, 결과 정제, 위험 action의 human approval 등을 harness가 결정.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">① Function-Oriented: ToolCoder, CodeQA, RAG-for-Code — API/doc 검색로 knowledge gap 해소</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">② Environment-Interaction: CodeAgent, SWE-agent — repo·shell·test 직접 조작</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">③ Verification-Driven: AgentCoder, VeriGuard — test·static analysis·fuzzer로 deterministic feedback</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">④ Workflow-Orchestration: MapCoder, OpenHands — multi-tool·role·policy를 통합 workflow로</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Lifecycle hooks: pre-use (permission check), post-use (sanitize, compact, memory update)</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig07_tooluse.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 7: Tool Use">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 16 · ARCHITECTURE ============ -->
+      <section data-slide="15" data-label="Architecture" data-screen-label="16" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:36px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§3.4 PEV Loop</span>
+            <h2 style="margin:0; font-size:calc(48px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">Plan → Execute → Verify Control Loop</h2>
+          </div>
+          <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--faint,#5c5f66);">harness = cybernetic governor: action 효과를 관찰하고 state transition을 규제</span>
+        </div>
+        <div style="position:relative; flex:1; border:1.5px dashed var(--border,#2a2d33); border-radius:18px; background-color:var(--surface,#16181c); background-image: radial-gradient(var(--hairline,rgba(255,255,255,.05)) 1.5px, transparent 1.5px); background-size: 40px 40px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;">
+          <img src="figs/fig08_pev_loop.png" style="max-width:100%; max-height:100%; object-fit:contain;" alt="Figure 8: PEV Loop">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 17 · TEXT + VISUAL ============ -->
+      <section data-slide="16" data-label="Text + Visual" data-screen-label="17" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§3.5 Agentic Harness Engineering</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">harness 자체를 최적화 대상으로</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">AHE는 prompt engineering(지시 변경)도 context engineering(증거 변경)도 아닌, operating environment 자체를 분석·수정하는 문제. 많은 agent 실패가 model 생성 능력이 아니라 harness의 약점에서 비롯됨.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Deep Telemetry: prompt, tool args, sandbox snapshot, test result, decision tree, rejected alternatives, human intervention — 비교 진단의 기반</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Evolution Agent: trajectory 관찰 → 실패 진단 → harness 수정 제안 → held-out task로 평가 → regression 없을 때만 promote</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Governed Harness Mutation: permission boundary, network access, credential 변경은 HITL approval 필요. PEV loop 안에서 자신도 검증받음</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">산업 수렴: OpenAI, Anthropic, LangChain 모두 explicit harness loop + trace replay + eval suite 필요로 함</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig09_harness_eng.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 9: Harness Engineering">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 18 · SECTION ============ -->
+      <section data-slide="17" data-label="Section" data-screen-label="18" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">04</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(96px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1600px;">Layer 3 &amp; Beyond: Multi-Agent, Applications, Open Problems</h2>
+        <p style="margin:0; font-size:calc(30px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1200px;">단일 agent에서 multi-agent로, 그리고 실제 응용과 미해결 과제까지</p>
+      </section>
+
+      <!-- ============ SLIDE 19 · TEXT + VISUAL ============ -->
+      <section data-slide="18" data-label="Text + Visual" data-screen-label="19" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§4.1 Multi-Agent Collaboration</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">역할 분화 &amp; artifact 기반 조정</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">단일 agent의 한계: context window, specialization 부족, 자기 오류 검증 불가. Multi-agent는 역할 분화 + 공유 code artifact + 실행 feedback로 조정. code가 단순 출력이 아니라 planning·acting·verifying·개선의 shared substrate.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">역할: Synthesis (Coder), Understanding (Navigator), Verification (Tester), Execution (Executor), Planning (Architect)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Meta-role: EvoMAC의 Gradient Agent (실패 원인 귀인) + Updating Agent (workflow DAG 수정)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Interaction Modes: ① Collaborative synthesis ② Critique &amp; repair ③ Adversarial validation ④ Reasoning debate</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">SoA: Mother agent가 runtime에 subtask 복잡도에 따라 Child agent를 동적 spawn</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig10_multiagent.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 10: Multi-Agent">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 20 · COMPARISON ============ -->
+      <section data-slide="19" data-label="Comparison" data-screen-label="20" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:40px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§4.1.3 Workflow Topology</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">미리 정의된 vs 적응형 topology</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:28px; flex:1;">
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">Pre-defined Heuristic</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Chain (Waterfall): ChatDev, MetaGPT</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Cyclic (Agile): AgentCoder (max 5 iter)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Hierarchical: MAGIS, HyperAgent</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Star: CANDOR panel, MetaGPT pub-sub</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">고정 → 단순하지만 비적응적</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--accent,#41cf9f); border-top:4px solid var(--accent,#41cf9f); border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent,#41cf9f);">Objective-Driven Adaptive</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Dynamic pool scaling: SoA (복잡도별 agent spawn)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Feedback-driven DAG: EvoMAC (실행 log로 graph 수정)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Runtime self-reorg: SEW (workflow spec 진화)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Query-level: FlowReasoner (task별 MAS 생성)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">적응적이지만 복잡도 높음</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">Key Insight</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Topology 복잡도 ∝ harness-state 비형식성</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">형식적 shared substrate → 단순 topology</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">L2MAC: 가장 형식적 substrate + 가장 단순 chain</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">implicit state → 복잡한 topology로 보상</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">성숙한 harness는 단순 protocol로 충분</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 21 · TEXT + VISUAL ============ -->
+      <section data-slide="20" data-label="Text + Visual" data-screen-label="21" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§4.2-4.3 Shared Substrate</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">공유 code substrate &amp; 수렴 기준</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">대다수 시스템이 implicit/file-only 표현에 머물러, agent간 state divergence를 감지 못함. code는 executable하므로 objective behavioral signal로 수렴 가능. 논문은 4수준 표현과 6가지 수렴 패턴을 식별.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">4 표현 수준: ① Implicit/File-only (대다수) ② Repository-based (MAGIS, HyperAgent) ③ Execution-based (AgentCoder, MAGE) ④ Blackboard/Shared-State (L2MAC, Cogito)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">6 수렴 패턴: Correctness (test-gated), Security (CWE+crash), Performance (runtime/memory), Score-based, Consensus (투표), Implicit (고정 iteration=가장 많지만 가장 약함)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">핵심 gap: 대다수가 implicit state + implicit convergence → system 붕괴의 근원</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">제안: Shared Code-Centric Harness Substrate — repository + execution을 통합한 queryable 표현</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig11_scaling_roadmap.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 11: Scaling Roadmap">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 22 · TEXT + VISUAL ============ -->
+      <section data-slide="21" data-label="Text + Visual" data-screen-label="22" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§5.1.1-5.1.2 Applications (1)</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">Code Assistants &amp; GUI/OS Agents</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">code-as-harness가 가장 가시적으로 구현되는 두 영역. Code assistant는 repository 전체를 operational workspace로 삼고, GUI/OS agent는 모든 관찰과 행동이 code로 표현되는 'program world'에서 동작.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Code Assistants: SWE-agent, OpenHands, Claude Code, Codex — repository + sandbox + PR workflow + 실행 feedback</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">산업: LingmaAgent (Alibaba) — 자율 해결 16.9%, 수동 개입 시 43.3%. Cursor Composer = online RL on 사용 trace</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">GUI/OS: 관찰 = DOM/AXTree/screenshot, 행동 = click(x,y)/type/scroll code, 평가 = Python evaluator script</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Code2World: 다음 GUI state를 renderable HTML로 예측 — world model 자체가 executable artifact</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">프로덕션: Claude Computer Use, OpenAI Operator, Project Mariner, UI-TARS, AutoGLM</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig12_domains.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 12: Application Domains">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 23 · TEXT + VISUAL ============ -->
+      <section data-slide="22" data-label="Text + Visual" data-screen-label="23" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§5.1.3-5.1.5 Applications (2)</span>
+          <h2 style="margin:0; font-size:calc(52px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">과학 발견, Embodied, Personalization</h2>
+          <p style="margin:0; font-size:calc(26px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">scientific method 자체가 hypothesize→design→execute→observe→revise의 폐루프이며, 각 단계가 program으로 표현 가능. Embodied는 code가 grounding interface이자 safety boundary. Personalization은 사용자 preference를 editable code artifact로.</p>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Scientific: AI Scientist, Coscientist, Biomni, AlphaProof — hypothesis=program, 실험=script, 분석=notebook, lab=runtime</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Self-Driving Lab: A-Lab (41 신물질 합성), Chemputer (XDL → hardware-independent), Coscientist (Suzuki coupling 자율 실행)</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Embodied: SayCan, CaP, Voyager, Code-BT — code = control boundary + safety + reusable skill library</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Personalization: preference state = editable artifact, feedback = policy adaptation, instruction-following = structured constraint</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); background-image: repeating-linear-gradient(135deg, var(--hairline,rgba(255,255,255,.05)) 0 1px, transparent 1px 22px); display:flex; align-items:center; justify-content:center;">
+          <img src="figs/fig04_mechanisms_roadmap.png" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:14px;" alt="Figure 4: Mechanisms Roadmap">
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 24 · COMPARISON ============ -->
+      <section data-slide="23" data-label="Comparison" data-screen-label="24" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:40px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">§5.2 Open Problems</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">6대 미해결 과제</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:28px; flex:1;">
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">① Evaluation</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Harness-level metric 부재</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">End-task success가 model·harness·tool·env 혼합</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Oracle adequacy 위기</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Trajectory efficiency·replayability 필요</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">② Verification</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Execution feedback ≠ 완전한 검증</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">약한 oracle → overconfident agent</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Verification stack with explicit scope</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Feedback calibration·independent verify 필요</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33);  border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">③-⑥ 기타</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">③ Self-evolving: regression-free harness</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">④ Shared state: transactional semantics</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">⑤ Safety: HITL as durable harness state</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">⑥ Multimodal: visual grounding·compression</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 25 · TAKEAWAY ============ -->
+      <section data-slide="24" data-label="Takeaway" data-screen-label="25" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:48px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <span style="font-family:'Instrument Serif',serif; font-size:200px; line-height:0.5; color:var(--accent,#41cf9f); height:90px;">&ldquo;</span>
+        <blockquote style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(68px * var(--scale,1)); line-height:1.16; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1600px;">code는 더 이상 LLM이 생성하는 산출물이 아니다. code는 agent가 reasoning하고, acting하고, 환경을 modeling하고, feedback을 관찰하고, 진행을 verify하는 — executable, inspectable, stateful medium이다.</blockquote>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="width:48px; height:1px; background:var(--muted,#9a9da4);"></span>
+          <span style="font-size:calc(26px * var(--scale,1)); color:var(--muted,#9a9da4);">Ning et al. · Code as Agent Harness · arXiv:2605.18747</span>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 26 · CLOSING ============ -->
+      <section data-slide="25" data-label="Closing" data-screen-label="26" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:space-between; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Q &amp; A</span>
+          <span style="display:inline-flex; align-items:center; justify-content:center; width:120px; height:48px; border:1px dashed var(--border,#2a2d33); border-radius:8px; font-family:'Geist Mono',monospace; font-size:18px; color:var(--faint,#5c5f66);">[ Logo ]</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(130px * var(--scale,1)); line-height:0.96; color:var(--text,#f2f3f5);">Thank you.</h2>
+          <p style="margin:0; font-size:calc(36px * var(--scale,1)); color:var(--muted,#9a9da4);">질문 환영합니다.</p>
+        </div>
+        <div style="display:flex; gap:48px; border-top:1px solid var(--border,#2a2d33); padding-top:34px; font-family:'Geist Mono',monospace; font-size:calc(24px * var(--scale,1)); color:var(--text,#f2f3f5);">
+          <span>jsg1504@gmail.com</span>
+          <span style="color:var(--muted,#9a9da4);">arXiv:2605.18747</span>
+          <span style="color:var(--muted,#9a9da4);">github.com/YennNing/Awesome-Code-as-Agent-Harness-Papers</span>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============ CHROME ============ -->
+  <div data-chrome style="position:absolute; top:0; left:0; right:0; height:3px; z-index:40;">
+    <div ref="{{ progressRef }}" style="height:100%; width:10%; background:var(--accent,#41cf9f); transition:width .5s cubic-bezier(.2,.7,.2,1);"></div>
+  </div>
+
+  <div data-chrome style="position:absolute; bottom:28px; left:34px; z-index:40; font-family:'Geist Mono',monospace; font-size:17px; letter-spacing:.06em; color:var(--faint,#5c5f66);">&#8592; &#8594; navigate · T tweaks · F fullscreen</div>
+
+  <div data-chrome style="position:absolute; bottom:26px; right:34px; z-index:40; font-family:'Geist Mono',monospace; font-size:19px; letter-spacing:.08em; color:var(--muted,#9a9da4);">{{ counter }}</div>
+
+  <!-- TWEAKS PANEL -->
+  <div data-chrome ref="{{ panelRef }}" style="display:none; position:absolute; top:26px; right:26px; width:312px; z-index:60; flex-direction:column; gap:24px; padding:24px; border:1px solid var(--border,#2a2d33); border-radius:16px; background:var(--surface,#16181c); color:var(--text,#f2f3f5); box-shadow:0 24px 70px rgba(0,0,0,.45); font-family:'Geist',sans-serif;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <span style="font-family:'Geist Mono',monospace; font-size:18px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted,#9a9da4);">Tweaks</span>
+      <button onclick="{{ hToggle }}" style="all:unset; cursor:pointer; width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:6px; color:var(--muted,#9a9da4); font-size:20px;">&#10005;</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Theme</span>
+      <div style="display:flex; gap:8px;">
+        <button data-theme-opt="dark" onclick="{{ hDark }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:12px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:17px;">Dark</button>
+        <button data-theme-opt="light" onclick="{{ hLight }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:12px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:17px;">Light</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Accent</span>
+      <div style="display:flex; gap:12px;">
+        <button data-acc="0" onclick="{{ hAcc0 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.74 0.14 162);"></button>
+        <button data-acc="1" onclick="{{ hAcc1 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.70 0.16 250);"></button>
+        <button data-acc="2" onclick="{{ hAcc2 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.70 0.16 300);"></button>
+        <button data-acc="3" onclick="{{ hAcc3 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.76 0.14 70);"></button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Density</span>
+      <div style="display:flex; gap:8px;">
+        <button data-dens="compact" onclick="{{ hDensC }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Compact</button>
+        <button data-dens="comfortable" onclick="{{ hDensM }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Comfort</button>
+        <button data-dens="spacious" onclick="{{ hDensS }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Spacious</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { index: 0, theme: 'dark', accent: 0, density: 'comfortable' };
+
+  rootRef = React.createRef();
+  stageRef = React.createRef();
+  panelRef = React.createRef();
+  progressRef = React.createRef();
+
+  TOTAL = 26;
+  ACCENTS = [
+    'oklch(0.74 0.14 162)',
+    'oklch(0.70 0.16 250)',
+    'oklch(0.70 0.16 300)',
+    'oklch(0.76 0.14 70)'
+  ];
+
+  THEMES = {
+    dark: {
+      '--bg': '#0c0d10', '--surface': '#16181c', '--surface-2': '#1e2025',
+      '--text': '#f2f3f5', '--muted': '#9a9da4', '--faint': '#5c5f66',
+      '--border': '#2a2d33', '--hairline': 'rgba(255,255,255,0.06)',
+      '--grid-line': 'rgba(255,255,255,0.035)', '--letterbox': '#050506',
+      '--code-bg': '#0a0b0d', '--on-accent': '#0c0d10',
+      '--tok-key': '#c792ea', '--tok-fn': '#82aaff', '--tok-type': '#7fd1c4'
+    },
+    light: {
+      '--bg': '#f7f7f4', '--surface': '#ffffff', '--surface-2': '#efefea',
+      '--text': '#181a1d', '--muted': '#5b5e66', '--faint': '#9a9da4',
+      '--border': '#dcdcd6', '--hairline': 'rgba(0,0,0,0.06)',
+      '--grid-line': 'rgba(0,0,0,0.04)', '--letterbox': '#e6e6e1',
+      '--code-bg': '#f1f1ec', '--on-accent': '#ffffff',
+      '--tok-key': '#8b4fc7', '--tok-fn': '#2c5fd6', '--tok-type': '#1f8a7a'
+    }
+  };
+
+  DENSITY = {
+    compact:     { '--pad': '76px',  '--scale': '0.9'  },
+    comfortable: { '--pad': '104px', '--scale': '1'    },
+    spacious:    { '--pad': '136px', '--scale': '1.1'  }
+  };
+
+  componentDidMount() {
+    try {
+      const g = (k, d) => { const v = localStorage.getItem(k); return v === null ? d : v; };
+      const idx = Math.max(0, Math.min(this.TOTAL - 1, parseInt(g('deck.index', '0'), 10) || 0));
+      const theme = g('deck.theme', 'dark');
+      const accent = parseInt(g('deck.accent', '0'), 10) || 0;
+      const density = g('deck.density', 'comfortable');
+      this.setState({ index: idx, theme, accent: this.ACCENTS[accent] ? accent : 0, density: this.DENSITY[density] ? density : 'comfortable' });
+    } catch (e) {}
+
+    this._onKey = (e) => this.onKey(e);
+    this._onResize = () => this.applyScale();
+    window.addEventListener('keydown', this._onKey);
+    window.addEventListener('resize', this._onResize);
+
+    requestAnimationFrame(() => {
+      this.initSlides();
+      this.applyAll();
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  componentDidUpdate() {
+    this.applyAll();
+    try {
+      localStorage.setItem('deck.index', String(this.state.index));
+      localStorage.setItem('deck.theme', this.state.theme);
+      localStorage.setItem('deck.accent', String(this.state.accent));
+      localStorage.setItem('deck.density', this.state.density);
+    } catch (e) {}
+  }
+
+  initSlides() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    stage.querySelectorAll('[data-slide]').forEach((el) => {
+      el.style.transition = 'opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)';
+    });
+  }
+
+  applyAll() {
+    this.applyTokens();
+    this.applyScale();
+    this.applySlides();
+    this.applyChrome();
+  }
+
+  applyTokens() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const t = this.THEMES[this.state.theme] || this.THEMES.dark;
+    Object.entries(t).forEach(([k, v]) => root.style.setProperty(k, v));
+    const d = this.DENSITY[this.state.density] || this.DENSITY.comfortable;
+    Object.entries(d).forEach(([k, v]) => root.style.setProperty(k, v));
+    root.style.setProperty('--accent', this.ACCENTS[this.state.accent] || this.ACCENTS[0]);
+  }
+
+  applyScale() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  }
+
+  applySlides() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    stage.querySelectorAll('[data-slide]').forEach((el) => {
+      const i = parseInt(el.getAttribute('data-slide'), 10);
+      const active = i === this.state.index;
+      el.style.opacity = active ? '1' : '0';
+      el.style.transform = active ? 'translateY(0)' : 'translateY(16px)';
+      el.style.pointerEvents = active ? 'auto' : 'none';
+      el.style.zIndex = active ? '2' : '1';
+    });
+  }
+
+  applyChrome() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    if (this.progressRef.current) {
+      this.progressRef.current.style.width = (((this.state.index + 1) / this.TOTAL) * 100) + '%';
+    }
+    const accent = this.ACCENTS[this.state.accent];
+    root.querySelectorAll('[data-theme-opt]').forEach((b) => {
+      const on = b.getAttribute('data-theme-opt') === this.state.theme;
+      b.style.borderColor = on ? accent : 'var(--border)';
+      b.style.color = on ? 'var(--text)' : 'var(--muted)';
+      b.style.background = on ? 'var(--surface-2)' : 'transparent';
+    });
+    root.querySelectorAll('[data-dens]').forEach((b) => {
+      const on = b.getAttribute('data-dens') === this.state.density;
+      b.style.borderColor = on ? accent : 'var(--border)';
+      b.style.color = on ? 'var(--text)' : 'var(--muted)';
+      b.style.background = on ? 'var(--surface-2)' : 'transparent';
+    });
+    root.querySelectorAll('[data-acc]').forEach((b) => {
+      const on = parseInt(b.getAttribute('data-acc'), 10) === this.state.accent;
+      b.style.outline = on ? '2px solid var(--text)' : '2px solid transparent';
+      b.style.outlineOffset = '3px';
+    });
+  }
+
+  go(n) { this.setState((s) => ({ index: Math.max(0, Math.min(this.TOTAL - 1, n)) })); }
+  next() { this.setState((s) => ({ index: Math.min(this.TOTAL - 1, s.index + 1) })); }
+  prev() { this.setState((s) => ({ index: Math.max(0, s.index - 1) })); }
+
+  togglePanel() {
+    const p = this.panelRef.current;
+    if (!p) return;
+    p.style.display = p.style.display === 'flex' ? 'none' : 'flex';
+  }
+  closePanel() {
+    const p = this.panelRef.current;
+    if (p) p.style.display = 'none';
+  }
+
+  toggleFullscreen() {
+    const el = this.rootRef.current;
+    if (!document.fullscreenElement) { el && el.requestFullscreen && el.requestFullscreen(); }
+    else { document.exitFullscreen && document.exitFullscreen(); }
+  }
+
+  onKey(e) {
+    const k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'ArrowDown') { e.preventDefault(); this.next(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'ArrowUp') { e.preventDefault(); this.prev(); }
+    else if (k === 'Home') { e.preventDefault(); this.go(0); }
+    else if (k === 'End') { e.preventDefault(); this.go(this.TOTAL - 1); }
+    else if (k === 't' || k === 'T') { this.togglePanel(); }
+    else if (k === 'f' || k === 'F') { this.toggleFullscreen(); }
+    else if (k === 'Escape') { this.closePanel(); }
+  }
+
+  renderVals() {
+    const c = String(this.state.index + 1).padStart(2, '0') + ' / ' + String(this.TOTAL).padStart(2, '0');
+    return {
+      rootRef: this.rootRef,
+      stageRef: this.stageRef,
+      panelRef: this.panelRef,
+      progressRef: this.progressRef,
+      counter: c,
+      hToggle: () => this.togglePanel(),
+      hDark: () => this.setState({ theme: 'dark' }),
+      hLight: () => this.setState({ theme: 'light' }),
+      hAcc0: () => this.setState({ accent: 0 }),
+      hAcc1: () => this.setState({ accent: 1 }),
+      hAcc2: () => this.setState({ accent: 2 }),
+      hAcc3: () => this.setState({ accent: 3 }),
+      hDensC: () => this.setState({ density: 'compact' }),
+      hDensM: () => this.setState({ density: 'comfortable' }),
+      hDensS: () => this.setState({ density: 'spacious' }),
+      hAg0: () => this.go(2),
+      hAg1: () => this.go(6),
+      hAg2: () => this.go(11),
+      hAg3: () => this.go(17)
+    };
+  }
+}
+</script>
+</body>
+</html>

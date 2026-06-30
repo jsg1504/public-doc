@@ -46,5 +46,13 @@
     "category": "tech",
     "icon": "🤖",
     "date": "2026-07-01"
+  },
+  {
+    "title": "Code as Agent Harness · 실행·검증·상태를 갖춘 에이전트 시스템",
+    "description": "코드를 에이전트 인프라의 중심으로 보고, 실행 가능하고(executable) 검증 가능하며(verifiable) 상태를 유지하는(stateful) 에이전트 시스템을 정리한 세미나 발표 자료입니다.",
+    "path": "/tech/code-as-agent-harness",
+    "category": "tech",
+    "icon": "🛠️",
+    "date": "2026-07-01"
   }
 ]
