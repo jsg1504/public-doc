@@ -38,5 +38,13 @@
     "category": "etc",
     "icon": "🧾",
     "date": "2026-05-29"
+  },
+  {
+    "title": "HyperAgents · 메타인지 자기수정을 통한 개방형 자기개선",
+    "description": "DGM의 고정된 meta 메커니즘 한계를 넘어, 에이전트가 메타 수준 기능을 자율적으로 발명·자기수정하는 HyperAgents 논문을 정리한 세미나 발표 자료입니다.",
+    "path": "/tech/hyperagent",
+    "category": "tech",
+    "icon": "🤖",
+    "date": "2026-07-01"
   }
 ]

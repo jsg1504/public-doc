@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  ::selection { background: var(--accent, #41cf9f); color: var(--on-accent, #0c0d10); }
+  @media print {
+    [data-chrome] { display: none !important; }
+    [data-slide] { position: relative !important; opacity: 1 !important; transform: none !important; page-break-after: always; width: 1920px; height: 1080px; }
+    [data-stage] { transform: none !important; position: static !important; width: 1920px !important; height: auto !important; }
+    [data-viewport] { position: static !important; overflow: visible !important; }
+  }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="position:absolute; inset:0; overflow:hidden; background:var(--letterbox,#050506); font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased;">
+
+  <div data-viewport style="position:absolute; inset:0; background:var(--bg,#0c0d10); background-image: linear-gradient(var(--grid-line,rgba(255,255,255,.035)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line,rgba(255,255,255,.035)) 1px, transparent 1px); background-size: 80px 80px; background-position: center center;">
+
+    <div ref="{{ stageRef }}" data-stage style="position:absolute; left:50%; top:50%; width:1920px; height:1080px; transform-origin:center center; transform: translate(-50%,-50%) scale(1);">
+
+      <!-- ============ SLIDE 1 · TITLE ============ -->
+      <section data-slide="0" data-label="Title" data-screen-label="01" style="position:absolute; inset:0; opacity:1; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:space-between; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:inline-flex; align-items:center; gap:12px; padding:11px 18px 11px 14px; border:1px solid var(--border,#2a2d33); border-radius:999px; font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">
+            <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#41cf9f);"></span>
+            <span>Self-Improving AI · Open-Endedness</span>
+          </div>
+          <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint,#5c5f66);">Paper Seminar · 2026</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:30px; max-width:1560px;">
+          <h1 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(120px * var(--scale,1)); line-height:0.95; letter-spacing:-0.01em; color:var(--text,#f2f3f5);">HyperAgents: Metacognitive Self-Modification for Open-Ended Self-Improvement</h1>
+          <p style="margin:0; font-size:calc(34px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4); max-width:1180px;">DGM-Hyperagents(DGM-H) — 자기 개선 메커니즘 자체를 수정 가능하게 만들어, 코딩을 넘어 임의의 computable task에서 self-accelerating improvement를 달성하는 프레임워크.</p>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; border-top:1px solid var(--border,#2a2d33); padding-top:34px;">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent,#41cf9f);">Speaker</span>
+            <span style="font-size:calc(32px * var(--scale,1)); font-weight:600; color:var(--text,#f2f3f5);">장지승</span>
+            <span style="font-size:24px; color:var(--muted,#9a9da4);"></span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; text-align:right;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; letter-spacing:.18em; text-transform:uppercase; color:var(--faint,#5c5f66);">Paper</span>
+            <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Zhang et al., arXiv:2603.19461</span>
+            <span style="font-size:24px; color:var(--muted,#9a9da4);">UBC · Vector · Meta FAIR · 2026.03</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · AGENDA ============ -->
+      <section data-slide="1" data-label="Agenda" data-screen-label="02" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:64px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Agenda</span>
+          <h2 style="margin:0; font-size:calc(62px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">발표 흐름</h2>
+        </div>
+        <div style="display:flex; flex-direction:column; flex:1;">
+          <button data-ag onclick="{{ hAg0 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--text,#f2f3f5);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--accent,#41cf9f); width:80px;">01</span>
+            <span style="font-size:calc(40px * var(--scale,1)); font-weight:500;">문제 정의 &amp; 배경 — 왜 기존 self-improvement로는 부족한가</span>
+          </button>
+          <button data-ag onclick="{{ hAg1 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">02</span>
+            <span style="font-size:calc(40px * var(--scale,1)); font-weight:500;">HyperAgents 핵심 설계 — metacognitive self-modification</span>
+          </button>
+          <button data-ag onclick="{{ hAg2 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">03</span>
+            <span style="font-size:calc(40px * var(--scale,1)); font-weight:500;">실험 결과 — 코딩·논문 리뷰·로보틱스·수학 채점</span>
+          </button>
+          <button data-ag onclick="{{ hAg3 }}" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:40px; padding:28px 0; border-top:1px solid var(--border,#2a2d33); border-bottom:1px solid var(--border,#2a2d33); color:var(--muted,#9a9da4);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(34px * var(--scale,1)); color:var(--faint,#5c5f66); width:80px;">04</span>
+            <span style="font-size:calc(40px * var(--scale,1)); font-weight:500;">Transfer · Compounding · Safety &amp; 시사점</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · SECTION DIVIDER 01 ============ -->
+      <section data-slide="2" data-label="Section" data-screen-label="03" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">01</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(100px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1500px;">문제 정의 &amp; 배경</h2>
+        <p style="margin:0; font-size:calc(34px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1100px;">Self-improving AI의 근본적 한계: 고정된 meta-level 메커니즘이 개선 속도를 제한한다.</p>
+      </section>
+
+      <!-- ============ SLIDE 4 · TEXT + VISUAL: Problem ============ -->
+      <section data-slide="3" data-label="Text + Visual" data-screen-label="04" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Problem</span>
+          <h2 style="margin:0; font-size:calc(58px * var(--scale,1)); font-weight:600; line-height:1.08; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">DGM의 한계: 고정된 meta 메커니즘 &amp; 도메인 의존성</h2>
+          <p style="margin:0; font-size:calc(28px * var(--scale,1)); line-height:1.55; color:var(--muted,#9a9da4);">Darwin Gödel Machine(DGM)은 코딩에서 open-ended self-improvement를 입증했지만, self-improvement instruction을 생성하는 meta-level 메커니즘이 handcrafted &amp; fixed이다. 이 메커니즘은 수정 불가능하여 개선 속도를 병목시킨다.</p>
+          <div style="display:flex; flex-direction:column; gap:18px; margin-top:8px;">
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Fixed instruction-generation: 메타 메커니즘이 수정 불가 → 개선 능력의 천장 존재</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Alignment 가정: "평가 태스크 skill = self-modification skill" — 코딩 외 도메인에서는 성립하지 않음</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:18px;">
+              <span style="width:10px; height:10px; border-radius:50%; background:var(--accent,#41cf9f); margin-top:14px; flex-shrink:0;"></span>
+              <span style="font-size:calc(26px * var(--scale,1)); color:var(--text,#f2f3f5);">Meta-meta 시스템 추가해도 근본 해결 안 됨 — 무한 regress 발생</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative; width:100%; aspect-ratio:16/10; border:1px solid var(--border,#2a2d33); border-radius:16px; background-color:var(--surface,#16181c); display:flex; align-items:center; justify-content:center; padding:40px;">
+          <svg viewBox="0 0 800 500" style="width:100%; height:100%;" xmlns="http://www.w3.org/2000/svg">
+            <!-- DGM limitation diagram -->
+            <rect x="250" y="20" width="300" height="80" rx="12" fill="none" stroke="#41cf9f" stroke-width="2"/>
+            <text x="400" y="55" text-anchor="middle" fill="#f2f3f5" font-size="18" font-family="monospace">Coding Agent</text>
+            <text x="400" y="78" text-anchor="middle" fill="#9a9da4" font-size="14" font-family="monospace">(task + meta 동일)</text>
+
+            <!-- Fixed meta box -->
+            <rect x="250" y="140" width="300" height="70" rx="12" fill="#1e2025" stroke="#5c5f66" stroke-width="2" stroke-dasharray="6,4"/>
+            <text x="400" y="172" text-anchor="middle" fill="#9a9da4" font-size="16" font-family="monospace">Handcrafted Instruction-Gen</text>
+            <text x="400" y="195" text-anchor="middle" fill="#5c5f66" font-size="13" font-family="monospace">⚠ FIXED — not editable</text>
+
+            <!-- Arrows -->
+            <path d="M400 100 L400 140" stroke="#41cf9f" stroke-width="2" fill="none" marker-end="url(#arrowg)"/>
+            <path d="M400 210 L400 260" stroke="#9a9da4" stroke-width="2" fill="none" marker-end="url(#arrowm)"/>
+
+            <!-- Evaluation -->
+            <rect x="250" y="260" width="300" height="60" rx="12" fill="none" stroke="#2a2d33" stroke-width="2"/>
+            <text x="400" y="296" text-anchor="middle" fill="#f2f3f5" font-size="16" font-family="monospace">Evaluate on Coding Tasks</text>
+
+            <!-- Alignment assumption -->
+            <path d="M550 60 Q650 60 650 290" stroke="#41cf9f" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+            <text x="660" y="180" fill="#41cf9f" font-size="13" font-family="monospace">aligned</text>
+            <text x="660" y="198" fill="#41cf9f" font-size="12" font-family="monospace">(coding only)</text>
+
+            <!-- Coding domain boundary -->
+            <rect x="200" y="0" width="400" height="340" rx="20" fill="none" stroke="#2a2d33" stroke-width="1.5" stroke-dasharray="8,4"/>
+            <text x="210" y="365" fill="#5c5f66" font-size="14" font-family="monospace">↳ coding 도메인에서만 alignment 성립</text>
+
+            <!-- Other domains -->
+            <text x="100" y="420" fill="#9a9da4" font-size="14" font-family="monospace">Paper Review ✗</text>
+            <text x="300" y="420" fill="#9a9da4" font-size="14" font-family="monospace">Robotics ✗</text>
+            <text x="500" y="420" fill="#9a9da4" font-size="14" font-family="monospace">Math Grading ✗</text>
+            <text x="100" y="450" fill="#5c5f66" font-size="12" font-family="monospace">→ 도메인별 매번 custom 필요</text>
+
+            <defs>
+              <marker id="arrowg" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#41cf9f"/>
+              </marker>
+              <marker id="arrowm" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="#9a9da4"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · SECTION DIVIDER 02 ============ -->
+      <section data-slide="4" data-label="Section" data-screen-label="05" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">02</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(100px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1500px;">HyperAgents 핵심 설계</h2>
+        <p style="margin:0; font-size:calc(34px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1100px;">Task agent와 meta agent를 하나의 editable program으로 통합 — metacognitive self-modification.</p>
+      </section>
+
+      <!-- ============ SLIDE 6 · ARCHITECTURE: DGM vs DGM-H ============ -->
+      <section data-slide="5" data-label="Architecture" data-screen-label="06" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:36px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Architecture</span>
+            <h2 style="margin:0; font-size:calc(48px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">DGM → DGM-Hyperagents 구조 비교</h2>
+          </div>
+          <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--faint,#5c5f66);">Figure 1 기반</span>
+        </div>
+        <div style="position:relative; flex:1; border-radius:18px; background-color:var(--surface,#16181c); display:flex; gap:40px; padding:40px;">
+          <!-- DGM (top/left) -->
+          <div style="flex:1; display:flex; flex-direction:column; gap:16px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--faint,#5c5f66); text-transform:uppercase; letter-spacing:.1em;">DGM (기존)</span>
+            <div style="flex:1; border:1px solid var(--border,#2a2d33); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:14px; background:var(--code-bg,#0a0b0d);">
+              <div style="display:flex; gap:12px; align-items:center;">
+                <div style="padding:12px 20px; border:1px solid var(--accent,#41cf9f); border-radius:8px; color:var(--text,#f2f3f5); font-size:18px;">Coding Agent</div>
+                <span style="color:var(--faint,#5c5f66); font-size:16px;">= task agent = meta agent</span>
+              </div>
+              <div style="padding:14px 20px; border:1px dashed var(--faint,#5c5f66); border-radius:8px; color:var(--muted,#9a9da4); font-size:16px; background:var(--surface-2,#1e2025);">
+                ⚠ Handcrafted Instruction-Gen (FIXED)<br><span style="font-size:14px; color:var(--faint,#5c5f66);">과거 평가 + repo 분석 → 고정 프롬프트로 instruction 생성</span>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span style="color:var(--accent,#41cf9f); font-size:16px;">→</span>
+                <div style="padding:10px 16px; border:1px solid var(--border,#2a2d33); border-radius:8px; color:var(--text,#f2f3f5); font-size:16px;">Evaluate on Coding Tasks</div>
+              </div>
+              <div style="margin-top:auto; padding:12px 16px; border-radius:8px; background:rgba(65,207,159,0.08); font-size:15px; color:var(--accent,#41cf9f);">✓ coding에서는 alignment로 인해 self-improve 가능<br>✗ coding 외 도메인에서는 custom 불가</div>
+            </div>
+          </div>
+
+          <!-- Arrow -->
+          <div style="display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:48px; color:var(--accent,#41cf9f);">→</span>
+          </div>
+
+          <!-- DGM-H (right) -->
+          <div style="flex:1; display:flex; flex-direction:column; gap:16px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--accent,#41cf9f); text-transform:uppercase; letter-spacing:.1em;">DGM-H (제안)</span>
+            <div style="flex:1; border:1.5px solid var(--accent,#41cf9f); border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:14px; background:var(--code-bg,#0a0b0d);">
+              <div style="text-align:center; padding:12px; border:2px solid var(--accent,#41cf9f); border-radius:10px; color:var(--text,#f2f3f5); font-size:20px; font-weight:600;">Hyperagent (single editable program)</div>
+              <div style="display:flex; gap:12px;">
+                <div style="flex:1; padding:14px; border:1px solid var(--border,#2a2d33); border-radius:8px; color:var(--text,#f2f3f5); font-size:16px; text-align:center;">Task Agent<br><span style="font-size:13px; color:var(--muted,#9a9da4);">solve computable task</span></div>
+                <div style="flex:1; padding:14px; border:1px solid var(--accent,#41cf9f); border-radius:8px; color:var(--text,#f2f3f5); font-size:16px; text-align:center; background:rgba(65,207,159,0.06);">Meta Agent ✏️<br><span style="font-size:13px; color:var(--accent,#41cf9f);">modifies agents &amp; itself</span></div>
+              </div>
+              <div style="padding:14px 20px; border:1px solid var(--accent,#41cf9f); border-radius:8px; color:var(--text,#f2f3f5); font-size:16px; background:rgba(65,207,159,0.06);">
+                ✓ Metacognitive Self-Modify<br><span style="font-size:14px; color:var(--muted,#9a9da4);">meta agent 자체가 editable → 개선 메커니즘을 개선</span>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <span style="color:var(--accent,#41cf9f); font-size:16px;">→</span>
+                <div style="padding:10px 16px; border:1px solid var(--border,#2a2d33); border-radius:8px; color:var(--text,#f2f3f5); font-size:16px;">Evaluate on Any Computable Task</div>
+              </div>
+              <div style="margin-top:auto; padding:12px 16px; border-radius:8px; background:rgba(65,207,159,0.08); font-size:15px; color:var(--accent,#41cf9f);">✓ alignment 가정 불필요 — 임의의 computable task<br>✓ meta-level 개선이 도메인 간 transfer 가능</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 7 · CODE: PerformanceTracker ============ -->
+      <section data-slide="6" data-label="Code" data-screen-label="07" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:40px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:center; gap:20px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Code</span>
+          <h2 style="margin:0; font-size:calc(48px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">DGM-H가 자율적으로 발명한 Meta-Level 기능</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:48px; flex:1; min-height:0;">
+          <div style="display:flex; flex-direction:column; border:1px solid var(--border,#2a2d33); border-radius:14px; overflow:hidden; background:var(--code-bg,#0a0b0d);">
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-bottom:1px solid var(--border,#2a2d33);">
+              <span style="font-family:'Geist Mono',monospace; font-size:22px; color:var(--muted,#9a9da4);">performance_tracker.py</span>
+              <span style="font-family:'Geist Mono',monospace; font-size:18px; letter-spacing:.1em; text-transform:uppercase; padding:6px 12px; border-radius:6px; background:var(--surface-2,#1e2025); color:var(--accent,#41cf9f);">Python</span>
+            </div>
+            <pre style="margin:0; padding:28px 24px; font-family:'Geist Mono',monospace; font-size:calc(22px * var(--scale,1)); line-height:1.7; overflow:auto; color:var(--text,#f2f3f5);"><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">1</span><span><span style="color:var(--tok-key,#c792ea);">class</span> <span style="color:var(--tok-type,#7fd1c4);">PerformanceTracker</span>:</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">2</span><span>    <span style="color:color:var(--faint,#5c5f66);">"""Tracks metrics across agent generations."""</span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">3</span><span>    <span style="color:var(--tok-key,#c792ea);">def</span> <span style="color:var(--tok-fn,#82aaff);">__init__</span>(<span style="color:var(--tok-key,#c792ea);">self</span>, tracking_file):</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">4</span><span>        <span style="color:var(--tok-key,#c792ea);">self</span>.history = <span style="color:var(--tok-fn,#82aaff);">load</span>(tracking_file)</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">5</span><span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">6</span><span>    <span style="color:var(--tok-key,#c792ea);">def</span> <span style="color:var(--tok-fn,#82aaff);">record</span>(<span style="color:var(--tok-key,#c792ea);">self</span>, gen_id, domain, score):</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">7</span><span>        <span style="color:var(--tok-key,#c792ea);">self</span>.history.<span style="color:var(--tok-fn,#82aaff);">append</span>({...})</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">8</span><span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">9</span><span>    <span style="color:var(--tok-key,#c792ea);">def</span> <span style="color:var(--tok-fn,#82aaff);">get_trend</span>(<span style="color:var(--tok-key,#c792ea);">self</span>, window=<span style="color:var(--tok-type,#7fd1c4);">5</span>):</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">10</span><span>        recent = avg(scores[-window:])</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">11</span><span>        older  = avg(scores[-2*window:-window])</span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">12</span><span>        <span style="color:var(--tok-key,#c792ea);">return</span> recent - older  <span style="color:var(--faint,#5c5f66);"># &gt;0 = improving</span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">13</span><span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">14</span><span><span style="color:var(--faint,#5c5f66);"># + PersistentMemory: insights, causal hypotheses,</span></span></div><div style="display:flex; gap:24px;"><span style="color:var(--faint,#5c5f66); width:34px; text-align:right; user-select:none;">15</span><span><span style="color:var(--faint,#5c5f66);">#   forward-looking plans를 저장 → 다음 수정에 참고</span></span></div></pre>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:32px; justify-content:center;">
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <span style="flex-shrink:0; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--accent,#41cf9f); color:var(--on-accent,#0c0d10); font-family:'Geist Mono',monospace; font-size:20px; font-weight:500;">1</span>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="font-size:calc(26px * var(--scale,1)); font-weight:600; color:var(--text,#f2f3f5);">Performance Tracking</span>
+                <span style="font-size:calc(22px * var(--scale,1)); line-height:1.45; color:var(--muted,#9a9da4);">세대별 점수를 기록·집계·비교하여 어떤 수정이 지속적 개선을 가져왔는지 식별</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <span style="flex-shrink:0; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--accent,#41cf9f); color:var(--on-accent,#0c0d10); font-family:'Geist Mono',monospace; font-size:20px; font-weight:500;">2</span>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="font-size:calc(26px * var(--scale,1)); font-weight:600; color:var(--text,#f2f3f5);">Persistent Memory</span>
+                <span style="font-size:calc(22px * var(--scale,1)); line-height:1.45; color:var(--muted,#9a9da4);">통찰·인과 가설·계획을 저장 → 후속 self-modify에서 참고, 과거 실수 반복 방지</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:18px; align-items:flex-start;">
+              <span style="flex-shrink:0; width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--accent,#41cf9f); color:var(--on-accent,#0c0d10); font-family:'Geist Mono',monospace; font-size:20px; font-weight:500;">3</span>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <span style="font-size:calc(26px * var(--scale,1)); font-weight:600; color:var(--text,#f2f3f5);">도메인 무관 · 자율 발명</span>
+                <span style="font-size:calc(22px * var(--scale,1)); line-height:1.45; color:var(--muted,#9a9da4);">이 기능들은 handcrafted가 아니라 DGM-H가 스스로 발명 → 도메인 간 transfer 가능</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 8 · SECTION DIVIDER 03 ============ -->
+      <section data-slide="7" data-label="Section" data-screen-label="08" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">03</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(100px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1500px;">실험 결과</h2>
+        <p style="margin:0; font-size:calc(34px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1100px;">코딩, 논문 리뷰, 로보틱스 reward design, 올림피아드 수학 채점 — 4개 도메인에서의 self-improvement.</p>
+      </section>
+
+      <!-- ============ SLIDE 9 · METRICS: Task Performance ============ -->
+      <section data-slide="8" data-label="Metrics" data-screen-label="09" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:48px; justify-content:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Metrics</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">Test-set 성능 (initial → DGM-H, 100 iterations)</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0;">
+          <div style="display:flex; flex-direction:column; gap:16px; padding-right:48px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(100px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--accent,#41cf9f);">0.71</span>
+            <span style="font-size:calc(28px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">Paper Review (test)</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; color:var(--accent,#41cf9f);">0.0 → 0.710 (CI: .59–.75)</span>
+            <span style="font-size:20px; color:var(--muted,#9a9da4);">baseline static: 0.630 · DGM-custom: 0.590</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px; padding-left:48px; padding-right:48px; border-left:1px solid var(--border,#2a2d33);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(100px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--accent,#41cf9f);">0.37</span>
+            <span style="font-size:calc(28px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">Robotics Reward Design (test)</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; color:var(--accent,#41cf9f);">0.060 → 0.372 (CI: .36–.44)</span>
+            <span style="font-size:20px; color:var(--muted,#9a9da4);">default reward: 0.348 · DGM-custom: 0.348</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px; padding-left:48px; border-left:1px solid var(--border,#2a2d33);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(100px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--accent,#41cf9f);">0.27</span>
+            <span style="font-size:calc(28px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">Polyglot Coding (full)</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:22px; color:var(--accent,#41cf9f);">0.084 → 0.267 (CI: .23–.28)</span>
+            <span style="font-size:20px; color:var(--muted,#9a9da4);">원래 DGM: 0.142 → 0.307</span>
+          </div>
+        </div>
+        <p style="margin:0; font-size:calc(22px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1400px;">모든 도메인에서 initial agent(거의 0점)에서 유의미한 성능 향상 달성. Coding에서는 coding-specific DGM과 동급, 나머지 도메인에서는 DGM-custom 능가 또는 동급 (p&lt;0.05).</p>
+      </section>
+
+      <!-- ============ SLIDE 10 · COMPARISON: Ablation ============ -->
+      <section data-slide="9" data-label="Comparison" data-screen-label="10" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:36px; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Ablation</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">핵심 컴포넌트가 모두 필요하다 (Paper Review · Robotics)</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:32px; flex:1;">
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33); border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">w/o Self-Improve</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Paper Review: 0.0<br>(CI: 0.0–0.13)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Robotics: 0.213<br>(CI: 0.18–0.35)</span>
+              <span style="font-size:calc(20px * var(--scale,1)); line-height:1.4; color:var(--faint,#5c5f66);">→ meta agent 고정 시 거의 개선 없음. task-level 최적화만으로는 부족</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--accent,#41cf9f); border-top:4px solid var(--accent,#41cf9f); border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent,#41cf9f);">DGM-H (full)</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Paper Review: 0.710<br>(CI: 0.59–0.75)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--text,#f2f3f5);">Robotics: 0.372<br>(CI: 0.36–0.44)</span>
+              <span style="font-size:calc(20px * var(--scale,1)); line-height:1.4; color:var(--accent,#41cf9f);">→ metacognition + open-ended 탐색 모두 있을 때만 지속적 개선</span>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:36px; border:1px solid var(--border,#2a2d33); border-radius:14px; background:var(--surface,#16181c);">
+            <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#9a9da4);">w/o Open-Ended</span>
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Paper Review: 0.0<br>(CI: 0.0–0.56)</span>
+              <span style="font-size:calc(24px * var(--scale,1)); line-height:1.4; color:var(--muted,#9a9da4);">Robotics: 0.116<br>(CI: 0.0–0.35)</span>
+              <span style="font-size:calc(20px * var(--scale,1)); line-height:1.4; color:var(--faint,#5c5f66);">→ population-based 탐색 없으면 stepping stone 부재 → 수렴 실패</span>
+            </div>
+          </div>
+        </div>
+        <p style="margin:0; font-size:calc(22px * var(--scale,1)); color:var(--muted,#9a9da4);">DGM-H는 두 baseline 대비 모든 도메인에서 p&lt;0.05로 유의미하게 우수. metacognitive self-modification과 open-ended exploration 둘 다 필수.</p>
+      </section>
+
+      <!-- ============ SLIDE 11 · SECTION DIVIDER 04 ============ -->
+      <section data-slide="10" data-label="Section" data-screen-label="11" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:center; gap:36px; background:var(--surface,#16181c); color:var(--text,#f2f3f5);">
+        <div style="display:flex; align-items:baseline; gap:32px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:calc(120px * var(--scale,1)); font-weight:500; color:var(--accent,#41cf9f); line-height:1;">04</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint,#5c5f66);">Section</span>
+        </div>
+        <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(100px * var(--scale,1)); line-height:1.0; letter-spacing:-0.01em; color:var(--text,#f2f3f5); max-width:1500px;">Transfer · Compounding · Safety</h2>
+        <p style="margin:0; font-size:calc(34px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1100px;">Meta-level 개선이 도메인 간 transfer되고, 실행 간 compound되며, 안전성 고려사항.</p>
+      </section>
+
+      <!-- ============ SLIDE 12 · METRICS: Transfer + Compounding ============ -->
+      <section data-slide="11" data-label="Metrics" data-screen-label="12" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; gap:40px; justify-content:center; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:22px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Transfer &amp; Compounding</span>
+          <h2 style="margin:0; font-size:calc(50px * var(--scale,1)); font-weight:600; letter-spacing:-0.02em; color:var(--text,#f2f3f5);">도메인 간 transfer &amp; compound (Olympiad Math Grading)</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0;">
+          <div style="display:flex; flex-direction:column; gap:16px; padding-right:48px;">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(88px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--faint,#5c5f66);">0.00</span>
+            <span style="font-size:calc(26px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">DGM transfer imp@50</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--muted,#9a9da4);">CI: 0.0–0.01</span>
+            <span style="font-size:18px; color:var(--faint,#5c5f66);">DGM-custom으로 학습한 meta agent → 새 도메인에서 개선 능력 없음</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px; padding-left:48px; padding-right:48px; border-left:1px solid var(--border,#2a2d33);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(88px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--accent,#41cf9f);">0.63</span>
+            <span style="font-size:calc(26px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">DGM-H transfer imp@50</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--accent,#41cf9f);">CI: 0.54–0.63</span>
+            <span style="font-size:18px; color:var(--muted,#9a9da4);">hyperagent로 학습한 meta agent → unseen 도메인에서도 유의미한 개선 (p&lt;0.05)</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:16px; padding-left:48px; border-left:1px solid var(--border,#2a2d33);">
+            <span style="font-family:'Geist Mono',monospace; font-size:calc(88px * var(--scale,1)); font-weight:500; line-height:0.9; letter-spacing:-0.03em; color:var(--accent,#41cf9f);">0.70</span>
+            <span style="font-size:calc(26px * var(--scale,1)); font-weight:500; color:var(--text,#f2f3f5);">DGM-H + transfer (200 iter)</span>
+            <span style="font-family:'Geist Mono',monospace; font-size:20px; color:var(--accent,#41cf9f);">vs ProofAutoGrader 0.670</span>
+            <span style="font-size:18px; color:var(--muted,#9a9da4);">transfer hyperagent에서 출발 → higher median &amp; CI. full IMO-GradingBench: 0.561→0.601</span>
+          </div>
+        </div>
+        <p style="margin:0; font-size:calc(22px * var(--scale,1)); color:var(--muted,#9a9da4); max-width:1400px;">DGM-H가 배운 self-improvement 전략(performance tracking, persistent memory 등)은 도메인 무관으로 transfer되고, 다른 도메인에서 계속 running하면 compound됨. 잠재적으로 unbounded open-ended self-improvement의 가능성 시사.</p>
+      </section>
+
+      <!-- ============ SLIDE 13 · CLOSING ============ -->
+      <section data-slide="12" data-label="Closing" data-screen-label="13" style="position:absolute; inset:0; opacity:0; pointer-events:none; padding:var(--pad,104px); display:flex; flex-direction:column; justify-content:space-between; background:var(--bg,#0c0d10); color:var(--text,#f2f3f5);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:'Geist Mono',monospace; font-size:21px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent,#41cf9f);">Q &amp; A · Discussion</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:18px; color:var(--faint,#5c5f66);">github.com/facebookresearch/Hyperagents</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:28px;">
+          <h2 style="margin:0; font-family:'Instrument Serif',serif; font-weight:400; font-size:calc(120px * var(--scale,1)); line-height:0.96; color:var(--text,#f2f3f5);">Thank you.</h2>
+          <p style="margin:0; font-size:calc(34px * var(--scale,1)); color:var(--muted,#9a9da4);">Questions &amp; Discussion</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:20px; border-top:1px solid var(--border,#2a2d33); padding-top:34px;">
+          <div style="display:flex; gap:48px; font-family:'Geist Mono',monospace; font-size:calc(24px * var(--scale,1)); color:var(--text,#f2f3f5);">
+            <span>jsg1504@gmail.com</span>
+            <span style="color:var(--muted,#9a9da4);">arXiv:2603.19461</span>
+            <span style="color:var(--muted,#9a9da4);">github.com/facebookresearch/Hyperagents</span>
+          </div>
+          <p style="margin:0; font-size:20px; color:var(--faint,#5c5f66);">Safety note: 모든 실험은 sandboxing · resource limits · human oversight 하에 수행됨. Self-improving 시스템이 더 능력을 갖춤에 따라 감사·해석 가능성 과제 증대.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ============ CHROME ============ -->
+  <div data-chrome style="position:absolute; top:0; left:0; right:0; height:3px; z-index:40;">
+    <div ref="{{ progressRef }}" style="height:100%; width:10%; background:var(--accent,#41cf9f); transition:width .5s cubic-bezier(.2,.7,.2,1);"></div>
+  </div>
+
+  <div data-chrome style="position:absolute; bottom:28px; left:34px; z-index:40; font-family:'Geist Mono',monospace; font-size:17px; letter-spacing:.06em; color:var(--faint,#5c5f66);">← → navigate · T tweaks · F fullscreen</div>
+
+  <div data-chrome style="position:absolute; bottom:26px; right:34px; z-index:40; font-family:'Geist Mono',monospace; font-size:19px; letter-spacing:.08em; color:var(--muted,#9a9da4);">{{ counter }}</div>
+
+  <!-- TWEAKS PANEL -->
+  <div data-chrome ref="{{ panelRef }}" style="display:none; position:absolute; top:26px; right:26px; width:312px; z-index:60; flex-direction:column; gap:24px; padding:24px; border:1px solid var(--border,#2a2d33); border-radius:16px; background:var(--surface,#16181c); color:var(--text,#f2f3f5); box-shadow:0 24px 70px rgba(0,0,0,.45); font-family:'Geist',sans-serif;">
+    <div style="display:flex; align-items:center; justify-content:space-between;">
+      <span style="font-family:'Geist Mono',monospace; font-size:18px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted,#9a9da4);">Tweaks</span>
+      <button onclick="{{ hToggle }}" style="all:unset; cursor:pointer; width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:6px; color:var(--muted,#9a9da4); font-size:20px;">✕</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Theme</span>
+      <div style="display:flex; gap:8px;">
+        <button data-theme-opt="dark" onclick="{{ hDark }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:12px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:17px;">Dark</button>
+        <button data-theme-opt="light" onclick="{{ hLight }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:12px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:17px;">Light</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Accent</span>
+      <div style="display:flex; gap:12px;">
+        <button data-acc="0" onclick="{{ hAcc0 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.74 0.14 162);"></button>
+        <button data-acc="1" onclick="{{ hAcc1 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.70 0.16 250);"></button>
+        <button data-acc="2" onclick="{{ hAcc2 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.70 0.16 300);"></button>
+        <button data-acc="3" onclick="{{ hAcc3 }}" style="all:unset; cursor:pointer; width:42px; height:42px; border-radius:50%; background:oklch(0.76 0.14 70);"></button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint,#5c5f66);">Density</span>
+      <div style="display:flex; gap:8px;">
+        <button data-dens="compact" onclick="{{ hDensC }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Compact</button>
+        <button data-dens="comfortable" onclick="{{ hDensM }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Comfort</button>
+        <button data-dens="spacious" onclick="{{ hDensS }}" style="all:unset; cursor:pointer; flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1px solid var(--border,#2a2d33); font-size:14px;">Spacious</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { index: 0, theme: 'dark', accent: 0, density: 'comfortable' };
+
+  rootRef = React.createRef();
+  stageRef = React.createRef();
+  panelRef = React.createRef();
+  progressRef = React.createRef();
+
+  TOTAL = 13;
+  ACCENTS = [
+    'oklch(0.74 0.14 162)',
+    'oklch(0.70 0.16 250)',
+    'oklch(0.70 0.16 300)',
+    'oklch(0.76 0.14 70)'
+  ];
+
+  THEMES = {
+    dark: {
+      '--bg': '#0c0d10', '--surface': '#16181c', '--surface-2': '#1e2025',
+      '--text': '#f2f3f5', '--muted': '#9a9da4', '--faint': '#5c5f66',
+      '--border': '#2a2d33', '--hairline': 'rgba(255,255,255,0.06)',
+      '--grid-line': 'rgba(255,255,255,0.035)', '--letterbox': '#050506',
+      '--code-bg': '#0a0b0d', '--on-accent': '#0c0d10',
+      '--tok-key': '#c792ea', '--tok-fn': '#82aaff', '--tok-type': '#7fd1c4'
+    },
+    light: {
+      '--bg': '#f7f7f4', '--surface': '#ffffff', '--surface-2': '#efefea',
+      '--text': '#181a1d', '--muted': '#5b5e66', '--faint': '#9a9da4',
+      '--border': '#dcdcd6', '--hairline': 'rgba(0,0,0,0.06)',
+      '--grid-line': 'rgba(0,0,0,0.04)', '--letterbox': '#e6e6e1',
+      '--code-bg': '#f1f1ec', '--on-accent': '#ffffff',
+      '--tok-key': '#8b4fc7', '--tok-fn': '#2c5fd6', '--tok-type': '#1f8a7a'
+    }
+  };
+
+  DENSITY = {
+    compact:     { '--pad': '76px',  '--scale': '0.9'  },
+    comfortable: { '--pad': '104px', '--scale': '1'    },
+    spacious:    { '--pad': '136px', '--scale': '1.1'  }
+  };
+
+  componentDidMount() {
+    try {
+      const g = (k, d) => { const v = localStorage.getItem(k); return v === null ? d : v; };
+      const idx = Math.max(0, Math.min(this.TOTAL - 1, parseInt(g('deck.index', '0'), 10) || 0));
+      const theme = g('deck.theme', 'dark');
+      const accent = parseInt(g('deck.accent', '0'), 10) || 0;
+      const density = g('deck.density', 'comfortable');
+      this.setState({ index: idx, theme, accent: this.ACCENTS[accent] ? accent : 0, density: this.DENSITY[density] ? density : 'comfortable' });
+    } catch (e) {}
+
+    this._onKey = (e) => this.onKey(e);
+    this._onResize = () => this.applyScale();
+    window.addEventListener('keydown', this._onKey);
+    window.addEventListener('resize', this._onResize);
+
+    requestAnimationFrame(() => {
+      this.initSlides();
+      this.applyAll();
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  componentDidUpdate() {
+    this.applyAll();
+    try {
+      localStorage.setItem('deck.index', String(this.state.index));
+      localStorage.setItem('deck.theme', this.state.theme);
+      localStorage.setItem('deck.accent', String(this.state.accent));
+      localStorage.setItem('deck.density', this.state.density);
+    } catch (e) {}
+  }
+
+  initSlides() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    stage.querySelectorAll('[data-slide]').forEach((el) => {
+      el.style.transition = 'opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1)';
+    });
+  }
+
+  applyAll() {
+    this.applyTokens();
+    this.applyScale();
+    this.applySlides();
+    this.applyChrome();
+  }
+
+  applyTokens() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    const t = this.THEMES[this.state.theme] || this.THEMES.dark;
+    Object.entries(t).forEach(([k, v]) => root.style.setProperty(k, v));
+    const d = this.DENSITY[this.state.density] || this.DENSITY.comfortable;
+    Object.entries(d).forEach(([k, v]) => root.style.setProperty(k, v));
+    root.style.setProperty('--accent', this.ACCENTS[this.state.accent] || this.ACCENTS[0]);
+  }
+
+  applyScale() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+  }
+
+  applySlides() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    stage.querySelectorAll('[data-slide]').forEach((el) => {
+      const i = parseInt(el.getAttribute('data-slide'), 10);
+      const active = i === this.state.index;
+      el.style.opacity = active ? '1' : '0';
+      el.style.transform = active ? 'translateY(0)' : 'translateY(16px)';
+      el.style.pointerEvents = active ? 'auto' : 'none';
+      el.style.zIndex = active ? '2' : '1';
+    });
+  }
+
+  applyChrome() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    if (this.progressRef.current) {
+      this.progressRef.current.style.width = (((this.state.index + 1) / this.TOTAL) * 100) + '%';
+    }
+    const accent = this.ACCENTS[this.state.accent];
+    root.querySelectorAll('[data-theme-opt]').forEach((b) => {
+      const on = b.getAttribute('data-theme-opt') === this.state.theme;
+      b.style.borderColor = on ? accent : 'var(--border)';
+      b.style.color = on ? 'var(--text)' : 'var(--muted)';
+      b.style.background = on ? 'var(--surface-2)' : 'transparent';
+    });
+    root.querySelectorAll('[data-dens]').forEach((b) => {
+      const on = b.getAttribute('data-dens') === this.state.density;
+      b.style.borderColor = on ? accent : 'var(--border)';
+      b.style.color = on ? 'var(--text)' : 'var(--muted)';
+      b.style.background = on ? 'var(--surface-2)' : 'transparent';
+    });
+    root.querySelectorAll('[data-acc]').forEach((b) => {
+      const on = parseInt(b.getAttribute('data-acc'), 10) === this.state.accent;
+      b.style.outline = on ? '2px solid var(--text)' : '2px solid transparent';
+      b.style.outlineOffset = '3px';
+    });
+  }
+
+  go(n) { this.setState((s) => ({ index: Math.max(0, Math.min(this.TOTAL - 1, n)) })); }
+  next() { this.setState((s) => ({ index: Math.min(this.TOTAL - 1, s.index + 1) })); }
+  prev() { this.setState((s) => ({ index: Math.max(0, s.index - 1) })); }
+
+  togglePanel() {
+    const p = this.panelRef.current;
+    if (!p) return;
+    p.style.display = p.style.display === 'flex' ? 'none' : 'flex';
+  }
+  closePanel() {
+    const p = this.panelRef.current;
+    if (p) p.style.display = 'none';
+  }
+
+  toggleFullscreen() {
+    const el = this.rootRef.current;
+    if (!document.fullscreenElement) { el && el.requestFullscreen && el.requestFullscreen(); }
+    else { document.exitFullscreen && document.exitFullscreen(); }
+  }
+
+  onKey(e) {
+    const k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'ArrowDown') { e.preventDefault(); this.next(); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'ArrowUp') { e.preventDefault(); this.prev(); }
+    else if (k === 'Home') { e.preventDefault(); this.go(0); }
+    else if (k === 'End') { e.preventDefault(); this.go(this.TOTAL - 1); }
+    else if (k === 't' || k === 'T') { this.togglePanel(); }
+    else if (k === 'f' || k === 'F') { this.toggleFullscreen(); }
+    else if (k === 'Escape') { this.closePanel(); }
+  }
+
+  renderVals() {
+    const c = String(this.state.index + 1).padStart(2, '0') + ' / ' + String(this.TOTAL).padStart(2, '0');
+    return {
+      rootRef: this.rootRef,
+      stageRef: this.stageRef,
+      panelRef: this.panelRef,
+      progressRef: this.progressRef,
+      counter: c,
+      hToggle: () => this.togglePanel(),
+      hDark: () => this.setState({ theme: 'dark' }),
+      hLight: () => this.setState({ theme: 'light' }),
+      hAcc0: () => this.setState({ accent: 0 }),
+      hAcc1: () => this.setState({ accent: 1 }),
+      hAcc2: () => this.setState({ accent: 2 }),
+      hAcc3: () => this.setState({ accent: 3 }),
+      hDensC: () => this.setState({ density: 'compact' }),
+      hDensM: () => this.setState({ density: 'comfortable' }),
+      hDensS: () => this.setState({ density: 'spacious' }),
+      hAg0: () => this.go(2),
+      hAg1: () => this.go(4),
+      hAg2: () => this.go(7),
+      hAg3: () => this.go(10)
+    };
+  }
+}
+</script>
+</body>
+</html>
