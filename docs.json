@@ -62,5 +62,13 @@
     "category": "travel",
     "icon": "🏖️",
     "date": "2026-08-01"
+  },
+  {
+    "title": "삼성전자 기업 해독기",
+    "description": "삼성전자가 돈을 버는 구조, 매출 구성, 고객·경쟁사, 핵심 KPI, 주주환원, 리스크 시나리오를 정리한 기업 분석 문서입니다.",
+    "path": "/etc/stock-analysis",
+    "category": "etc",
+    "icon": "📈",
+    "date": "2026-08-06"
   }
 ]

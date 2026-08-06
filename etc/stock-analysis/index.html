@@ -1,0 +1,616 @@
+<title>삼성전자 기업 해독기</title>
+<style>
+  :root{
+    --ground:#ffffff; --ground-2:#f6f7f9; --ink:#15181d; --ink-2:#4d5561;
+    --ink-3:#79808d; --rule:#e2e5ea; --rule-2:#eef0f3;
+    --accent:#1450d0; --accent-soft:#e8eefb; --neg:#b3352b; --neg-soft:#fbeceb;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#101317; --ground-2:#171b21; --ink:#e9ecf1; --ink-2:#a8b0bc;
+      --ink-3:#7b838f; --rule:#2b313a; --rule-2:#21262d;
+      --accent:#6f9bf5; --accent-soft:#1b2740; --neg:#e0776c; --neg-soft:#33201e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#101317; --ground-2:#171b21; --ink:#e9ecf1; --ink-2:#a8b0bc;
+    --ink-3:#7b838f; --rule:#2b313a; --rule-2:#21262d;
+    --accent:#6f9bf5; --accent-soft:#1b2740; --neg:#e0776c; --neg-soft:#33201e;
+  }
+  :root[data-theme="light"]{
+    --ground:#ffffff; --ground-2:#f6f7f9; --ink:#15181d; --ink-2:#4d5561;
+    --ink-3:#79808d; --rule:#e2e5ea; --rule-2:#eef0f3;
+    --accent:#1450d0; --accent-soft:#e8eefb; --neg:#b3352b; --neg-soft:#fbeceb;
+  }
+
+  body{
+    background:var(--ground); color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    font-size:15px; line-height:1.62; margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px; margin:0 auto; padding:44px 24px 80px; display:flex; flex-direction:column; gap:46px;}
+  h1,h2,h3{text-wrap:balance; margin:0; line-height:1.25;}
+
+  /* ---- masthead ---- */
+  .mast{display:flex; flex-direction:column; gap:14px; border-bottom:2px solid var(--ink); padding-bottom:20px;}
+  .mast-top{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 14px;}
+  h1{font-size:34px; font-weight:800; letter-spacing:-.025em;}
+  .tick{font-size:14px; color:var(--ink-3); font-weight:500; font-variant-numeric:tabular-nums;}
+  .mode{
+    display:inline-block; font-size:12px; letter-spacing:.02em; color:var(--ink-2);
+    background:var(--ground-2); border:1px solid var(--rule); border-radius:3px; padding:6px 11px;
+  }
+  .mast-meta{font-size:12.5px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+
+  /* ---- sections ---- */
+  section{display:flex; flex-direction:column; gap:16px;}
+  .sec-head{display:flex; align-items:baseline; gap:11px; border-bottom:1px solid var(--rule); padding-bottom:8px;}
+  .num{
+    font-size:12px; font-weight:700; color:var(--accent);
+    font-variant-numeric:tabular-nums; letter-spacing:.06em; flex:none;
+  }
+  h2{font-size:19px; font-weight:700; letter-spacing:-.015em;}
+  .sec-head .why{margin-left:auto; font-size:12.5px; color:var(--ink-3); text-align:right;}
+
+  /* ---- the one sentence ---- */
+  .drill{
+    background:var(--accent-soft); border-left:4px solid var(--accent);
+    padding:26px 28px; display:flex; flex-direction:column; gap:12px;
+  }
+  .drill p{
+    margin:0; font-size:23px; line-height:1.5; font-weight:700; letter-spacing:-.02em; text-wrap:pretty;
+  }
+  .drill .sub{font-size:13.5px; font-weight:500; color:var(--ink-2); line-height:1.6;}
+  .drill b{color:var(--accent);}
+
+  /* ---- tables ---- */
+  .scroll{overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; font-variant-numeric:tabular-nums; min-width:520px;}
+  caption{caption-side:bottom; text-align:left; font-size:12px; color:var(--ink-3); padding-top:10px; line-height:1.55;}
+  th,td{padding:8px 10px; text-align:right; border-bottom:1px solid var(--rule-2);}
+  thead th{
+    border-bottom:1px solid var(--ink); font-size:11.5px; font-weight:600;
+    color:var(--ink-2); letter-spacing:.03em; white-space:nowrap;
+  }
+  th:first-child,td:first-child{text-align:left; white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:1px solid var(--rule);}
+  .tot td{font-weight:700; background:var(--ground-2);}
+  .ind td:first-child{padding-left:26px; color:var(--ink-2); font-weight:400;}
+  .neg{color:var(--neg); font-weight:600;}
+  .pos{color:var(--accent);}
+  .dim{color:var(--ink-3);}
+
+  /* ---- bars in table ---- */
+  .barcell{width:34%; padding-right:0;}
+  .bar{height:9px; background:var(--accent); display:block; min-width:2px; border-radius:1px;}
+  .bar.alt{background:var(--ink-3);}
+
+  /* ---- money flow diagram ---- */
+  figure{margin:0; display:flex; flex-direction:column; gap:10px;}
+  .diagram{overflow-x:auto; border:1px solid var(--rule); background:var(--ground-2); padding:8px;}
+  .diagram svg{display:block; min-width:760px; width:100%; height:auto;}
+  .dlabel{font-size:12px; color:var(--ink-3); line-height:1.55;}
+
+  /* ---- financial mini charts ---- */
+  .charts{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:20px;}
+  .chart{display:flex; flex-direction:column; gap:9px; border:1px solid var(--rule); padding:14px 14px 12px;}
+  .chart-h{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+  .chart-t{font-size:13px; font-weight:700;}
+  .chart-u{font-size:11px; color:var(--ink-3);}
+  .plot{height:96px; display:flex; align-items:flex-end; gap:8px; position:relative;}
+  .col{flex:1; display:flex; flex-direction:column; justify-content:flex-end; height:100%; gap:4px;}
+  .col .v{font-size:10.5px; text-align:center; color:var(--ink-2); font-variant-numeric:tabular-nums; line-height:1;}
+  .col .b{background:var(--accent); width:100%; border-radius:1px 1px 0 0;}
+  .col.last .b{background:var(--ink);}
+  .plot.signed{align-items:stretch;}
+  .plot.signed .col{justify-content:flex-start;}
+  .zone-p{display:flex; flex-direction:column; justify-content:flex-end; height:73.7%;}
+  .zone-n{height:26.3%; display:flex; flex-direction:column; justify-content:flex-start;}
+  .zone-n .b{background:var(--neg); border-radius:0 0 1px 1px;}
+  .zone-n .v{color:var(--neg);}
+  .xaxis{display:flex; gap:8px; border-top:1px solid var(--rule); padding-top:6px;}
+  .xaxis span{flex:1; text-align:center; font-size:10.5px; color:var(--ink-3); font-variant-numeric:tabular-nums;}
+  .chart-note{font-size:11.5px; color:var(--ink-3); line-height:1.5;}
+
+  /* ---- generic prose blocks ---- */
+  .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px;}
+  .block{display:flex; flex-direction:column; gap:7px;}
+  .block h3{font-size:12px; font-weight:700; letter-spacing:.05em; color:var(--ink-3);}
+  .block p{margin:0; font-size:13.5px; line-height:1.65; color:var(--ink-2);}
+  .block p strong{color:var(--ink); font-weight:600;}
+  ul{margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:11px;}
+  li{font-size:13.5px; line-height:1.65; color:var(--ink-2); padding-left:16px; position:relative;}
+  li::before{content:""; position:absolute; left:0; top:.62em; width:5px; height:5px; background:var(--accent); border-radius:50%;}
+  li strong{color:var(--ink); font-weight:700;}
+  .rival{display:flex; flex-direction:column; gap:2px;}
+  .rival .n{font-size:13.5px; font-weight:700; color:var(--ink);}
+
+  /* ---- doom + risks ---- */
+  .doom{
+    border:2px solid var(--ink); padding:22px 24px; display:flex; flex-direction:column; gap:9px;
+  }
+  .doom h3{font-size:11.5px; letter-spacing:.07em; color:var(--ink-3); font-weight:700;}
+  .doom p{margin:0; font-size:17px; line-height:1.55; font-weight:600; letter-spacing:-.012em; text-wrap:pretty;}
+  .risks{display:flex; flex-direction:column; gap:0;}
+  .risk{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--rule-2);}
+  .risk:last-child{border-bottom:none;}
+  .risk .rn{
+    flex:none; width:22px; height:22px; border:1px solid var(--ink); border-radius:50%;
+    font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+  .risk .rb{display:flex; flex-direction:column; gap:3px;}
+  .risk .rt{font-size:14px; font-weight:700;}
+  .risk .rd{font-size:13px; color:var(--ink-2); line-height:1.6;}
+
+  /* ---- callouts ---- */
+  .flag{
+    border-left:3px solid var(--accent); background:var(--ground-2);
+    padding:12px 16px; font-size:13px; line-height:1.6; color:var(--ink-2);
+  }
+  .flag.warn{border-left-color:var(--neg); background:var(--neg-soft);}
+  .flag strong{color:var(--ink);}
+
+  /* ---- unknowns ---- */
+  .unk{display:flex; flex-direction:column; gap:14px; background:var(--ground-2); padding:22px 24px;}
+  .unk-i{display:flex; flex-direction:column; gap:4px;}
+  .unk-q{font-size:14px; font-weight:700;}
+  .unk-a{font-size:13px; color:var(--ink-2); line-height:1.6;}
+
+  footer{border-top:1px solid var(--rule); padding-top:18px; font-size:11.5px; color:var(--ink-3); line-height:1.7;}
+  footer a{color:var(--accent); text-decoration:none; word-break:break-all;}
+  footer a:hover{text-decoration:underline;}
+  footer a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .srcs{display:flex; flex-direction:column; gap:4px; margin-top:8px;}
+
+  @media (max-width:560px){
+    h1{font-size:27px;} .drill p{font-size:19px;} .doom p{font-size:15.5px;}
+    .wrap{padding:32px 16px 60px; gap:38px;}
+    .sec-head .why{display:none;}
+  }
+  @media print{
+    .wrap{max-width:none;} .diagram{break-inside:avoid;} section{break-inside:avoid;}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="mast-top">
+      <h1>삼성전자</h1>
+      <span class="tick">005930 · KOSPI · 대한민국</span>
+    </div>
+    <span class="mode">📡 웹검색 기반 · 삼성전자 IR 공식 실적발표 자료(2025년 4분기 경영설명회) 중심 · 페이지 출처 없음</span>
+    <div class="mast-meta">
+      기준: FY2025 연간 확정 실적(연결) · 주가 230,500원(2026-08-06) · 작성일 2026-08-06
+    </div>
+  </header>
+
+  <!-- ① -->
+  <section>
+    <div class="sec-head"><span class="num">①</span><h2>2분 드릴 — 한 문장</h2></div>
+    <div class="drill">
+      <p>삼성전자는 휴대폰과 TV를 만들어 파는 회사처럼 보이지만, 진짜 돈은 그 기기 안에 들어가는 <b>‘기억하는 칩’</b>을 만들어 애플·구글 같은 남의 회사에까지 팔아서 법니다.</p>
+      <span class="sub">
+        확인: 2025년 기기 사업(DX)은 매출 188.0조원을 올리고 영업이익 12.9조원을 벌었고,
+        반도체 사업(DS)은 매출이 그보다 적은 130.1조원인데 영업이익은 24.9조원 — <b>기기의 두 배</b>를 벌었습니다.
+        게다가 2025년 늘어난 전사 영업이익 10.9조원 중 <b>9.8조원(90%)</b>이 반도체에서 나왔습니다.
+      </span>
+    </div>
+  </section>
+
+  <!-- ② -->
+  <section>
+    <div class="sec-head"><span class="num">②</span><h2>돈 버는 구조</h2>
+      <span class="why">공장 하나로 두 군데에 판다</span></div>
+    <figure>
+      <div class="diagram">
+        <svg viewBox="0 0 880 440" role="img" aria-label="삼성전자의 돈 흐름: 장비·소재를 사서 반도체 공장에서 칩을 만들고, 칩은 빅테크에 직접 팔고 동시에 자사 스마트폰·TV에 넣어 소비자에게 팔며, 번 돈은 다시 공장 설비투자로 들어가는 순환 구조">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-2)"/>
+            </marker>
+            <marker id="arb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <g font-family="inherit" text-anchor="middle">
+
+            <!-- A: suppliers -->
+            <rect x="14" y="175" width="136" height="66" fill="none" stroke="var(--ink-3)" stroke-width="1.5" rx="2"/>
+            <text x="82" y="201" font-size="14" font-weight="700" fill="var(--ink)">장비·소재 공급사</text>
+            <text x="82" y="221" font-size="11.5" fill="var(--ink-3)">ASML · 소재업체 등</text>
+
+            <!-- B: fab -->
+            <rect x="200" y="168" width="152" height="80" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2" rx="2"/>
+            <text x="276" y="196" font-size="14.5" font-weight="800" fill="var(--ink)">삼성 반도체 공장</text>
+            <text x="276" y="216" font-size="11.5" fill="var(--ink-2)">메모리 · 파운드리</text>
+            <text x="276" y="234" font-size="11.5" font-weight="700" fill="var(--accent)">연 47.5조 설비투자</text>
+
+            <!-- C: chips -->
+            <rect x="410" y="52" width="150" height="62" fill="none" stroke="var(--accent)" stroke-width="1.8" rx="2"/>
+            <text x="485" y="79" font-size="14" font-weight="700" fill="var(--ink)">메모리 칩</text>
+            <text x="485" y="98" font-size="11.5" fill="var(--ink-3)">DRAM · HBM · 낸드</text>
+
+            <!-- D: bigtech -->
+            <rect x="620" y="52" width="176" height="62" fill="none" stroke="var(--accent)" stroke-width="1.8" rx="2"/>
+            <text x="708" y="76" font-size="13.5" font-weight="700" fill="var(--ink)">빅테크 · 데이터센터</text>
+            <text x="708" y="94" font-size="11.5" fill="var(--ink-3)">애플 · 알파벳 등</text>
+            <text x="708" y="133" font-size="14" font-weight="800" fill="var(--accent)">매출 130.1조 · 이익 24.9조</text>
+
+            <!-- E: devices -->
+            <rect x="410" y="300" width="150" height="62" fill="none" stroke="var(--ink-3)" stroke-width="1.5" rx="2"/>
+            <text x="485" y="327" font-size="14" font-weight="700" fill="var(--ink)">스마트폰 · TV · 가전</text>
+            <text x="485" y="346" font-size="11.5" fill="var(--ink-3)">갤럭시 · 비스포크</text>
+
+            <!-- F: consumers -->
+            <rect x="620" y="300" width="176" height="62" fill="none" stroke="var(--ink-3)" stroke-width="1.5" rx="2"/>
+            <text x="708" y="327" font-size="13.5" font-weight="700" fill="var(--ink)">전 세계 소비자</text>
+            <text x="708" y="345" font-size="11.5" fill="var(--ink-3)">약 86%가 해외</text>
+            <text x="708" y="381" font-size="14" font-weight="800" fill="var(--ink)">매출 188.0조 · 이익 12.9조</text>
+
+            <!-- arrows -->
+            <path d="M150,208 H194" stroke="var(--ink-2)" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+            <text x="172" y="198" font-size="10.5" fill="var(--ink-3)">구매</text>
+
+            <path d="M352,192 Q385,192 385,83 H404" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arb)"/>
+            <text x="393" y="126" font-size="11" fill="var(--accent)" text-anchor="start" font-weight="600">칩 생산</text>
+
+            <path d="M560,83 H614" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arb)"/>
+            <text x="587" y="73" font-size="10.5" fill="var(--accent)" font-weight="600">칩 판매</text>
+
+            <path d="M352,224 Q385,224 385,331 H404" stroke="var(--ink-2)" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+            <text x="393" y="290" font-size="11" fill="var(--ink-3)" text-anchor="start">자사 기기에 탑재</text>
+
+            <path d="M560,331 H614" stroke="var(--ink-2)" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+            <text x="587" y="321" font-size="10.5" fill="var(--ink-3)">제품 판매</text>
+
+            <!-- return / reinvestment loop -->
+            <path d="M796,83 H842 V416 H276 V254" stroke="var(--accent)" stroke-width="2" fill="none"
+                  stroke-dasharray="7 5" marker-end="url(#arb)"/>
+            <path d="M796,331 H842" stroke="var(--accent)" stroke-width="2" fill="none" stroke-dasharray="7 5"/>
+            <text x="500" y="408" font-size="12.5" font-weight="700" fill="var(--accent)">번 돈을 다시 공장에 — 이 순환이 빠를수록 이깁니다</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="dlabel">
+        핵심은 <strong>공장이 하나라는 것</strong>입니다. 같은 반도체 라인에서 나온 칩을 남(빅테크)에게도 팔고 자기 기기에도 넣습니다.
+        그래서 메모리 값이 오르면 반도체 이익이 급증하지만, 동시에 자기 휴대폰 원가도 올라 기기 사업 이익은 눌립니다 — 2025년이 정확히 그 모습입니다.
+        <br>단위: 조원, FY2025 · 부문 매출은 부문 간 내부거래를 포함하므로 단순 합계는 전사 매출(333.6조)과 일치하지 않습니다.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ③ -->
+  <section>
+    <div class="sec-head"><span class="num">③</span><h2>매출 구성 — 사업부문별 &amp; 지역별</h2>
+      <span class="why">어디서 벌고 어디서 까먹나</span></div>
+
+    <div class="scroll">
+      <table>
+        <caption>
+          FY2025 · 단위 조원 · 출처: 삼성전자 2025년 4분기 경영설명회 자료.
+          부문 매출에는 부문 간 내부거래가 포함되어 단순 합계(363.7조)가 전사 매출(333.6조)보다 큽니다 — 비중은 참고용입니다.
+        </caption>
+        <thead>
+          <tr><th>사업부문</th><th>매출</th><th>YoY</th><th>영업이익</th><th>영업이익률</th><th class="barcell">이익 규모</th></tr>
+        </thead>
+        <tbody>
+          <tr class="tot"><td>DX (기기)</td><td>188.0</td><td>+7%</td><td>12.9</td><td>6.9%</td>
+            <td class="barcell"><span class="bar alt" style="width:52%"></span></td></tr>
+          <tr class="ind"><td>MX / 네트워크 (휴대폰)</td><td>129.5</td><td>+10%</td><td>12.9</td><td>10.0%</td>
+            <td class="barcell"><span class="bar alt" style="width:52%"></span></td></tr>
+          <tr class="ind"><td>VD / DA 등 (TV·가전)</td><td>57.3</td><td>+1%</td><td class="neg">−0.2</td><td class="neg">−0.3%</td>
+            <td class="barcell"><span class="bar" style="width:2%; background:var(--neg)"></span></td></tr>
+          <tr class="tot"><td>DS (반도체)</td><td>130.1</td><td>+17%</td><td>24.9</td><td>19.1%</td>
+            <td class="barcell"><span class="bar" style="width:100%"></span></td></tr>
+          <tr class="ind"><td>메모리</td><td>104.1</td><td>+23%</td><td class="dim">비공개</td><td class="dim">비공개</td>
+            <td class="barcell"></td></tr>
+          <tr><td>SDC (디스플레이)</td><td>29.8</td><td>+2%</td><td>4.1</td><td>13.8%</td>
+            <td class="barcell"><span class="bar" style="width:16%"></span></td></tr>
+          <tr><td>Harman (전장·오디오)</td><td>15.8</td><td>+11%</td><td>1.5</td><td>9.5%</td>
+            <td class="barcell"><span class="bar" style="width:6%"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag warn">
+      <strong>두 가지가 눈에 띕니다.</strong> ① 반도체(DS)는 매출이 기기(DX)의 70%인데 영업이익은 두 배입니다 — 이 회사의 이익은 사실상 반도체가 만듭니다.
+      ② <strong>TV·가전(VD/DA)이 2025년 적자로 돌아섰습니다</strong> (2024년 +1.7조 → 2025년 −0.2조, 1.9조원 악화). 매출은 늘었는데 돈은 못 벌고 있습니다.
+    </div>
+
+    <div class="scroll">
+      <table>
+        <caption>지역별 매출 · FY2025 · 단위 조원 · 출처: 2025년 사업보고서 보도(서울경제). 합계 333.55조로 전사 매출 333.6조와 일치합니다.</caption>
+        <thead><tr><th>지역</th><th>매출</th><th>비중</th><th>YoY</th><th class="barcell">비중</th></tr></thead>
+        <tbody>
+          <tr><td>미주 (북·중남미)</td><td>133.27</td><td>39.9%</td><td>+12.1%</td>
+            <td class="barcell"><span class="bar" style="width:100%"></span></td></tr>
+          <tr><td>유럽</td><td>53.33</td><td>16.0%</td><td>+6.4%</td>
+            <td class="barcell"><span class="bar" style="width:40%"></span></td></tr>
+          <tr><td>아시아 · 아프리카</td><td>53.00</td><td>15.9%</td><td>+10.1%</td>
+            <td class="barcell"><span class="bar" style="width:40%"></span></td></tr>
+          <tr><td>중국</td><td>47.31</td><td>14.2%</td><td>+7.7%</td>
+            <td class="barcell"><span class="bar" style="width:36%"></span></td></tr>
+          <tr><td>한국 (국내)</td><td>46.64</td><td>14.0%</td><td>+17.1%</td>
+            <td class="barcell"><span class="bar alt" style="width:35%"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag">
+      <strong>해외 매출이 86%입니다.</strong> 원화가 약해지면 이익이 늘고 강해지면 줄어드는 구조라, 실적의 상당 부분이 환율에 따라 움직입니다.
+      또 미국 39.9% + 중국 14.2% = <strong>절반 이상이 미·중 두 나라</strong>에 걸려 있어, 반도체 수출 규제가 바뀌면 직접 타격을 받습니다.
+    </div>
+  </section>
+
+  <!-- ④ -->
+  <section>
+    <div class="sec-head"><span class="num">④</span><h2>고객 &amp; 경쟁사</h2></div>
+    <div class="grid2">
+      <div class="block">
+        <h3>누가 돈을 내나</h3>
+        <p><strong>B2B와 B2C를 동시에 합니다.</strong> 반도체·디스플레이는 기업에 팔고(B2B), 휴대폰·TV·가전은 소비자에게 팝니다(B2C).
+        재미있는 건 <strong>경쟁사가 곧 고객</strong>이라는 점입니다 — 애플은 갤럭시의 최대 경쟁자이면서 삼성 칩·패널의 최대 고객 중 하나입니다.</p>
+        <p>2025년 5대 매출처: <strong>Apple, HongKong Tech, Supreme Elec, Alphabet, Deutsch Telekom.</strong>
+        AI 데이터센터용 반도체 구매를 늘린 <strong>알파벳(구글)이 새로 진입</strong>하고 버라이즌이 빠졌습니다.</p>
+        <p class="dim">개별 고객 매출 비중(10% 초과 여부)은 <strong>확인 필요</strong> — 사업보고서 원문을 봐야 합니다.</p>
+      </div>
+      <div class="block">
+        <h3>경쟁사 — 얘랑 뭐가 다른가</h3>
+        <ul>
+          <li class="rival"><span class="n">SK하이닉스</span> 메모리만 하는 전업 회사. AI용 고급 메모리(HBM)에서 삼성보다 앞서 있습니다 — 2025년 4분기 HBM 점유율 <strong>SK 57% vs 삼성 22%</strong>.</li>
+          <li class="rival"><span class="n">TSMC</span> 남의 칩을 대신 만들어주는 파운드리 1위. 삼성 파운드리는 아직 격차가 크고, 2025년 4분기에도 충당비용으로 손익 개선이 제한적이었습니다.</li>
+          <li class="rival"><span class="n">애플</span> 스마트폰에서 프리미엄 이익을 독식. 삼성은 대수는 많지만 대당 이익이 얇아, 휴대폰 영업이익률이 10.0%에 머뭅니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ -->
+  <section>
+    <div class="sec-head"><span class="num">⑤</span><h2>이 업종의 핵심 KPI</h2>
+      <span class="why">매출·이익만 봐선 안 보이는 것</span></div>
+
+    <div class="grid2">
+      <div class="block">
+        <h3>KPI 1 — HBM 시장점유율</h3>
+        <p><strong>왜 보나:</strong> 메모리 값은 시황 따라 다같이 오르내립니다. 그래서 “얼마나 팔았나”보다
+        <strong>“가장 비싼 칩에서 몇 등이냐”</strong>가 진짜 실력입니다. HBM은 AI 서버에 들어가는 최고가 메모리이고, 여기 점유율이 다음 사이클의 이익을 정합니다.</p>
+        <div class="scroll">
+          <table style="min-width:0">
+            <caption>출처: 카운터포인트리서치 인용 보도. 2025년 분기별.</caption>
+            <thead><tr><th>분기</th><th>삼성</th><th>SK하이닉스</th><th>마이크론</th></tr></thead>
+            <tbody>
+              <tr><td>2025년 1분기</td><td class="neg">13%</td><td>69%</td><td>18%</td></tr>
+              <tr><td>2025년 4분기</td><td class="pos">22%</td><td>57%</td><td>21%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>1년 만에 13% → 22%로 <strong>따라붙는 중</strong>입니다. 다만 아직 2등이고, 2023~2024년 구간 수치는 <strong>확인 필요</strong>합니다.</p>
+      </div>
+
+      <div class="block">
+        <h3>KPI 2 — 재고자산 / 매출 비율</h3>
+        <p><strong>왜 보나:</strong> 메모리는 안 팔리면 창고에 쌓이고, 쌓인 재고는 값이 떨어져 나중에 손실로 돌아옵니다.
+        <strong>매출은 느는데 재고가 그대로면 “진짜로 팔리고 있다”</strong>는 뜻입니다.</p>
+        <div class="scroll">
+          <table style="min-width:0">
+            <caption>출처: 삼성전자 2025년 4분기 경영설명회 요약재무상태(재고자산·매출). 비율은 직접 계산.</caption>
+            <thead><tr><th>연도</th><th>재고자산</th><th>매출</th><th>재고/매출</th></tr></thead>
+            <tbody>
+              <tr><td>2024년 말</td><td>51.75조</td><td>300.9조</td><td>17.2%</td></tr>
+              <tr><td>2025년 말</td><td>52.64조</td><td>333.6조</td><td class="pos">15.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>매출은 10.9% 늘었는데 재고는 1.7%만 늘었습니다 — <strong>만드는 족족 팔리고 있다</strong>는 신호입니다.
+        참고로 이게 뒤집히는 게 사이클 꼭지의 첫 징후입니다. 2022~2023년 수치는 <strong>확인 필요</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑥ -->
+  <section>
+    <div class="sec-head"><span class="num">⑥</span><h2>경영진 &amp; 오너십</h2></div>
+    <ul>
+      <li><strong>2인 대표 체제(2025년 11월 선임).</strong> <strong>전영현 부회장</strong>이 CEO 겸 반도체(DS)부문장 겸 메모리사업부장 — 메모리 출신으로 반도체를 직접 챙깁니다.
+        <strong>노태문 사장</strong>이 CEO 겸 기기(DX)부문장으로 휴대폰·가전을 총괄합니다.</li>
+      <li><strong>창업자 일가가 여전히 지배합니다.</strong> 이재용 회장은 삼성전자 지분을 1.65%만 직접 갖고 있지만,
+        <strong>이재용 → 삼성물산 → 삼성생명(8.51%) → 삼성전자</strong>로 이어지는 순환 구조로 실질 지배합니다. 지분율과 지배력이 따로 노는 전형적인 한국식 구조입니다.</li>
+      <li><strong>주요 주주:</strong> 삼성생명 8.51%(최대주주), 국민연금 7.75%, 블랙록 5.07%, 삼성물산 5.05%.
+        <strong>외국인 비중이 약 51%</strong>로 절반을 넘어, 글로벌 자금 흐름에 주가가 민감합니다. <span class="dim">(2026년 2월 25일 기준 보도)</span></li>
+    </ul>
+  </section>
+
+  <!-- ⑦ -->
+  <section>
+    <div class="sec-head"><span class="num">⑦</span><h2>주주환원</h2></div>
+    <div class="grid2">
+      <div class="block">
+        <h3>배당</h3>
+        <p><strong>FY2025 총배당 11.1조원</strong> — 정규배당 9.8조 + <strong>특별배당 1.3조(5년 만의 결산배당 재개)</strong>.
+        배당성향 <strong>25.1%</strong>.</p>
+        <p><strong>배당수익률은 약 0.6~0.7%</strong>로 매우 낮습니다. 배당을 줄여서가 아니라 <strong>주가가 크게 올라서</strong>입니다 —
+        배당금은 거의 그대로인데 분모가 커졌습니다. 배당 목적으로 살 주식은 아닙니다.</p>
+      </div>
+      <div class="block">
+        <h3>자사주 — 진짜 주식수가 줄었나</h3>
+        <p>현금흐름표 기준 자사주 취득: <strong>2024년 1.81조 → 2025년 8.19조</strong>, 2년 합계 약 10조원.</p>
+        <p><strong>여기가 중요합니다.</strong> 매입만 하고 들고 있으면 임직원 보상으로 다시 풀려 주식수가 안 줄어듭니다.
+        삼성전자는 2026년 3월 주주총회에서 <strong>16조원 규모 자사주 소각을 의결</strong>했습니다 —
+        <strong>임직원 보상 물량을 뺀 보유분 전량</strong>입니다. 소각이 실제 집행되면 주식수는 진짜로 줄어듭니다.</p>
+        <p class="dim">소각 후 실제 발행주식수 감소분은 <strong>확인 필요</strong>(2026년 상반기 중 집행 예정).</p>
+      </div>
+    </div>
+    <div class="flag">
+      <strong>3개년 정책:</strong> 2024~2025년 현금배당 20.9조원 지급. 2026년에는 3개년 잉여현금흐름의 50%가
+      기존 환원 총액을 넘으면 추가 환원하겠다고 약속했습니다. FY2025 잉여현금흐름 37.8조 대비 실제 환원(배당 9.9조 + 자사주 8.19조)은 <strong>약 48%</strong>였습니다.
+    </div>
+  </section>
+
+  <!-- ⑧ -->
+  <section>
+    <div class="sec-head"><span class="num">⑧</span><h2>이 회사가 망하는 시나리오</h2></div>
+    <div class="doom">
+      <h3>한 줄로</h3>
+      <p>AI 데이터센터 투자가 멈춰 메모리 값이 꺾이는 순간, 지금 이익의 대부분을 만드는 반도체가 통째로 증발하고 — 2023년에 실제로 그랬던 것처럼 — 회사 전체 영업이익이 <strong>1년 만에 7분의 1로</strong> 주저앉습니다.</p>
+      <p style="font-size:13px; font-weight:500; color:var(--ink-2); margin-top:4px;">
+        가정이 아닙니다. 2022년 영업이익 43.4조 → 2023년 6.6조(−85%). 같은 회사, 같은 공장, 단 1년 만에 벌어진 일입니다.</p>
+    </div>
+
+    <div class="risks">
+      <div class="risk"><span class="rn">1</span><div class="rb">
+        <span class="rt">메모리 가격 사이클 — 회사가 통제할 수 없다</span>
+        <span class="rd">삼성이 아무리 잘해도 메모리 값이 내리면 이익은 무너집니다. 2023년에 매출은 14% 줄었는데 영업이익은 85% 증발했습니다.
+        현재 실적은 사이클 최상단에 가까운 상태라, 여기서부터는 좋아지기보다 나빠질 여지가 큽니다.</span></div></div>
+
+      <div class="risk"><span class="rn">2</span><div class="rb">
+        <span class="rt">AI 메모리(HBM)에서 아직 2등</span>
+        <span class="rd">가장 비싸고 가장 많이 남는 HBM에서 점유율 22%로 SK하이닉스(57%)에 밀립니다.
+        사이클이 올라가도 <strong>가장 좋은 자리를 남이 먼저 가져가는</strong> 구조라, 호황의 과실을 덜 가져갑니다. HBM4에서 따라잡지 못하면 이 격차가 굳어집니다.</span></div></div>
+
+      <div class="risk"><span class="rn">3</span><div class="rb">
+        <span class="rt">반도체 외의 사업이 돈을 못 번다</span>
+        <span class="rd">TV·가전은 2025년 적자 전환(−0.2조), 파운드리는 충당비용으로 손익 개선이 막혀 있고, 휴대폰 영업이익률은 10%입니다.
+        <strong>반도체가 흔들릴 때 받쳐줄 두 번째 기둥이 없다</strong>는 뜻입니다.</span></div></div>
+    </div>
+  </section>
+
+  <!-- ⑨ -->
+  <section>
+    <div class="sec-head"><span class="num">⑨</span><h2>핵심 재무 4년</h2>
+      <span class="why">이익보다 현금을 먼저 본다</span></div>
+
+    <div class="scroll">
+      <table>
+        <caption>
+          단위 조원 · 연결 기준 · 출처: 삼성전자 2023·2024·2025년 4분기 경영설명회 자료.
+          <strong>잉여현금흐름(FCF) = 영업활동현금흐름 − 유형자산 취득</strong> —
+          2022년 62.18−49.43 / 2023년 44.13−57.61 / 2024년 72.98−51.41 / 2025년 85.32−47.52. YoY·이익률은 직접 계산.
+        </caption>
+        <thead>
+          <tr><th>지표</th><th>2022</th><th>2023</th><th>YoY</th><th>2024</th><th>YoY</th><th>2025</th><th>YoY</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>매출 <span class="dim">사업이 크나</span></td>
+            <td>302.2</td><td>258.9</td><td class="neg">−14.3%</td><td>300.9</td><td class="pos">+16.2%</td><td>333.6</td><td class="pos">+10.9%</td></tr>
+          <tr><td>영업이익 <span class="dim">본업으로 버나</span></td>
+            <td>43.4</td><td>6.6</td><td class="neg">−84.9%</td><td>32.7</td><td class="pos">+398%</td><td>43.6</td><td class="pos">+33.3%</td></tr>
+          <tr><td>영업이익률</td>
+            <td>14.4%</td><td class="neg">2.5%</td><td>—</td><td>10.9%</td><td>—</td><td>13.1%</td><td>—</td></tr>
+          <tr><td>잉여현금흐름 <span class="dim">진짜 남는 현금</span></td>
+            <td>12.8</td><td class="neg">−13.5</td><td class="neg">적자전환</td><td>21.6</td><td class="pos">흑자전환</td><td>37.8</td><td class="pos">+75%</td></tr>
+          <tr><td>총차입금 <span class="dim">갚을 수 있나</span></td>
+            <td>10.3</td><td>12.7</td><td>+23%</td><td>19.3</td><td>+52%</td><td>25.2</td><td>+31%</td></tr>
+          <tr class="tot"><td>순현금 <span style="font-weight:400" class="dim">(현금−차입금)</span></td>
+            <td>104.9</td><td>79.7</td><td class="neg">−24%</td><td>93.3</td><td class="pos">+17%</td><td>100.6</td><td class="pos">+8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="charts">
+      <div class="chart">
+        <div class="chart-h"><span class="chart-t">매출</span><span class="chart-u">조원</span></div>
+        <div class="plot">
+          <div class="col"><span class="v">302</span><span class="b" style="height:90.6%"></span></div>
+          <div class="col"><span class="v">259</span><span class="b" style="height:77.6%"></span></div>
+          <div class="col"><span class="v">301</span><span class="b" style="height:90.2%"></span></div>
+          <div class="col last"><span class="v">334</span><span class="b" style="height:100%"></span></div>
+        </div>
+        <div class="xaxis"><span>’22</span><span>’23</span><span>’24</span><span>’25</span></div>
+        <span class="chart-note">사상 최대 매출. 다만 2022년 대비 4년간 +10%로, 성장 회사는 아닙니다.</span>
+      </div>
+
+      <div class="chart">
+        <div class="chart-h"><span class="chart-t">영업이익</span><span class="chart-u">조원</span></div>
+        <div class="plot">
+          <div class="col"><span class="v">43.4</span><span class="b" style="height:99.5%"></span></div>
+          <div class="col"><span class="v">6.6</span><span class="b" style="height:15.1%"></span></div>
+          <div class="col"><span class="v">32.7</span><span class="b" style="height:75.0%"></span></div>
+          <div class="col last"><span class="v">43.6</span><span class="b" style="height:100%"></span></div>
+        </div>
+        <div class="xaxis"><span>’22</span><span>’23</span><span>’24</span><span>’25</span></div>
+        <span class="chart-note">이 그림 하나가 이 회사의 본질입니다 — 매출은 완만한데 이익은 7배로 출렁입니다.</span>
+      </div>
+
+      <div class="chart">
+        <div class="chart-h"><span class="chart-t">잉여현금흐름 (FCF)</span><span class="chart-u">조원</span></div>
+        <div class="plot signed">
+          <div class="col"><div class="zone-p"><span class="v">12.8</span><span class="b" style="height:24.9%"></span></div><div class="zone-n"></div></div>
+          <div class="col"><div class="zone-p"></div><div class="zone-n"><span class="b" style="height:26.3%"></span><span class="v">−13.5</span></div></div>
+          <div class="col"><div class="zone-p"><span class="v">21.6</span><span class="b" style="height:42.1%"></span></div><div class="zone-n"></div></div>
+          <div class="col last"><div class="zone-p"><span class="v">37.8</span><span class="b" style="height:73.7%"></span></div><div class="zone-n"></div></div>
+        </div>
+        <div class="xaxis"><span>’22</span><span>’23</span><span>’24</span><span>’25</span></div>
+        <span class="chart-note">2023년엔 영업이익이 흑자였는데도 현금은 13.5조 마이너스였습니다 — 이익보다 현금이 정직합니다.</span>
+      </div>
+
+      <div class="chart">
+        <div class="chart-h"><span class="chart-t">총차입금</span><span class="chart-u">조원</span></div>
+        <div class="plot">
+          <div class="col"><span class="v">10.3</span><span class="b" style="height:40.9%"></span></div>
+          <div class="col"><span class="v">12.7</span><span class="b" style="height:50.4%"></span></div>
+          <div class="col"><span class="v">19.3</span><span class="b" style="height:76.6%"></span></div>
+          <div class="col last"><span class="v">25.2</span><span class="b" style="height:100%"></span></div>
+        </div>
+        <div class="xaxis"><span>’22</span><span>’23</span><span>’24</span><span>’25</span></div>
+        <span class="chart-note">4년간 2.4배로 늘었지만, 현금 125.8조를 깔고 앉아 순현금 100.6조입니다.</span>
+      </div>
+    </div>
+
+    <div class="flag">
+      <strong>이익과 현금을 대조해보면:</strong> 2025년 영업이익은 33% 늘었는데 잉여현금흐름은 75% 늘었습니다.
+      <strong>현금이 이익보다 빨리 늘었으니 좋은 방향</strong>입니다. 이유는 설비투자가 51.4조 → 47.5조로 줄었기 때문인데,
+      바꿔 말하면 <strong>투자를 줄여서 만든 현금</strong>이기도 합니다. 2026년 투자가 다시 늘면 FCF는 줄어듭니다.
+      <br><br><strong>부채는 걱정할 수준이 아닙니다.</strong> 차입금 25.2조에 현금성 자산 125.8조 — <strong>순현금 100.6조</strong>입니다.
+      순부채/EBITDA는 마이너스(−1.15배)로, 빚보다 현금이 훨씬 많습니다. 부채비율 30%, 차입금비율 6%.
+    </div>
+  </section>
+
+  <!-- ⑩ -->
+  <section>
+    <div class="sec-head"><span class="num">⑩</span><h2>내가 아직 모르는 것</h2>
+      <span class="why">다음에 여기를 파세요</span></div>
+    <div class="unk">
+      <div class="unk-i">
+        <span class="unk-q">파운드리는 얼마나 손해를 보고 있나?</span>
+        <span class="unk-a">삼성은 파운드리·시스템LSI 손익을 따로 공개하지 않고 DS부문에 묶어서 발표합니다.
+        “충당 비용으로 손익 개선 제한적”이라고만 언급됐을 뿐, <strong>메모리가 번 돈을 파운드리가 얼마나 까먹는지</strong>는 이 자료로 알 수 없습니다. 증권사 추정치를 봐야 합니다.</span>
+      </div>
+      <div class="unk-i">
+        <span class="unk-q">HBM4가 엔비디아에 실제로 얼마나 들어가나?</span>
+        <span class="unk-a">회사는 “업계 최고 수준 11.7Gbps HBM4 양산 출하 예정”이라고 했지만, <strong>주요 고객 인증 통과 여부와 공급 물량</strong>은 밝히지 않았습니다.
+        HBM 점유율 22%가 30%대로 갈지 여기서 갈립니다. 2026년 1~2분기 실적발표와 어닝콜을 봐야 합니다.</span>
+      </div>
+      <div class="unk-i">
+        <span class="unk-q">특정 고객 한 곳에 얼마나 의존하나?</span>
+        <span class="unk-a">5대 매출처 이름(Apple, Alphabet 등)은 공개됐지만 <strong>각각의 매출 비중은 확인하지 못했습니다.</strong>
+        한 고객이 10%를 넘으면 그 자체가 리스크입니다. DART의 2025년 사업보고서 원문 “주요 매출처” 항목을 직접 확인해야 합니다.</span>
+      </div>
+      <div class="unk-i">
+        <span class="unk-q">TV·가전 적자는 일시적인가, 구조적인가?</span>
+        <span class="unk-a">2024년 +1.7조에서 2025년 −0.2조로 1.9조원 악화됐습니다. 관세·경쟁 때문인지, 중국 업체에 밀리는 구조적 문제인지는
+        이 자료로 구분되지 않습니다. 분기별 VD/DA 손익 추이를 이어 봐야 합니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>모드 A(웹검색 기반) 카드입니다.</strong> 페이지 번호를 적지 않은 이유는 웹 자료 기반이기 때문입니다 —
+    DART에서 2025년 사업보고서를 내려받아 업로드하시면 페이지 출처까지 명시한 정밀 카드를 만들 수 있습니다.
+    수치 계산(YoY·비중·FCF·이익률)은 모두 코드로 검산했습니다. 이 카드는 투자 판단 자료가 아니라 기업 이해용 요약입니다.
+    <div class="srcs">
+      <span>· 삼성전자 2025년 4분기 경영설명회 — <a href="https://images.samsung.com/kdp/ir/events/2025/2025_4Q_conference_kor.pdf">images.samsung.com/kdp/ir/events/2025/2025_4Q_conference_kor.pdf</a></span>
+      <span>· 삼성전자 2024년 4분기 경영설명회 — <a href="https://images.samsung.com/kdp/ir/events/2024/2024_4Q_conference_kor.pdf">images.samsung.com/kdp/ir/events/2024/2024_4Q_conference_kor.pdf</a></span>
+      <span>· 삼성전자 2023년 4분기 경영설명회 — <a href="https://images.samsung.com/kdp/ir/events/2023/2023_4Q_conference_kor.pdf">images.samsung.com/kdp/ir/events/2023/2023_4Q_conference_kor.pdf</a></span>
+      <span>· 지역별 매출·5대 매출처 — <a href="https://www.sedaily.com/article/20018128">sedaily.com/article/20018128</a></span>
+      <span>· 자사주 16조 소각 의결 — <a href="https://zdnet.co.kr/view/?no=20260318104922">zdnet.co.kr/view/?no=20260318104922</a></span>
+      <span>· 특별배당·배당성향 — <a href="https://www.thelec.kr/news/articleView.html?idxno=51546">thelec.kr/news/articleView.html?idxno=51546</a></span>
+      <span>· HBM·DRAM 점유율 — <a href="https://korea.counterpointresearch.com/global-dram-and-hbm-market-share-quarterly/">korea.counterpointresearch.com/global-dram-and-hbm-market-share-quarterly</a> · <a href="https://www.epnc.co.kr/news/articleView.html?idxno=329507">epnc.co.kr/news/articleView.html?idxno=329507</a></span>
+      <span>· 2인 대표 체제 — <a href="https://www.hankyung.com/article/2025112187011">hankyung.com/article/2025112187011</a></span>
+      <span>· DART 전자공시 — <a href="https://dart.fss.or.kr">dart.fss.or.kr</a></span>
+    </div>
+  </footer>
+
+</div>
