@@ -8,6 +8,30 @@
     "date": "2026-05-01"
   },
   {
+    "title": "우리 셋의 부산 여름방학 · 2박 3일",
+    "description": "2026년 8월 1일부터 3일까지, 세 가족이 함께 떠나는 부산 해운대 2박 3일 여행 일정을 정리한 문서입니다.",
+    "path": "/travel/260801",
+    "category": "travel",
+    "icon": "🏖️",
+    "date": "2026-08-01"
+  },
+  {
+    "title": "HyperAgents · 메타인지 자기수정을 통한 개방형 자기개선",
+    "description": "DGM의 고정된 meta 메커니즘 한계를 넘어, 에이전트가 메타 수준 기능을 자율적으로 발명·자기수정하는 HyperAgents 논문을 정리한 세미나 발표 자료입니다.",
+    "path": "/tech/hyperagent",
+    "category": "tech",
+    "icon": "🤖",
+    "date": "2026-07-01"
+  },
+  {
+    "title": "Code as Agent Harness · 실행·검증·상태를 갖춘 에이전트 시스템",
+    "description": "코드를 에이전트 인프라의 중심으로 보고, 실행 가능하고(executable) 검증 가능하며(verifiable) 상태를 유지하는(stateful) 에이전트 시스템을 정리한 세미나 발표 자료입니다.",
+    "path": "/tech/code-as-agent-harness",
+    "category": "tech",
+    "icon": "🛠️",
+    "date": "2026-07-01"
+  },
+  {
     "title": "전세계 주요도시 미세먼지 농도 비교 · PM2.5 Atlas 2026",
     "description": "IQAir 2025 World Air Quality Report 기반으로 전 세계 주요 도시의 PM2.5 연평균 농도를 비교한 문서입니다.",
     "path": "/etc/pm25-2025",
@@ -38,30 +62,6 @@
     "category": "etc",
     "icon": "🧾",
     "date": "2026-05-29"
-  },
-  {
-    "title": "HyperAgents · 메타인지 자기수정을 통한 개방형 자기개선",
-    "description": "DGM의 고정된 meta 메커니즘 한계를 넘어, 에이전트가 메타 수준 기능을 자율적으로 발명·자기수정하는 HyperAgents 논문을 정리한 세미나 발표 자료입니다.",
-    "path": "/tech/hyperagent",
-    "category": "tech",
-    "icon": "🤖",
-    "date": "2026-07-01"
-  },
-  {
-    "title": "Code as Agent Harness · 실행·검증·상태를 갖춘 에이전트 시스템",
-    "description": "코드를 에이전트 인프라의 중심으로 보고, 실행 가능하고(executable) 검증 가능하며(verifiable) 상태를 유지하는(stateful) 에이전트 시스템을 정리한 세미나 발표 자료입니다.",
-    "path": "/tech/code-as-agent-harness",
-    "category": "tech",
-    "icon": "🛠️",
-    "date": "2026-07-01"
-  },
-  {
-    "title": "우리 셋의 부산 여름방학 · 2박 3일",
-    "description": "2026년 8월 1일부터 3일까지, 세 가족이 함께 떠나는 부산 해운대 2박 3일 여행 일정을 정리한 문서입니다.",
-    "path": "/travel/260801",
-    "category": "travel",
-    "icon": "🏖️",
-    "date": "2026-08-01"
   },
   {
     "title": "삼성전자 기업 해독기",
